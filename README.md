@@ -225,5 +225,3 @@ encourage migration away from `share2nightscout-bridge`:
 * Safe community: There are now randomization behaviors to prevent tragedy of
   the commons from occurring.  These features help spread the load to avoid
   accidentally overwhelming vendor servers.
-
-
