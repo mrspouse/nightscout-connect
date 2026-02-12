@@ -1,5 +1,11 @@
 #!/usr/bin/env node
 
+/*
+* 
+* https://github.com/nightscout/nightscout-connect/issues/14#issuecomment-3239520325
+*
+*/
+
 const puppeteer = require('puppeteer');
 const axios = require('axios');
 const fs = require('fs');
@@ -13,14 +19,28 @@ console.log('3. ✅ API authentication with extracted cookies');
 console.log('4. ✅ Data retrieval using the patient ID');
 console.log('');
 
-// Hardcoded configuration
+// configuration
+const { loadGlookoConfig } = require('./lib/sources/glooko/loadConfig.js');
+const { spec, opts } = loadGlookoConfig();
+
+// Then call validate:
+// const glookoSource = require('./index');
+// const result = glookoSource.validate(opts);
+
+// if (result.ok) {
+//   console.log('Glooko config valid:', result.config);
+//   // Use result.config for driver generation
+// } else {
+//   console.error('Validation errors:', result.errors);
+// }
+
 const config = {
-  email: 'glynmail@gmail.com',
-  password: 'Ashfield@47',
-  env: 'eu',
+  email: opts.glookoEmail,
+  password: opts.glookoPassword,
+  env: opts.glookoEnv,
   webUrl: 'https://eu.my.glooko.com',
   apiUrl: 'https://eu.api.glooko.com',
-  timezoneOffset: 0
+  timezoneOffset: opts.glookoTimezoneOffset
 };
 
 console.log('📋 Configuration:');
@@ -52,7 +72,7 @@ function constructApiUrl(endpoint, patientId, series) {
     "&series[]=" + series;
 }
 
-async function completeGlookoIntegration() {
+async function glookoConnect() {
   let browser;
   
   try {
@@ -308,7 +328,7 @@ async function completeGlookoIntegration() {
 }
 
 // Run the complete integration
-completeGlookoIntegration().then(result => {
+glookoConnect().then(result => {
   console.log('\n🏁 SCRIPT COMPLETE');
   console.log('==================');
   
