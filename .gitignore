@@ -7,8 +7,7 @@ bundle/bundle.out.js
 .vscode/
 .idea/
 *.iml
-my.env
-my.*.env
+*.env
 *.pem
 
 static/bower_components/
@@ -37,3 +36,4 @@ letsencrypt/
 
 *.har
 *.log
+glooko-integration-summary.json

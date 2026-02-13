@@ -36,6 +36,7 @@
   "dependencies": {
     "axios": "^1.13.5",
     "axios-cookiejar-support": "^4.0.6",
+    "dotenv": "^17.3.0",
     "nightscout-connect": "^0.0.12",
     "puppeteer": "^24.37.2",
     "qs": "^6.11.1",
