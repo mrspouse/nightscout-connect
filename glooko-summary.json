@@ -1,141 +1,235 @@
 {
-  "timestamp": "2026-02-18T15:34:13.201Z",
+  "timestamp": "2026-02-18T19:15:06.782Z",
   "patientId": "eu-west-1-purple-farwell-8737",
-  "results": {
-    "Insulin1 Per Day": {
-      "success": true,
-      "status": 200,
-      "dataType": "object",
-      "dataSize": 2,
-      "data": {
-        "series": {
-          "dailyInsulinTotals": {
-            "1771243200": {
-              "totalOtherInsulinPerDay": 0,
-              "totalPumpInsulinPerDay": 83.8,
-              "hasPump": true,
-              "hasPen": false,
-              "totalInsulinPerDay": 83.8,
-              "bolusUnitsPerDay": 40.6,
-              "basalUnitsPerDay": 43.2,
-              "premixedUnitsPerDay": 0
-            },
-            "1771329600": {
-              "totalOtherInsulinPerDay": 0,
-              "totalPumpInsulinPerDay": 72.7,
-              "hasPump": true,
-              "hasPen": false,
-              "totalInsulinPerDay": 72.7,
-              "bolusUnitsPerDay": 37.4,
-              "basalUnitsPerDay": 35.3,
-              "premixedUnitsPerDay": 0
-            },
-            "1771416000": {
-              "totalOtherInsulinPerDay": 0,
-              "totalPumpInsulinPerDay": 32,
-              "hasPump": true,
-              "hasPen": false,
-              "totalInsulinPerDay": 32,
-              "bolusUnitsPerDay": 15.2,
-              "basalUnitsPerDay": 16.8,
-              "premixedUnitsPerDay": 0
-            }
-          }
-        },
-        "devices": [
-          "INSULET_OMNIPOD_5",
-          "DEXCOM_CLOUD_EU"
-        ]
+  "output": {
+    "Insulin Per Day1": [
+      {
+        "currentTime": "2026-02-18T19:15:03.733Z",
+        "startDate": "2026-02-17T00:00:00.000Z",
+        "endDate": "2026-02-18T23:59:59.999Z",
+        "timestamp": "2026-02-17T12:00:00.000Z",
+        "epochSeconds": 1771329600,
+        "totalInsulinPerDay": 72.7,
+        "totalOtherInsulinPerDay": 0,
+        "totalPumpInsulinPerDay": 72.7,
+        "hasPump": true,
+        "hasPen": false,
+        "bolusUnitsPerDay": 37.4,
+        "basalUnitsPerDay": 35.3,
+        "premixedUnitsPerDay": 0
+      },
+      {
+        "currentTime": "2026-02-18T19:15:03.735Z",
+        "startDate": "2026-02-17T00:00:00.000Z",
+        "endDate": "2026-02-18T23:59:59.999Z",
+        "timestamp": "2026-02-18T12:00:00.000Z",
+        "epochSeconds": 1771416000,
+        "totalInsulinPerDay": 38.9,
+        "totalOtherInsulinPerDay": 0,
+        "totalPumpInsulinPerDay": 38.9,
+        "hasPump": true,
+        "hasPen": false,
+        "bolusUnitsPerDay": 15.2,
+        "basalUnitsPerDay": 23.7,
+        "premixedUnitsPerDay": 0
       }
-    },
-    "Insulin2 Per Day": {
-      "success": true,
-      "status": 200,
-      "dataType": "object",
-      "dataSize": 2,
-      "data": {
-        "series": {
-          "dailyInsulinTotals": {
-            "1771286400": {
-              "totalOtherInsulinPerDay": 0,
-              "totalPumpInsulinPerDay": 83.8,
-              "hasPump": true,
-              "hasPen": false,
-              "totalInsulinPerDay": 83.8,
-              "bolusUnitsPerDay": 40.6,
-              "basalUnitsPerDay": 43.2,
-              "premixedUnitsPerDay": 0
-            },
-            "1771372800": {
-              "totalOtherInsulinPerDay": 0,
-              "totalPumpInsulinPerDay": 72.7,
-              "hasPump": true,
-              "hasPen": false,
-              "totalInsulinPerDay": 72.7,
-              "bolusUnitsPerDay": 37.4,
-              "basalUnitsPerDay": 35.3,
-              "premixedUnitsPerDay": 0
-            },
-            "1771459200": {
-              "totalOtherInsulinPerDay": 0,
-              "totalPumpInsulinPerDay": 32,
-              "hasPump": true,
-              "hasPen": false,
-              "totalInsulinPerDay": 32,
-              "bolusUnitsPerDay": 15.2,
-              "basalUnitsPerDay": 16.8,
-              "premixedUnitsPerDay": 0
-            }
-          }
-        },
-        "devices": [
-          "INSULET_OMNIPOD_5",
-          "DEXCOM_CLOUD_EU"
-        ]
+    ],
+    "Insulin Per Day2": [
+      {
+        "currentTime": "2026-02-18T19:15:04.334Z",
+        "startDate": "2026-02-17T00:00:00.000Z",
+        "endDate": "2026-02-19T11:59:59.999Z",
+        "timestamp": "2026-02-17T12:00:00.000Z",
+        "epochSeconds": 1771329600,
+        "totalInsulinPerDay": 72.7,
+        "totalOtherInsulinPerDay": 0,
+        "totalPumpInsulinPerDay": 72.7,
+        "hasPump": true,
+        "hasPen": false,
+        "bolusUnitsPerDay": 37.4,
+        "basalUnitsPerDay": 35.3,
+        "premixedUnitsPerDay": 0
+      },
+      {
+        "currentTime": "2026-02-18T19:15:04.334Z",
+        "startDate": "2026-02-17T00:00:00.000Z",
+        "endDate": "2026-02-19T11:59:59.999Z",
+        "timestamp": "2026-02-18T12:00:00.000Z",
+        "epochSeconds": 1771416000,
+        "totalInsulinPerDay": 38.9,
+        "totalOtherInsulinPerDay": 0,
+        "totalPumpInsulinPerDay": 38.9,
+        "hasPump": true,
+        "hasPen": false,
+        "bolusUnitsPerDay": 15.2,
+        "basalUnitsPerDay": 23.7,
+        "premixedUnitsPerDay": 0
+      },
+      {
+        "currentTime": "2026-02-18T19:15:04.334Z",
+        "startDate": "2026-02-17T00:00:00.000Z",
+        "endDate": "2026-02-19T11:59:59.999Z",
+        "timestamp": "2026-02-19T12:00:00.000Z",
+        "epochSeconds": 1771502400,
+        "totalInsulinPerDay": 0,
+        "totalOtherInsulinPerDay": 0,
+        "totalPumpInsulinPerDay": 0,
+        "hasPump": false,
+        "hasPen": false,
+        "bolusUnitsPerDay": 0,
+        "basalUnitsPerDay": 0,
+        "premixedUnitsPerDay": 0
       }
-    },
-    "Insulin3 Per Day": {
-      "success": true,
-      "status": 200,
-      "dataType": "object",
-      "dataSize": 2,
-      "data": {
-        "series": {
-          "dailyInsulinTotals": {
-            "1771292880": {
-              "totalOtherInsulinPerDay": 0,
-              "totalPumpInsulinPerDay": 83.8,
-              "hasPump": true,
-              "hasPen": false,
-              "totalInsulinPerDay": 83.8,
-              "bolusUnitsPerDay": 40.6,
-              "basalUnitsPerDay": 43.2,
-              "premixedUnitsPerDay": 0
-            },
-            "1771379280": {
-              "totalOtherInsulinPerDay": 0,
-              "totalPumpInsulinPerDay": 72.7,
-              "hasPump": true,
-              "hasPen": false,
-              "totalInsulinPerDay": 72.7,
-              "bolusUnitsPerDay": 37.4,
-              "basalUnitsPerDay": 35.3,
-              "premixedUnitsPerDay": 0
-            }
-          }
-        },
-        "devices": [
-          "INSULET_OMNIPOD_5",
-          "DEXCOM_CLOUD_EU"
-        ]
+    ],
+    "Insulin2 Per Day": [
+      {
+        "currentTime": "2026-02-18T19:15:04.884Z",
+        "startDate": "2026-02-16T12:00:00.000Z",
+        "endDate": "2026-02-19T11:59:59.999Z",
+        "timestamp": "2026-02-17T00:00:00.000Z",
+        "epochSeconds": 1771286400,
+        "totalInsulinPerDay": 83.8,
+        "totalOtherInsulinPerDay": 0,
+        "totalPumpInsulinPerDay": 83.8,
+        "hasPump": true,
+        "hasPen": false,
+        "bolusUnitsPerDay": 40.6,
+        "basalUnitsPerDay": 43.2,
+        "premixedUnitsPerDay": 0
+      },
+      {
+        "currentTime": "2026-02-18T19:15:04.884Z",
+        "startDate": "2026-02-16T12:00:00.000Z",
+        "endDate": "2026-02-19T11:59:59.999Z",
+        "timestamp": "2026-02-18T00:00:00.000Z",
+        "epochSeconds": 1771372800,
+        "totalInsulinPerDay": 72.7,
+        "totalOtherInsulinPerDay": 0,
+        "totalPumpInsulinPerDay": 72.7,
+        "hasPump": true,
+        "hasPen": false,
+        "bolusUnitsPerDay": 37.4,
+        "basalUnitsPerDay": 35.3,
+        "premixedUnitsPerDay": 0
+      },
+      {
+        "currentTime": "2026-02-18T19:15:04.884Z",
+        "startDate": "2026-02-16T12:00:00.000Z",
+        "endDate": "2026-02-19T11:59:59.999Z",
+        "timestamp": "2026-02-19T00:00:00.000Z",
+        "epochSeconds": 1771459200,
+        "totalInsulinPerDay": 38.9,
+        "totalOtherInsulinPerDay": 0,
+        "totalPumpInsulinPerDay": 38.9,
+        "hasPump": true,
+        "hasPen": false,
+        "bolusUnitsPerDay": 15.2,
+        "basalUnitsPerDay": 23.7,
+        "premixedUnitsPerDay": 0
       }
-    }
+    ],
+    "Insulin Per Day3": [
+      {
+        "currentTime": "2026-02-18T19:15:05.498Z",
+        "startDate": "2026-02-17T05:00:00.000Z",
+        "endDate": "2026-02-18T23:59:59.999Z",
+        "timestamp": "2026-02-17T17:00:00.000Z",
+        "epochSeconds": 1771347600,
+        "totalInsulinPerDay": 72.7,
+        "totalOtherInsulinPerDay": 0,
+        "totalPumpInsulinPerDay": 72.7,
+        "hasPump": true,
+        "hasPen": false,
+        "bolusUnitsPerDay": 37.4,
+        "basalUnitsPerDay": 35.3,
+        "premixedUnitsPerDay": 0
+      },
+      {
+        "currentTime": "2026-02-18T19:15:05.498Z",
+        "startDate": "2026-02-17T05:00:00.000Z",
+        "endDate": "2026-02-18T23:59:59.999Z",
+        "timestamp": "2026-02-18T17:00:00.000Z",
+        "epochSeconds": 1771434000,
+        "totalInsulinPerDay": 38.9,
+        "totalOtherInsulinPerDay": 0,
+        "totalPumpInsulinPerDay": 38.9,
+        "hasPump": true,
+        "hasPen": false,
+        "bolusUnitsPerDay": 15.2,
+        "basalUnitsPerDay": 23.7,
+        "premixedUnitsPerDay": 0
+      }
+    ],
+    "Insulin Per Day4": [
+      {
+        "currentTime": "2026-02-18T19:15:06.166Z",
+        "startDate": "2026-02-17T05:00:00.000Z",
+        "endDate": "2026-02-19T11:59:59.999Z",
+        "timestamp": "2026-02-17T17:00:00.000Z",
+        "epochSeconds": 1771347600,
+        "totalInsulinPerDay": 72.7,
+        "totalOtherInsulinPerDay": 0,
+        "totalPumpInsulinPerDay": 72.7,
+        "hasPump": true,
+        "hasPen": false,
+        "bolusUnitsPerDay": 37.4,
+        "basalUnitsPerDay": 35.3,
+        "premixedUnitsPerDay": 0
+      },
+      {
+        "currentTime": "2026-02-18T19:15:06.166Z",
+        "startDate": "2026-02-17T05:00:00.000Z",
+        "endDate": "2026-02-19T11:59:59.999Z",
+        "timestamp": "2026-02-18T17:00:00.000Z",
+        "epochSeconds": 1771434000,
+        "totalInsulinPerDay": 38.9,
+        "totalOtherInsulinPerDay": 0,
+        "totalPumpInsulinPerDay": 38.9,
+        "hasPump": true,
+        "hasPen": false,
+        "bolusUnitsPerDay": 15.2,
+        "basalUnitsPerDay": 23.7,
+        "premixedUnitsPerDay": 0
+      },
+      {
+        "currentTime": "2026-02-18T19:15:06.166Z",
+        "startDate": "2026-02-17T05:00:00.000Z",
+        "endDate": "2026-02-19T11:59:59.999Z",
+        "timestamp": "2026-02-19T17:00:00.000Z",
+        "epochSeconds": 1771520400,
+        "totalInsulinPerDay": 0,
+        "totalOtherInsulinPerDay": 0,
+        "totalPumpInsulinPerDay": 0,
+        "hasPump": false,
+        "hasPen": false,
+        "bolusUnitsPerDay": 0,
+        "basalUnitsPerDay": 0,
+        "premixedUnitsPerDay": 0
+      }
+    ],
+    "Insulin Per Day5": [
+      {
+        "currentTime": "2026-02-18T19:15:06.781Z",
+        "startDate": "2026-02-17T12:00:00.000Z",
+        "endDate": "2026-02-18T11:59:59.999Z",
+        "timestamp": "2026-02-18T00:00:00.000Z",
+        "epochSeconds": 1771372800,
+        "totalInsulinPerDay": 72.7,
+        "totalOtherInsulinPerDay": 0,
+        "totalPumpInsulinPerDay": 72.7,
+        "hasPump": true,
+        "hasPen": false,
+        "bolusUnitsPerDay": 37.4,
+        "basalUnitsPerDay": 35.3,
+        "premixedUnitsPerDay": 0
+      }
+    ]
   },
   "summary": {
     "authenticationSuccess": true,
     "patientIdExtracted": true,
-    "successfulEndpoints": 3,
-    "totalEndpoints": 3,
+    "successfulEndpoints": 6,
+    "totalEndpoints": 6,
     "processedReadings": 0,
     "processedTreatments": 0
   }
