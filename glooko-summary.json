@@ -1,0 +1,142 @@
+{
+  "timestamp": "2026-02-18T15:34:13.201Z",
+  "patientId": "eu-west-1-purple-farwell-8737",
+  "results": {
+    "Insulin1 Per Day": {
+      "success": true,
+      "status": 200,
+      "dataType": "object",
+      "dataSize": 2,
+      "data": {
+        "series": {
+          "dailyInsulinTotals": {
+            "1771243200": {
+              "totalOtherInsulinPerDay": 0,
+              "totalPumpInsulinPerDay": 83.8,
+              "hasPump": true,
+              "hasPen": false,
+              "totalInsulinPerDay": 83.8,
+              "bolusUnitsPerDay": 40.6,
+              "basalUnitsPerDay": 43.2,
+              "premixedUnitsPerDay": 0
+            },
+            "1771329600": {
+              "totalOtherInsulinPerDay": 0,
+              "totalPumpInsulinPerDay": 72.7,
+              "hasPump": true,
+              "hasPen": false,
+              "totalInsulinPerDay": 72.7,
+              "bolusUnitsPerDay": 37.4,
+              "basalUnitsPerDay": 35.3,
+              "premixedUnitsPerDay": 0
+            },
+            "1771416000": {
+              "totalOtherInsulinPerDay": 0,
+              "totalPumpInsulinPerDay": 32,
+              "hasPump": true,
+              "hasPen": false,
+              "totalInsulinPerDay": 32,
+              "bolusUnitsPerDay": 15.2,
+              "basalUnitsPerDay": 16.8,
+              "premixedUnitsPerDay": 0
+            }
+          }
+        },
+        "devices": [
+          "INSULET_OMNIPOD_5",
+          "DEXCOM_CLOUD_EU"
+        ]
+      }
+    },
+    "Insulin2 Per Day": {
+      "success": true,
+      "status": 200,
+      "dataType": "object",
+      "dataSize": 2,
+      "data": {
+        "series": {
+          "dailyInsulinTotals": {
+            "1771286400": {
+              "totalOtherInsulinPerDay": 0,
+              "totalPumpInsulinPerDay": 83.8,
+              "hasPump": true,
+              "hasPen": false,
+              "totalInsulinPerDay": 83.8,
+              "bolusUnitsPerDay": 40.6,
+              "basalUnitsPerDay": 43.2,
+              "premixedUnitsPerDay": 0
+            },
+            "1771372800": {
+              "totalOtherInsulinPerDay": 0,
+              "totalPumpInsulinPerDay": 72.7,
+              "hasPump": true,
+              "hasPen": false,
+              "totalInsulinPerDay": 72.7,
+              "bolusUnitsPerDay": 37.4,
+              "basalUnitsPerDay": 35.3,
+              "premixedUnitsPerDay": 0
+            },
+            "1771459200": {
+              "totalOtherInsulinPerDay": 0,
+              "totalPumpInsulinPerDay": 32,
+              "hasPump": true,
+              "hasPen": false,
+              "totalInsulinPerDay": 32,
+              "bolusUnitsPerDay": 15.2,
+              "basalUnitsPerDay": 16.8,
+              "premixedUnitsPerDay": 0
+            }
+          }
+        },
+        "devices": [
+          "INSULET_OMNIPOD_5",
+          "DEXCOM_CLOUD_EU"
+        ]
+      }
+    },
+    "Insulin3 Per Day": {
+      "success": true,
+      "status": 200,
+      "dataType": "object",
+      "dataSize": 2,
+      "data": {
+        "series": {
+          "dailyInsulinTotals": {
+            "1771292880": {
+              "totalOtherInsulinPerDay": 0,
+              "totalPumpInsulinPerDay": 83.8,
+              "hasPump": true,
+              "hasPen": false,
+              "totalInsulinPerDay": 83.8,
+              "bolusUnitsPerDay": 40.6,
+              "basalUnitsPerDay": 43.2,
+              "premixedUnitsPerDay": 0
+            },
+            "1771379280": {
+              "totalOtherInsulinPerDay": 0,
+              "totalPumpInsulinPerDay": 72.7,
+              "hasPump": true,
+              "hasPen": false,
+              "totalInsulinPerDay": 72.7,
+              "bolusUnitsPerDay": 37.4,
+              "basalUnitsPerDay": 35.3,
+              "premixedUnitsPerDay": 0
+            }
+          }
+        },
+        "devices": [
+          "INSULET_OMNIPOD_5",
+          "DEXCOM_CLOUD_EU"
+        ]
+      }
+    }
+  },
+  "summary": {
+    "authenticationSuccess": true,
+    "patientIdExtracted": true,
+    "successfulEndpoints": 3,
+    "totalEndpoints": 3,
+    "processedReadings": 0,
+    "processedTreatments": 0
+  }
+}
