@@ -67,11 +67,12 @@ function constructApiUrl(endpoint, patientId, series) {
   }
   
   // V3 endpoints
+  const apiSeries = series ? "&series[]=" + series : "";
   return endpoint + 
     "?patient=" + patientId +
     "&startDate=" + new Date(daysAgo.setHours(0,0,0,0)).toISOString() +
     "&endDate=" + new Date(now.setHours(23,59,59,999)).toISOString()+
-    "&series[]=" + series;
+    apiSeries;
 }
 
 async function glookoConnect() {
@@ -169,7 +170,8 @@ async function glookoConnect() {
       { name: 'Pump Basal', url: '/api/v2/pumps/scheduled_basals', requiresPatient: false },
       { name: 'CGM Readings', url: '/api/v2/cgm/readings', requiresPatient: false },
       { name: 'Reservoir Change', url: '/api/v3/graph/data', requiresPatient: true, series: 'reservoirChange' },
-      { name: 'Insulin Per Day', url: '/api/v3/graph/data', requiresPatient: true, series: 'totalInsulinPerDay' }
+      { name: 'Insulin Per Day', url: '/api/v3/graph/data', requiresPatient: true, series: 'totalInsulinPerDay' },
+      { name: 'Last Sync', url: '/api/v3/devices_and_settings', requiresPatient: true, series: false }
     ];
     
     const results = {};
