@@ -169,29 +169,10 @@ async function glookoConnect() {
     //   { name: 'Pump Basal', url: '/api/v2/pumps/scheduled_basals', requiresPatient: false },
     //   { name: 'CGM Readings', url: '/api/v2/cgm/readings', requiresPatient: false },
     //   { name: 'Reservoir Change', url: '/api/v3/graph/data', requiresPatient: true, series: 'reservoirChange' },
-      { name: 'Insulin Per Day', url: '/api/v3/graph/data', 
+      { name: 'Insulin Per Day 00', url: '/api/v3/graph/data', 
         requiresPatient: true, series: 'totalInsulinPerDay',
-        startDate: '2026-02-17T00:00:00.000Z', 
-        endDate: '2026-02-18T23:59:59.999Z' },
-      { name: 'Last Sync', url: '/api/v3/devices_and_settings', 
-        requiresPatient: true, series: 'to',
-        startDate: '2026-02-17T00:00:00.000Z', 
-        endDate: '2026-02-19T11:59:59.999Z' },      { name: 'Insulin2 Per Day', url: '/api/v3/graph/data', 
-        requiresPatient: true, series: 'totalInsulinPerDay',
-        startDate: '2026-02-16T12:00:00.000Z', 
-        endDate: '2026-02-19T11:59:59.999Z' },
-      { name: 'Insulin Per Day3', url: '/api/v3/graph/data', 
-        requiresPatient: true, series: 'totalInsulinPerDay',
-        startDate: '2026-02-17T05:00:00.000Z', 
-        endDate: '2026-02-18T23:59:59.999Z' },
-      { name: 'Insulin Per Day4', url: '/api/v3/graph/data', 
-        requiresPatient: true, series: 'totalInsulinPerDay',
-        startDate: '2026-02-17T05:00:00.000Z', 
-        endDate: '2026-02-19T11:59:59.999Z' },
-      { name: 'Insulin Per Day5', url: '/api/v3/graph/data', 
-        requiresPatient: true, series: 'totalInsulinPerDay',
-        startDate: '2026-02-17T12:00:00.000Z', 
-        endDate: '2026-02-18T11:59:59.999Z' }
+        startDate: '2026-02-20T00:00:00.000Z', 
+        endDate:   '2026-02-20T23:59:59.999Z' },
     ];
     
     const results = {};
@@ -362,8 +343,9 @@ async function glookoConnect() {
       }
     };
     
-    fs.writeFileSync('glooko-summary.json', JSON.stringify(summary, null, 2));
-    console.log('\n📄 Detailed summary saved to glooko-summary.json');
+    fname = `glooko_${Date.now()}.json`;
+    fs.writeFileSync(fname, JSON.stringify(summary, null, 2));
+    console.log(`\n📄 Summary saved to ${fname}`);
     
     return {
       success: true,

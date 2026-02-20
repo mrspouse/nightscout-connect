@@ -36,4 +36,6 @@ letsencrypt/
 
 *.har
 *.log
-glooko-integration-summary.json
+glooko*.json
+out*.json
+glooko-summary.json
