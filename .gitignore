@@ -39,3 +39,6 @@ letsencrypt/
 glooko*.json
 out*.json
 glooko-summary.json
+
+cursor*
+*.jsonl
