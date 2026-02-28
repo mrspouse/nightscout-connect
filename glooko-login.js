@@ -4,7 +4,7 @@
 * 
 * https://github.com/nightscout/nightscout-connect/issues/14#issuecomment-3239520325
 * Lorenzo Sandini
-* Uses Puppeteer to simulate real browser authentication
+* Puppeteer browser authentication - standalone version
 * 
 */
 
