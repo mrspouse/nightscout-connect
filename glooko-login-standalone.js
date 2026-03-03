@@ -4,7 +4,7 @@
 * 
 * https://github.com/nightscout/nightscout-connect/issues/14#issuecomment-3239520325
 * Lorenzo Sandini
-* Uses Puppeteer to simulate real browser authentication
+* Puppeteer browser authentication - standalone version
 * 
 */
 
@@ -21,6 +21,9 @@ console.log('3. ✅ API authentication with extracted cookies');
 console.log('4. ✅ Data retrieval using the patient ID');
 console.log('');
 
+// configuration
+const { loadGlookoConfig } = require('./lib/sources/glooko/loadConfig.js');
+const { spec, opts } = loadGlookoConfig();
 
 // Then call validate:
 // const glookoSource = require('./index');
@@ -33,6 +36,21 @@ console.log('');
 //   console.error('Validation errors:', result.errors);
 // }
 
+const config = {
+  email: opts.glookoEmail,
+  password: opts.glookoPassword,
+  env: opts.glookoEnv,
+  webUrl: 'https://eu.my.glooko.com',
+  apiUrl: 'https://eu.api.glooko.com',
+  timezoneOffset: opts.glookoTimezoneOffset
+};
+
+console.log('📋 Configuration:');
+console.log(`   Email: ${config.email}`);
+console.log(`   Environment: ${config.env}`);
+console.log(`   Web URL: ${config.webUrl}`);
+console.log(`   API URL: ${config.apiUrl}`);
+console.log('');
 
 function constructApiUrl(endpoint, patientId, series) {
   const now = new Date();
@@ -57,30 +75,10 @@ function constructApiUrl(endpoint, patientId, series) {
     apiSeries;
 }
 
-async function glookoConnect(opts) {
+async function glookoConnect() {
   let browser;
-  
-  const config = {
-    email: opts.glookoEmail,
-    password: opts.glookoPassword,
-    env: opts.glookoEnv,
-    webUrl: 'https://eu.my.glooko.com',
-    apiUrl: 'https://eu.api.glooko.com',
-    timezoneOffset: opts.glookoTimezoneOffset
-  };
-  
-  console.log('📋 Configuration:');
-  console.log(`   Email: ${config.email}`);
-  console.log(`   Environment: ${config.env}`);
-  console.log(`   Web URL: ${config.webUrl}`);
-  console.log(`   API URL: ${config.apiUrl}`);
-  console.log('');
-
   try {
-    console.log('🔐 STEP 1: BROWSER AUTHENTICATION');
-    console.log('==================================');
-    
-    console.log('🚀 Launching headless browser...');
+    console.log('🚀 Launching Puppeteer browser...');
     browser = await puppeteer.launch({
       headless: true,
       args: [
@@ -96,14 +94,14 @@ async function glookoConnect(opts) {
 
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
-    
+
     console.log('📋 Navigating to login page...');
-    await page.goto(config.webUrl + '/users/sign_in?locale=fi', {
+    await page.goto(config.webUrl + '/users/sign_in', {
       waitUntil: 'networkidle0',
       timeout: 30000
     });
     
-    console.log('📋 Filling and submitting login form...');
+    console.log('📋 Submitting login...');
     await page.type('input[name="user[email]"]', config.email);
     await page.type('input[name="user[password]"]', config.password);
     
@@ -114,37 +112,52 @@ async function glookoConnect(opts) {
     
     console.log('✅ Login successful!');
     
-    console.log('\n👤 STEP 2: PATIENT ID EXTRACTION');
-    console.log('=================================');
-    
-    // Wait for JavaScript to execute
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    
-    const patientId = await page.evaluate(() => {
-      return window.patient || 
-             window.current_user_glooko_code || 
-             window.patientId;
-    });
-    
-    if (!patientId) {
-      throw new Error('Could not extract patient ID from page');
-    }
-    
-    console.log(`✅ Patient ID extracted: ${patientId}`);
-    
-    console.log('\n🍪 STEP 3: COOKIE EXTRACTION');
-    console.log('============================');
-    
     const cookies = await page.cookies();
     const cookieHeader = cookies.map(cookie => `${cookie.name}=${cookie.value}`).join('; ');
-    console.log(`✅ Extracted ${cookies.length} session cookies`);
-    
+
+    console.log(`\n✅ Extracted ${cookies.length} session cookies`);
+
+    // Get Patient ID and sync timestamps from session API
+    console.log('📋 Getting Patient ID...');
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
+    const userHttp = axios.create({ 
+      // baseURL: 'https://eu.my.glooko.com/api/v3/session/users', 
+      timeout: 30000,
+      headers: {
+        'Accept': 'application/json',
+        'Cookie': cookieHeader,
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15',
+        'Referer': config.webUrl,
+        'Sec-Fetch-Dest': 'empty',
+        'Sec-Fetch-Mode': 'cors',
+        'Sec-Fetch-Site': 'same-site'
+      }
+    });
+
+    console.log('userHttp', userHttp);
+    const response = await userHttp.get('https://eu.my.glooko.com/api/v3/session/users');
+    const { currentUser } = response.data;
+    console.log('response', response.data);
+    const { glookoCode, lastSyncTimestamps } = currentUser;
+    const patientId = glookoCode;
+    // get pump timestamp from overall timestamps object
+    const { pump } = lastSyncTimestamps;
+    const lastPumpSyncTimestamp = new Date(pump);
+
+    console.log(`\n✅ Patient ID: ${patientId}`);
+    console.log('\nLast Sync Timestamps:', lastSyncTimestamps);
+    console.log('Last Pump Sync:', lastPumpSyncTimestamp.toISOString());
+        
+    if (!patientId) {
+      throw new Error('Could not extract patient ID');
+    }
+
     await browser.close();
     browser = null;
     
-    console.log('\n🌐 STEP 4: API DATA RETRIEVAL');
-    console.log('=============================');
-    
+    console.log('\nAPI DATA');
+
     const apiHttp = axios.create({ 
       baseURL: config.apiUrl, 
       timeout: 30000,
@@ -152,12 +165,13 @@ async function glookoConnect(opts) {
         'Accept': 'application/json',
         'Cookie': cookieHeader,
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15',
-        'Referer': config.webUrl + '/dashboard',
+        'Referer': config.webUrl + '/logbook',
         'Sec-Fetch-Dest': 'empty',
         'Sec-Fetch-Mode': 'cors',
         'Sec-Fetch-Site': 'same-site'
       }
     });
+ 
     
     // Keep original endpoints and add reservoir change and insulin per day from V3 API
     const endpoints = [
@@ -305,8 +319,8 @@ async function glookoConnect(opts) {
       }
     };
     
-    // fs.writeFileSync('glooko-integration-summary.json', JSON.stringify(summary, null, 2));
-    // console.log('\n📄 Detailed summary saved to glooko-integration-summary.json');
+    fs.writeFileSync('glooko-integration-summary.json', JSON.stringify(summary, null, 2));
+    console.log('\n📄 Detailed summary saved to glooko-integration-summary.json');
     
     return {
       success: true,
@@ -333,22 +347,20 @@ async function glookoConnect(opts) {
   }
 }
 
-// // Run the complete integration
-// glookoConnect().then(result => {
-//   console.log('\n🏁 SCRIPT COMPLETE');
-//   console.log('==================');
+// Run the complete integration
+glookoConnect().then(result => {
+  console.log('\n🏁 SCRIPT COMPLETE');
+  console.log('==================');
   
-//   if (result.success && result.readyForNightscout) {
-//     console.log('🎉 SUCCESS: Full integration verified!');
-//     console.log('   Patient ID:', result.patientId);
-//     process.exit(0);
-//   } else {
-//     console.log('❌ FAILED: Integration incomplete');
-//     process.exit(1);
-//   }
-// }).catch(error => {
-//   console.error('❌ SCRIPT ERROR:', error.message);
-//   process.exit(1);
-// });
-
-module.exports = { glookoConnect };
+  if (result.success && result.readyForNightscout) {
+    console.log('🎉 SUCCESS: Full integration verified!');
+    console.log('   Patient ID:', result.patientId);
+    process.exit(0);
+  } else {
+    console.log('❌ FAILED: Integration incomplete');
+    process.exit(1);
+  }
+}).catch(error => {
+  console.error('❌ SCRIPT ERROR:', error.message);
+  process.exit(1);
+});

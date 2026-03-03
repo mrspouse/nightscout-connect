@@ -1,10 +1,6 @@
 #!/usr/bin/env node
 
 var moment = require('moment');
-// Add fs and path for input file
-var fs = require('fs');
-var path = require('path');
-//
 
 function array_from_endpoint(results, endpointName, nestedKey) {
   var endpoint = results[endpointName] || {};
@@ -87,6 +83,7 @@ function assign_objects(batch) {
 }
 
 function generate_nightscout_treatments(batch, timestampDelta) {
+  var InsulinPerDay;
   inputBatch = assign_objects(batch);
   
   const foods = inputBatch.foods;
@@ -97,13 +94,13 @@ function generate_nightscout_treatments(batch, timestampDelta) {
   const totalInsulinPerDay = inputBatch.dailyInsulinTotals;
   const lastSync = inputBatch.lastSync;
   
-  console.log("FOODS  ", foods);
-  console.log("INSULINS  ", insulins );
-  console.log("BOLUS  ", pumpBoluses );
-  console.log("BASAL  ", scheduledBasals);
-  console.log("RESERVOIR CHANGE  ", reservoirChange );
-  console.log("DAY TOTALS  ", totalInsulinPerDay );
-  console.log("LAST SYNC  ", lastSync );
+  // console.log("FOODS  ", foods);
+  // console.log("INSULINS  ", insulins );
+  // console.log("BOLUS  ", pumpBoluses );
+  // console.log("BASAL  ", scheduledBasals);
+  // console.log("RESERVOIR CHANGE  ", reservoirChange );
+  // console.log("DAY TOTALS  ", totalInsulinPerDay );
+  // console.log("LAST SYNC  ", lastSync );
 
   // devicestatus entry from last sync and total insulin
   var devicestatus = [];
@@ -229,14 +226,18 @@ function generate_nightscout_treatments(batch, timestampDelta) {
       var treatment = {};
 
       var f_date = moment(element.pumpTimestamp);
-      treatment.eventType = 'Meal Bolus';
-      treatment.eventTime = new Date(f_date + timestampDelta).toISOString( );
+      if (element.carbsInput == 0) {
+        treatment.eventType = 'Correction Bolus';
+      } else {
+        treatment.eventType = 'Meal Bolus';
+      }
+      treatment.eventTime = new Date(f_date + timestampDelta).toISOString();
       treatment.insulin = element.insulinDelivered;
       treatment.carbs = element.carbsInput;
       treatment.notes = JSON.stringify(element);
       treatments.push(treatment);
-    })
-  }
+      });
+    }
 
   if (scheduledBasals) {
     scheduledBasals.forEach(function(element) {
@@ -294,11 +295,16 @@ function generate_nightscout_treatments(batch, timestampDelta) {
   }
 
   console.log('GLOOKO processing complete, returning', treatments.length, 'treatments', 'and', devicestatus.length, 'devicestatus records');
+  console.log(treatments);
   console.log(devicestatus);
   return { treatments, devicestatus };
 }
 
+module.exports.generate_nightscout_treatments = generate_nightscout_treatments;
+
 // Standalone run args
+var fs = require('fs');
+var path = require('path');
 
 function parse_args(argv) {
   var args = {
@@ -360,15 +366,13 @@ function run_cli(argv) {
   if (args.output) {
     var outputPath = path.resolve(process.cwd(), args.output);
     fs.writeFileSync(outputPath, output + '\n', 'utf8');
-    console.log('Wrote', treatments.length, 'treatments to', outputPath);
+    console.log('Wrote treatments to', outputPath);
     return 0;
   }
 
   process.stdout.write(output + '\n');
   return 0;
 }
-
-module.exports.generate_nightscout_treatments = generate_nightscout_treatments;
 
 if (require.main === module) {
   process.exitCode = run_cli(process.argv.slice(2));

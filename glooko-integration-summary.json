@@ -1,7 +1,6 @@
 {
+  "timestamp": "2026-03-03T09:49:33.700Z",
   "patientId": "eu-west-1-purple-farwell-8737",
-  "timestamp": "2026-02-28T08:26:21.911Z",
-  "lastPumpSyncTimestamp": "2026-02-28T08:17:20.850Z",
   "results": {
     "Foods": {
       "success": true,
@@ -11,7 +10,7 @@
       "data": {
         "foods": [],
         "lastPage": true,
-        "lastUpdatedAt": "2026-02-24T00:00:00.000Z",
+        "lastUpdatedAt": "2026-02-23T00:00:00.000Z",
         "lastGuid": "1e0c094e-1e54-4a4f-8e6a-f94484b53789"
       }
     },
@@ -23,7 +22,19 @@
       "data": {
         "insulins": [],
         "lastPage": true,
-        "lastUpdatedAt": "2026-02-24T00:00:00.000Z",
+        "lastUpdatedAt": "2026-02-23T00:00:00.000Z",
+        "lastGuid": "1e0c094e-1e54-4a4f-8e6a-f94484b53789"
+      }
+    },
+    "Pump Settings": {
+      "success": true,
+      "status": 200,
+      "dataType": "object",
+      "dataSize": 4,
+      "data": {
+        "settings": [],
+        "lastPage": true,
+        "lastUpdatedAt": "2026-02-23T00:00:00.000Z",
         "lastGuid": "1e0c094e-1e54-4a4f-8e6a-f94484b53789"
       }
     },
@@ -34,6 +45,98 @@
       "dataSize": 4,
       "data": {
         "normalBoluses": [
+          {
+            "pumpTimestamp": "2026-02-22T22:25:42.000Z",
+            "pumpTimestampUtcOffset": "+00:00",
+            "pumpGuid": "b1ef3455-e966-4292-a2a6-f2c512fe09d0",
+            "syncTimestamp": "2026-02-23T08:19:39.840Z",
+            "insulinDelivered": 8.2,
+            "carbsInput": 40,
+            "guid": "676cd4a0-1090-11f1-8c5d-0242ac110002",
+            "insulinOnBoard": 4,
+            "totalInsulinRecommendation": 8.2,
+            "bloodGlucoseInput": 28900,
+            "insulinProgrammed": 8.2,
+            "insulinRecommendationForCarbs": 7.25,
+            "insulinRecommendationForCorrection": 0.95,
+            "insulinReduction": null,
+            "override": null,
+            "type": "suggested",
+            "pumpName": "Insulet Omnipod® 5 System",
+            "bloodGlucoseInputSource": "CGM",
+            "softDeleted": false,
+            "updatedAt": "2026-02-23T08:19:42.132Z",
+            "updatedBy": "server"
+          },
+          {
+            "pumpTimestamp": "2026-02-23T08:00:57.000Z",
+            "pumpTimestampUtcOffset": "+00:00",
+            "pumpGuid": "b1ef3455-e966-4292-a2a6-f2c512fe09d0",
+            "syncTimestamp": "2026-02-23T11:45:46.819Z",
+            "insulinDelivered": 7.25,
+            "carbsInput": 40,
+            "guid": "3327c9e4-10ad-11f1-bbab-0242ac110002",
+            "insulinOnBoard": 0.8,
+            "totalInsulinRecommendation": 7.25,
+            "bloodGlucoseInput": 14500,
+            "insulinProgrammed": 7.25,
+            "insulinRecommendationForCarbs": 7.15,
+            "insulinRecommendationForCorrection": 0.1,
+            "insulinReduction": null,
+            "override": null,
+            "type": "suggested",
+            "pumpName": "Insulet Omnipod® 5 System",
+            "bloodGlucoseInputSource": "CGM",
+            "softDeleted": false,
+            "updatedAt": "2026-02-23T11:45:49.845Z",
+            "updatedBy": "server"
+          },
+          {
+            "pumpTimestamp": "2026-02-23T13:25:07.000Z",
+            "pumpTimestampUtcOffset": "+00:00",
+            "pumpGuid": "b1ef3455-e966-4292-a2a6-f2c512fe09d0",
+            "syncTimestamp": "2026-02-23T14:29:42.007Z",
+            "insulinDelivered": 13.85,
+            "carbsInput": 75,
+            "guid": "18f4efb8-10c4-11f1-a8a1-0242ac110002",
+            "insulinOnBoard": 0,
+            "totalInsulinRecommendation": 13.85,
+            "bloodGlucoseInput": 11800,
+            "insulinProgrammed": 13.85,
+            "insulinRecommendationForCarbs": 13.6,
+            "insulinRecommendationForCorrection": 0.25,
+            "insulinReduction": null,
+            "override": null,
+            "type": "suggested",
+            "pumpName": "Insulet Omnipod® 5 System",
+            "bloodGlucoseInputSource": "CGM",
+            "softDeleted": false,
+            "updatedAt": "2026-02-23T14:29:44.304Z",
+            "updatedBy": "server"
+          },
+          {
+            "pumpTimestamp": "2026-02-23T18:30:44.000Z",
+            "pumpTimestampUtcOffset": "+00:00",
+            "pumpGuid": "b1ef3455-e966-4292-a2a6-f2c512fe09d0",
+            "syncTimestamp": "2026-02-23T19:13:12.604Z",
+            "insulinDelivered": 13.85,
+            "carbsInput": 80,
+            "guid": "b444e23a-10eb-11f1-bfcb-0242ac110002",
+            "insulinOnBoard": 2.65,
+            "totalInsulinRecommendation": 13.85,
+            "bloodGlucoseInput": 21400,
+            "insulinProgrammed": 13.85,
+            "insulinRecommendationForCarbs": 13.7,
+            "insulinRecommendationForCorrection": 0.15,
+            "insulinReduction": null,
+            "override": null,
+            "type": "suggested",
+            "pumpName": "Insulet Omnipod® 5 System",
+            "bloodGlucoseInputSource": "CGM",
+            "softDeleted": false,
+            "updatedAt": "2026-02-23T19:13:15.231Z",
+            "updatedBy": "server"
+          },
           {
             "pumpTimestamp": "2026-02-23T23:24:26.000Z",
             "pumpTimestampUtcOffset": "+00:00",
@@ -309,11 +412,333 @@
             "softDeleted": false,
             "updatedAt": "2026-02-28T01:18:14.934Z",
             "updatedBy": "server"
+          },
+          {
+            "pumpTimestamp": "2026-02-27T19:41:50.000Z",
+            "pumpTimestampUtcOffset": "+00:00",
+            "pumpGuid": "b1ef3455-e966-4292-a2a6-f2c512fe09d0",
+            "syncTimestamp": "2026-03-01T01:15:34.594Z",
+            "insulinDelivered": 12.8,
+            "carbsInput": 75,
+            "guid": "2761adba-150c-11f1-8baf-0242ac110002",
+            "insulinOnBoard": 0.7,
+            "totalInsulinRecommendation": 12.8,
+            "bloodGlucoseInput": 12600,
+            "insulinProgrammed": 12.8,
+            "insulinRecommendationForCarbs": 12.8,
+            "insulinRecommendationForCorrection": 0,
+            "insulinReduction": null,
+            "override": null,
+            "type": "suggested",
+            "pumpName": "Insulet Omnipod® 5 System",
+            "bloodGlucoseInputSource": "CGM",
+            "softDeleted": false,
+            "updatedAt": "2026-03-01T01:15:36.909Z",
+            "updatedBy": "server"
+          },
+          {
+            "pumpTimestamp": "2026-02-27T21:49:56.000Z",
+            "pumpTimestampUtcOffset": "+00:00",
+            "pumpGuid": "b1ef3455-e966-4292-a2a6-f2c512fe09d0",
+            "syncTimestamp": "2026-03-01T01:15:34.594Z",
+            "insulinDelivered": 2.05,
+            "carbsInput": 0,
+            "guid": "2761b508-150c-11f1-8baf-0242ac110002",
+            "insulinOnBoard": 1,
+            "totalInsulinRecommendation": 2.05,
+            "bloodGlucoseInput": 23400,
+            "insulinProgrammed": 2.05,
+            "insulinRecommendationForCarbs": 0,
+            "insulinRecommendationForCorrection": 2.05,
+            "insulinReduction": null,
+            "override": null,
+            "type": "suggested",
+            "pumpName": "Insulet Omnipod® 5 System",
+            "bloodGlucoseInputSource": "CGM",
+            "softDeleted": false,
+            "updatedAt": "2026-03-01T01:15:36.909Z",
+            "updatedBy": "server"
+          },
+          {
+            "pumpTimestamp": "2026-02-27T23:22:19.000Z",
+            "pumpTimestampUtcOffset": "+00:00",
+            "pumpGuid": "b1ef3455-e966-4292-a2a6-f2c512fe09d0",
+            "syncTimestamp": "2026-03-01T01:15:34.594Z",
+            "insulinDelivered": 9.45,
+            "carbsInput": 45,
+            "guid": "2761bc2e-150c-11f1-8baf-0242ac110002",
+            "insulinOnBoard": 3.9,
+            "totalInsulinRecommendation": 9.45,
+            "bloodGlucoseInput": 28300,
+            "insulinProgrammed": 9.45,
+            "insulinRecommendationForCarbs": 8.55,
+            "insulinRecommendationForCorrection": 0.9,
+            "insulinReduction": null,
+            "override": null,
+            "type": "suggested",
+            "pumpName": "Insulet Omnipod® 5 System",
+            "bloodGlucoseInputSource": "CGM",
+            "softDeleted": false,
+            "updatedAt": "2026-03-01T01:15:36.909Z",
+            "updatedBy": "server"
+          },
+          {
+            "pumpTimestamp": "2026-02-28T08:56:12.000Z",
+            "pumpTimestampUtcOffset": "+00:00",
+            "pumpGuid": "b1ef3455-e966-4292-a2a6-f2c512fe09d0",
+            "syncTimestamp": "2026-03-01T01:15:34.594Z",
+            "insulinDelivered": 10.4,
+            "carbsInput": 60,
+            "guid": "2761c354-150c-11f1-8baf-0242ac110002",
+            "insulinOnBoard": 1.25,
+            "totalInsulinRecommendation": 10.4,
+            "bloodGlucoseInput": 15000,
+            "insulinProgrammed": 10.4,
+            "insulinRecommendationForCarbs": 10.4,
+            "insulinRecommendationForCorrection": 0,
+            "insulinReduction": null,
+            "override": null,
+            "type": "suggested",
+            "pumpName": "Insulet Omnipod® 5 System",
+            "bloodGlucoseInputSource": "CGM",
+            "softDeleted": false,
+            "updatedAt": "2026-03-01T01:15:36.909Z",
+            "updatedBy": "server"
+          },
+          {
+            "pumpTimestamp": "2026-02-28T12:24:04.000Z",
+            "pumpTimestampUtcOffset": "+00:00",
+            "pumpGuid": "b1ef3455-e966-4292-a2a6-f2c512fe09d0",
+            "syncTimestamp": "2026-03-01T01:15:34.594Z",
+            "insulinDelivered": 12.9,
+            "carbsInput": 60,
+            "guid": "2761ca66-150c-11f1-8baf-0242ac110002",
+            "insulinOnBoard": 0,
+            "totalInsulinRecommendation": 12.9,
+            "bloodGlucoseInput": 14500,
+            "insulinProgrammed": 12.9,
+            "insulinRecommendationForCarbs": 10.9,
+            "insulinRecommendationForCorrection": 2,
+            "insulinReduction": null,
+            "override": null,
+            "type": "suggested",
+            "pumpName": "Insulet Omnipod® 5 System",
+            "bloodGlucoseInputSource": "CGM",
+            "softDeleted": false,
+            "updatedAt": "2026-03-01T01:15:36.909Z",
+            "updatedBy": "server"
+          },
+          {
+            "pumpTimestamp": "2026-02-28T19:10:40.000Z",
+            "pumpTimestampUtcOffset": "+00:00",
+            "pumpGuid": "b1ef3455-e966-4292-a2a6-f2c512fe09d0",
+            "syncTimestamp": "2026-03-01T01:15:34.594Z",
+            "insulinDelivered": 12.05,
+            "carbsInput": 70,
+            "guid": "2761d18c-150c-11f1-8baf-0242ac110002",
+            "insulinOnBoard": 0,
+            "totalInsulinRecommendation": 12.05,
+            "bloodGlucoseInput": 9300,
+            "insulinProgrammed": 12.05,
+            "insulinRecommendationForCarbs": 12.5,
+            "insulinRecommendationForCorrection": -0.45,
+            "insulinReduction": null,
+            "override": null,
+            "type": "suggested",
+            "pumpName": "Insulet Omnipod® 5 System",
+            "bloodGlucoseInputSource": "CGM",
+            "softDeleted": false,
+            "updatedAt": "2026-03-01T01:15:36.909Z",
+            "updatedBy": "server"
+          },
+          {
+            "pumpTimestamp": "2026-03-01T08:13:46.000Z",
+            "pumpTimestampUtcOffset": "+00:00",
+            "pumpGuid": "b1ef3455-e966-4292-a2a6-f2c512fe09d0",
+            "syncTimestamp": "2026-03-02T01:10:51.595Z",
+            "insulinDelivered": 12.55,
+            "carbsInput": 70,
+            "guid": "a92bf5a8-15d4-11f1-b662-0242ac110002",
+            "insulinOnBoard": 0.4,
+            "totalInsulinRecommendation": 12.55,
+            "bloodGlucoseInput": 13900,
+            "insulinProgrammed": 12.55,
+            "insulinRecommendationForCarbs": 12.2,
+            "insulinRecommendationForCorrection": 0.35,
+            "insulinReduction": null,
+            "override": null,
+            "type": "suggested",
+            "pumpName": "Insulet Omnipod® 5 System",
+            "bloodGlucoseInputSource": "CGM",
+            "softDeleted": false,
+            "updatedAt": "2026-03-02T01:10:54.034Z",
+            "updatedBy": "server"
+          },
+          {
+            "pumpTimestamp": "2026-03-01T13:07:25.000Z",
+            "pumpTimestampUtcOffset": "+00:00",
+            "pumpGuid": "b1ef3455-e966-4292-a2a6-f2c512fe09d0",
+            "syncTimestamp": "2026-03-02T01:10:51.595Z",
+            "insulinDelivered": 11.45,
+            "carbsInput": 65,
+            "guid": "a92bfce2-15d4-11f1-b662-0242ac110002",
+            "insulinOnBoard": 0,
+            "totalInsulinRecommendation": 11.45,
+            "bloodGlucoseInput": 10100,
+            "insulinProgrammed": 11.45,
+            "insulinRecommendationForCarbs": 11.8,
+            "insulinRecommendationForCorrection": -0.35,
+            "insulinReduction": null,
+            "override": null,
+            "type": "suggested",
+            "pumpName": "Insulet Omnipod® 5 System",
+            "bloodGlucoseInputSource": "CGM",
+            "softDeleted": false,
+            "updatedAt": "2026-03-02T01:10:54.034Z",
+            "updatedBy": "server"
+          },
+          {
+            "pumpTimestamp": "2026-03-01T18:43:05.000Z",
+            "pumpTimestampUtcOffset": "+00:00",
+            "pumpGuid": "b1ef3455-e966-4292-a2a6-f2c512fe09d0",
+            "syncTimestamp": "2026-03-03T01:01:30.472Z",
+            "insulinDelivered": 14.45,
+            "carbsInput": 75,
+            "guid": "85468c20-169c-11f1-bcd3-0242ac110002",
+            "insulinOnBoard": 3.05,
+            "totalInsulinRecommendation": 14.45,
+            "bloodGlucoseInput": 24300,
+            "insulinProgrammed": 14.45,
+            "insulinRecommendationForCarbs": 13.6,
+            "insulinRecommendationForCorrection": 0.85,
+            "insulinReduction": null,
+            "override": null,
+            "type": "suggested",
+            "pumpName": "Insulet Omnipod® 5 System",
+            "bloodGlucoseInputSource": "CGM",
+            "softDeleted": false,
+            "updatedAt": "2026-03-03T01:01:33.133Z",
+            "updatedBy": "server"
+          },
+          {
+            "pumpTimestamp": "2026-03-01T19:08:09.000Z",
+            "pumpTimestampUtcOffset": "+00:00",
+            "pumpGuid": "b1ef3455-e966-4292-a2a6-f2c512fe09d0",
+            "syncTimestamp": "2026-03-03T01:01:30.472Z",
+            "insulinDelivered": 3.85,
+            "carbsInput": 40,
+            "guid": "85469224-169c-11f1-bcd3-0242ac110002",
+            "insulinOnBoard": 15.3,
+            "totalInsulinRecommendation": 3.85,
+            "bloodGlucoseInput": 25600,
+            "insulinProgrammed": 3.85,
+            "insulinRecommendationForCarbs": 3.85,
+            "insulinRecommendationForCorrection": 0,
+            "insulinReduction": null,
+            "override": null,
+            "type": "suggested",
+            "pumpName": "Insulet Omnipod® 5 System",
+            "bloodGlucoseInputSource": "CGM",
+            "softDeleted": false,
+            "updatedAt": "2026-03-03T01:01:33.133Z",
+            "updatedBy": "server"
+          },
+          {
+            "pumpTimestamp": "2026-03-02T08:29:24.000Z",
+            "pumpTimestampUtcOffset": "+00:00",
+            "pumpGuid": "b1ef3455-e966-4292-a2a6-f2c512fe09d0",
+            "syncTimestamp": "2026-03-03T01:01:30.472Z",
+            "insulinDelivered": 7.45,
+            "carbsInput": 40,
+            "guid": "85469828-169c-11f1-bcd3-0242ac110002",
+            "insulinOnBoard": 0.7,
+            "totalInsulinRecommendation": 7.45,
+            "bloodGlucoseInput": 15100,
+            "insulinProgrammed": 7.45,
+            "insulinRecommendationForCarbs": 7.1,
+            "insulinRecommendationForCorrection": 0.35,
+            "insulinReduction": null,
+            "override": null,
+            "type": "suggested",
+            "pumpName": "Insulet Omnipod® 5 System",
+            "bloodGlucoseInputSource": "CGM",
+            "softDeleted": false,
+            "updatedAt": "2026-03-03T01:01:33.133Z",
+            "updatedBy": "server"
+          },
+          {
+            "pumpTimestamp": "2026-03-02T12:54:47.000Z",
+            "pumpTimestampUtcOffset": "+00:00",
+            "pumpGuid": "b1ef3455-e966-4292-a2a6-f2c512fe09d0",
+            "syncTimestamp": "2026-03-03T01:01:30.472Z",
+            "insulinDelivered": 15.4,
+            "carbsInput": 85,
+            "guid": "85469e18-169c-11f1-bcd3-0242ac110002",
+            "insulinOnBoard": 0,
+            "totalInsulinRecommendation": 15.4,
+            "bloodGlucoseInput": 9900,
+            "insulinProgrammed": 15.4,
+            "insulinRecommendationForCarbs": 15.45,
+            "insulinRecommendationForCorrection": -0.05,
+            "insulinReduction": null,
+            "override": null,
+            "type": "suggested",
+            "pumpName": "Insulet Omnipod® 5 System",
+            "bloodGlucoseInputSource": "CGM",
+            "softDeleted": false,
+            "updatedAt": "2026-03-03T01:01:33.133Z",
+            "updatedBy": "server"
+          },
+          {
+            "pumpTimestamp": "2026-03-02T18:18:45.000Z",
+            "pumpTimestampUtcOffset": "+00:00",
+            "pumpGuid": "b1ef3455-e966-4292-a2a6-f2c512fe09d0",
+            "syncTimestamp": "2026-03-03T01:01:30.472Z",
+            "insulinDelivered": 17.65,
+            "carbsInput": 95,
+            "guid": "8546a3fe-169c-11f1-bcd3-0242ac110002",
+            "insulinOnBoard": 1.7,
+            "totalInsulinRecommendation": 17.65,
+            "bloodGlucoseInput": 18100,
+            "insulinProgrammed": 17.65,
+            "insulinRecommendationForCarbs": 17.25,
+            "insulinRecommendationForCorrection": 0.4,
+            "insulinReduction": null,
+            "override": null,
+            "type": "suggested",
+            "pumpName": "Insulet Omnipod® 5 System",
+            "bloodGlucoseInputSource": "CGM",
+            "softDeleted": false,
+            "updatedAt": "2026-03-03T01:01:33.133Z",
+            "updatedBy": "server"
+          },
+          {
+            "pumpTimestamp": "2026-03-02T23:11:39.000Z",
+            "pumpTimestampUtcOffset": "+00:00",
+            "pumpGuid": "b1ef3455-e966-4292-a2a6-f2c512fe09d0",
+            "syncTimestamp": "2026-03-03T01:01:30.472Z",
+            "insulinDelivered": 5.45,
+            "carbsInput": 30,
+            "guid": "8546aa20-169c-11f1-bcd3-0242ac110002",
+            "insulinOnBoard": 1.9,
+            "totalInsulinRecommendation": 5.45,
+            "bloodGlucoseInput": null,
+            "insulinProgrammed": 5.45,
+            "insulinRecommendationForCarbs": 5.45,
+            "insulinRecommendationForCorrection": 0,
+            "insulinReduction": null,
+            "override": null,
+            "type": "suggested",
+            "pumpName": "Insulet Omnipod® 5 System",
+            "bloodGlucoseInputSource": null,
+            "softDeleted": false,
+            "updatedAt": "2026-03-03T01:01:33.133Z",
+            "updatedBy": "server"
           }
         ],
         "lastPage": true,
-        "lastUpdatedAt": "2026-02-28T01:18:14.934Z",
-        "lastGuid": "5b23ea1a-1443-11f1-858a-0242ac110002"
+        "lastUpdatedAt": "2026-03-03T01:01:33.133Z",
+        "lastGuid": "8546aa20-169c-11f1-bcd3-0242ac110002"
       }
     },
     "Pump Basal": {
@@ -324,7 +749,7 @@
       "data": {
         "scheduledBasals": [],
         "lastPage": true,
-        "lastUpdatedAt": "2026-02-24T00:00:00.000Z",
+        "lastUpdatedAt": "2026-02-23T00:00:00.000Z",
         "lastGuid": "1e0c094e-1e54-4a4f-8e6a-f94484b53789"
       }
     },
@@ -336,7 +761,7 @@
       "data": {
         "readings": [],
         "lastPage": true,
-        "lastUpdatedAt": "2026-02-24T00:00:00.000Z",
+        "lastUpdatedAt": "2026-02-23T00:00:00.000Z",
         "lastGuid": "1e0c094e-1e54-4a4f-8e6a-f94484b53789"
       }
     },
@@ -349,9 +774,30 @@
         "series": {
           "reservoirChange": [
             {
+              "x": 1771850537,
+              "y": 0.25,
+              "timestamp": "2026-02-23T12:42:17.000Z",
+              "type": "reservoir_change",
+              "deviceName": null
+            },
+            {
               "x": 1772051317,
               "y": 0.25,
               "timestamp": "2026-02-25T20:28:37.000Z",
+              "type": "reservoir_change",
+              "deviceName": null
+            },
+            {
+              "x": 1772261941,
+              "y": 0.25,
+              "timestamp": "2026-02-28T06:59:01.000Z",
+              "type": "reservoir_change",
+              "deviceName": null
+            },
+            {
+              "x": 1772408102,
+              "y": 0.25,
+              "timestamp": "2026-03-01T23:35:02.000Z",
               "type": "reservoir_change",
               "deviceName": null
             }
@@ -371,6 +817,16 @@
       "data": {
         "series": {
           "dailyInsulinTotals": {
+            "1771848000": {
+              "totalOtherInsulinPerDay": 0,
+              "totalPumpInsulinPerDay": 81.2,
+              "hasPump": true,
+              "hasPen": false,
+              "totalInsulinPerDay": 81.2,
+              "bolusUnitsPerDay": 40.9,
+              "basalUnitsPerDay": 40.4,
+              "premixedUnitsPerDay": 0
+            },
             "1771934400": {
               "totalOtherInsulinPerDay": 0,
               "totalPumpInsulinPerDay": 74.4,
@@ -403,22 +859,52 @@
             },
             "1772193600": {
               "totalOtherInsulinPerDay": 0,
-              "totalPumpInsulinPerDay": 72.7,
+              "totalPumpInsulinPerDay": 108.6,
               "hasPump": true,
               "hasPen": false,
-              "totalInsulinPerDay": 72.7,
-              "bolusUnitsPerDay": 28.3,
-              "basalUnitsPerDay": 44.4,
+              "totalInsulinPerDay": 108.6,
+              "bolusUnitsPerDay": 52.6,
+              "basalUnitsPerDay": 56,
               "premixedUnitsPerDay": 0
             },
             "1772280000": {
               "totalOtherInsulinPerDay": 0,
-              "totalPumpInsulinPerDay": 0,
-              "hasPump": false,
+              "totalPumpInsulinPerDay": 75.4,
+              "hasPump": true,
               "hasPen": false,
-              "totalInsulinPerDay": 0,
+              "totalInsulinPerDay": 75.4,
+              "bolusUnitsPerDay": 35.4,
+              "basalUnitsPerDay": 40,
+              "premixedUnitsPerDay": 0
+            },
+            "1772366400": {
+              "totalOtherInsulinPerDay": 0,
+              "totalPumpInsulinPerDay": 78.6,
+              "hasPump": true,
+              "hasPen": false,
+              "totalInsulinPerDay": 78.6,
+              "bolusUnitsPerDay": 42.3,
+              "basalUnitsPerDay": 36.3,
+              "premixedUnitsPerDay": 0
+            },
+            "1772452800": {
+              "totalOtherInsulinPerDay": 0,
+              "totalPumpInsulinPerDay": 84.3,
+              "hasPump": true,
+              "hasPen": false,
+              "totalInsulinPerDay": 84.3,
+              "bolusUnitsPerDay": 46,
+              "basalUnitsPerDay": 38.4,
+              "premixedUnitsPerDay": 0
+            },
+            "1772539200": {
+              "totalOtherInsulinPerDay": 0,
+              "totalPumpInsulinPerDay": 14.8,
+              "hasPump": true,
+              "hasPen": false,
+              "totalInsulinPerDay": 14.8,
               "bolusUnitsPerDay": 0,
-              "basalUnitsPerDay": 0,
+              "basalUnitsPerDay": 14.8,
               "premixedUnitsPerDay": 0
             }
           }
@@ -428,6 +914,4820 @@
           "DEXCOM_CLOUD_EU"
         ]
       }
+    },
+    "Last Sync": {
+      "success": true,
+      "status": 200,
+      "dataType": "object",
+      "dataSize": 3,
+      "data": {
+        "devices": [
+          {
+            "id": "6953f33e2567a5612f7f65ed",
+            "serialNumber": "Dexcom g7 (b6d7c93)",
+            "lastSyncTimestamp": "2026-03-03T09:49:21.376Z",
+            "lastSyncTimestampUtc": "2026-03-03T09:49:21.376Z",
+            "deviceOffset": "+00:00",
+            "displayName": "Dexcom",
+            "shortDisplayName": "Dexcom",
+            "deviceOffsetPresent": false,
+            "guid": "79c55250-7350-483c-82fa-da5a107d5d3e",
+            "properties": {
+              "cgmModel": "Dexcom G7"
+            },
+            "type": "cgm",
+            "recalledTimestamp": null,
+            "referenceDeviceId": "DEXCOM_CLOUD_EU",
+            "brand": "Dexcom",
+            "model": "Dexcom"
+          },
+          {
+            "id": "694d48f72567a5002dae335e",
+            "serialNumber": "06050100-000014535",
+            "lastSyncTimestamp": "2026-03-03T09:49:21.127Z",
+            "lastSyncTimestampUtc": "2026-03-03T09:49:21.127Z",
+            "deviceOffset": "+00:00",
+            "displayName": "Insulet Omnipod® 5 System",
+            "shortDisplayName": "Insulet Omnipod® 5 System",
+            "deviceOffsetPresent": false,
+            "guid": "b1ef3455-e966-4292-a2a6-f2c512fe09d0",
+            "properties": {
+              "op5DeviceController": "LOCKDOWN",
+              "cgmModel": "Dexcom G7"
+            },
+            "type": "pump",
+            "recalledTimestamp": null,
+            "referenceDeviceId": "INSULET_OMNIPOD_5",
+            "brand": "Insulet",
+            "model": "Omnipod® 5 System"
+          },
+          {
+            "id": "694b7e9a2567a50a80ff6ee7",
+            "serialNumber": "Abbott LibreView CSV (5a7f8b0)",
+            "lastSyncTimestamp": "2025-12-31T14:56:36.000Z",
+            "lastSyncTimestampUtc": "2025-12-31T14:56:36.000Z",
+            "deviceOffset": "+00:00",
+            "displayName": "Abbott Libreview CSV",
+            "shortDisplayName": "Abbott Libreview CSV",
+            "deviceOffsetPresent": false,
+            "guid": "0ef30b42-a4bc-48bd-bf6b-e8c59f2227d0",
+            "properties": null,
+            "type": "cgm",
+            "recalledTimestamp": null,
+            "referenceDeviceId": "ABBOTT_LIBREVIEW_CSV",
+            "brand": "Abbott",
+            "model": "Libreview CSV"
+          },
+          {
+            "id": "6263b817c6091c96c9ca052e",
+            "serialNumber": "040205-10511",
+            "lastSyncTimestamp": "2022-09-02T17:23:51.000Z",
+            "lastSyncTimestampUtc": null,
+            "deviceOffset": "+00:00",
+            "displayName": "Insulet Omnipod Dash® System",
+            "shortDisplayName": "Insulet Omnipod Dash® System",
+            "deviceOffsetPresent": false,
+            "guid": "bf488665-5de0-42da-910f-63535cd3ced5",
+            "properties": null,
+            "type": "pump",
+            "recalledTimestamp": null,
+            "referenceDeviceId": "INSULET_DASH",
+            "brand": "Insulet",
+            "model": "Omnipod Dash® System"
+          },
+          {
+            "id": "6263b89fc6091c9639ba8691",
+            "serialNumber": "040301-12600",
+            "lastSyncTimestamp": "2022-07-24T11:43:31.000Z",
+            "lastSyncTimestampUtc": null,
+            "deviceOffset": "+00:00",
+            "displayName": "Insulet Omnipod Dash® System",
+            "shortDisplayName": "Insulet Omnipod Dash® System",
+            "deviceOffsetPresent": false,
+            "guid": "e8662d63-c2dc-4ddf-8b21-99727cfae656",
+            "properties": null,
+            "type": "pump",
+            "recalledTimestamp": null,
+            "referenceDeviceId": "INSULET_DASH",
+            "brand": "Insulet",
+            "model": "Omnipod Dash® System"
+          },
+          {
+            "id": "61c0e20d6118619db7d3c568",
+            "serialNumber": "040300-18904",
+            "lastSyncTimestamp": "2022-04-11T07:45:09.000Z",
+            "lastSyncTimestampUtc": null,
+            "deviceOffset": "+00:00",
+            "displayName": "Insulet Omnipod Dash® System",
+            "shortDisplayName": "Insulet Omnipod Dash® System",
+            "deviceOffsetPresent": false,
+            "guid": "8c5e647a-94ae-4457-9a26-e71c184c0a83",
+            "properties": null,
+            "type": "pump",
+            "recalledTimestamp": null,
+            "referenceDeviceId": "INSULET_DASH",
+            "brand": "Insulet",
+            "model": "Omnipod Dash® System"
+          }
+        ],
+        "deviceSettings": {
+          "pumps": {
+            "8c5e647a-94ae-4457-9a26-e71c184c0a83": {
+              "2021-12-20T20:05:32.000Z": {
+                "id": "61c0e20e6118619db7d3c920",
+                "syncTimestamp": "2021-12-20T20:05:32.000Z",
+                "displayableTimestamp": "2021-12-20T20:05:32.000Z",
+                "settingsTimestamp": null,
+                "settingsTimestampUtc": null,
+                "generalSettings": {
+                  "activeInsulinTime": 3.5,
+                  "bgMeterUnits": "mmoll",
+                  "bgGoalHigh": 10,
+                  "bgGoalLow": 3.9,
+                  "lowReservoirLevel": 12,
+                  "podExpiration": 1
+                },
+                "cgmSettings": {},
+                "hybridClosedLoopSettings": {},
+                "basalSettings": {
+                  "maxBasalRate": 6,
+                  "tempBasalMethod": "unit_per_hour",
+                  "tempBasalEnabled": true,
+                  "activeBasalProgram": "Basal 1"
+                },
+                "bolusSettings": {
+                  "bolusCalculatorMinBg": 3.6,
+                  "bolusCalculatorEnabled": true,
+                  "bolusExtendedEnabled": true,
+                  "bolusReverseCorrectionEnabled": true,
+                  "maxBolus": 20
+                },
+                "deviceGuid": "8c5e647a-94ae-4457-9a26-e71c184c0a83",
+                "profilesBolus": [
+                  {
+                    "isfSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 2
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "targetBgSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 6,
+                          "valueLow": 0,
+                          "valueHigh": 0
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 6
+                        },
+                        {
+                          "x": 24,
+                          "y": 6
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {
+                        "targetBgLow": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ],
+                        "targetBgHigh": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ]
+                      },
+                      "dailyTotal": null
+                    },
+                    "insulinToCarbRatioSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 5.5
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 5.5
+                        },
+                        {
+                          "x": 24,
+                          "y": 5.5
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "bgCorrectionThresholdSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 7
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    }
+                  }
+                ],
+                "pumpProfilesBasal": [
+                  {
+                    "segments": {
+                      "profileName": "Basal 1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 6,
+                          "value": 0.9
+                        },
+                        {
+                          "segmentStart": 6,
+                          "duration": 10,
+                          "value": 2
+                        },
+                        {
+                          "segmentStart": 16,
+                          "duration": 7,
+                          "value": 2.2
+                        },
+                        {
+                          "segmentStart": 23,
+                          "duration": 1,
+                          "value": 0.9
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 6.000277777777778,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 6.000277777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 6,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 6,
+                          "y": 2
+                        },
+                        {
+                          "x": 16.00027777777778,
+                          "y": 2
+                        },
+                        {
+                          "x": 16.00027777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 16,
+                          "y": 2
+                        },
+                        {
+                          "x": 16,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 23.00027777777778,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 23.00027777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 23,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 23,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 24,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": 41.7
+                    }
+                  }
+                ]
+              },
+              "2022-01-04T11:21:00.000Z": {
+                "id": "61d42da097916eceb6e8af6f",
+                "syncTimestamp": "2022-01-04T11:21:00.000Z",
+                "displayableTimestamp": "2022-01-04T11:21:00.000Z",
+                "settingsTimestamp": null,
+                "settingsTimestampUtc": null,
+                "generalSettings": {
+                  "activeInsulinTime": 3.5,
+                  "bgMeterUnits": "mmoll",
+                  "bgGoalHigh": 10,
+                  "bgGoalLow": 3.9,
+                  "lowReservoirLevel": 12,
+                  "podExpiration": 1
+                },
+                "cgmSettings": {},
+                "hybridClosedLoopSettings": {},
+                "basalSettings": {
+                  "maxBasalRate": 6,
+                  "tempBasalMethod": "unit_per_hour",
+                  "tempBasalEnabled": true,
+                  "activeBasalProgram": "Basal 1"
+                },
+                "bolusSettings": {
+                  "bolusCalculatorMinBg": 3.6,
+                  "bolusCalculatorEnabled": true,
+                  "bolusExtendedEnabled": true,
+                  "bolusReverseCorrectionEnabled": true,
+                  "maxBolus": 20
+                },
+                "deviceGuid": "8c5e647a-94ae-4457-9a26-e71c184c0a83",
+                "profilesBolus": [
+                  {
+                    "isfSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 2
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "targetBgSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 6,
+                          "valueLow": 0,
+                          "valueHigh": 0
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 6
+                        },
+                        {
+                          "x": 24,
+                          "y": 6
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {
+                        "targetBgLow": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ],
+                        "targetBgHigh": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ]
+                      },
+                      "dailyTotal": null
+                    },
+                    "insulinToCarbRatioSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 5.5
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 5.5
+                        },
+                        {
+                          "x": 24,
+                          "y": 5.5
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "bgCorrectionThresholdSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 7
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    }
+                  }
+                ],
+                "pumpProfilesBasal": [
+                  {
+                    "segments": {
+                      "profileName": "Basal 1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 6,
+                          "value": 0.9
+                        },
+                        {
+                          "segmentStart": 6,
+                          "duration": 10,
+                          "value": 2
+                        },
+                        {
+                          "segmentStart": 16,
+                          "duration": 7,
+                          "value": 2.2
+                        },
+                        {
+                          "segmentStart": 23,
+                          "duration": 1,
+                          "value": 0.9
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 6.000277777777778,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 6.000277777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 6,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 6,
+                          "y": 2
+                        },
+                        {
+                          "x": 16.00027777777778,
+                          "y": 2
+                        },
+                        {
+                          "x": 16.00027777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 16,
+                          "y": 2
+                        },
+                        {
+                          "x": 16,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 23.00027777777778,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 23.00027777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 23,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 23,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 24,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": 41.7
+                    }
+                  }
+                ]
+              },
+              "2022-01-04T11:25:40.000Z": {
+                "id": "61d42eb7c6091c739e9b1233",
+                "syncTimestamp": "2022-01-04T11:25:40.000Z",
+                "displayableTimestamp": "2022-01-04T11:25:40.000Z",
+                "settingsTimestamp": null,
+                "settingsTimestampUtc": null,
+                "generalSettings": {
+                  "activeInsulinTime": 3.5,
+                  "bgMeterUnits": "mmoll",
+                  "bgGoalHigh": 10,
+                  "bgGoalLow": 3.9,
+                  "lowReservoirLevel": 12,
+                  "podExpiration": 1
+                },
+                "cgmSettings": {},
+                "hybridClosedLoopSettings": {},
+                "basalSettings": {
+                  "maxBasalRate": 6,
+                  "tempBasalMethod": "unit_per_hour",
+                  "tempBasalEnabled": true,
+                  "activeBasalProgram": "Basal 1"
+                },
+                "bolusSettings": {
+                  "bolusCalculatorMinBg": 3.6,
+                  "bolusCalculatorEnabled": true,
+                  "bolusExtendedEnabled": true,
+                  "bolusReverseCorrectionEnabled": true,
+                  "maxBolus": 20
+                },
+                "deviceGuid": "8c5e647a-94ae-4457-9a26-e71c184c0a83",
+                "profilesBolus": [
+                  {
+                    "isfSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 2
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "targetBgSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 6,
+                          "valueLow": 0,
+                          "valueHigh": 0
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 6
+                        },
+                        {
+                          "x": 24,
+                          "y": 6
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {
+                        "targetBgLow": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ],
+                        "targetBgHigh": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ]
+                      },
+                      "dailyTotal": null
+                    },
+                    "insulinToCarbRatioSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 5.5
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 5.5
+                        },
+                        {
+                          "x": 24,
+                          "y": 5.5
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "bgCorrectionThresholdSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 7
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    }
+                  }
+                ],
+                "pumpProfilesBasal": [
+                  {
+                    "segments": {
+                      "profileName": "Basal 1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 6,
+                          "value": 0.9
+                        },
+                        {
+                          "segmentStart": 6,
+                          "duration": 10,
+                          "value": 2
+                        },
+                        {
+                          "segmentStart": 16,
+                          "duration": 7,
+                          "value": 2.2
+                        },
+                        {
+                          "segmentStart": 23,
+                          "duration": 1,
+                          "value": 0.9
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 6.000277777777778,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 6.000277777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 6,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 6,
+                          "y": 2
+                        },
+                        {
+                          "x": 16.00027777777778,
+                          "y": 2
+                        },
+                        {
+                          "x": 16.00027777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 16,
+                          "y": 2
+                        },
+                        {
+                          "x": 16,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 23.00027777777778,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 23.00027777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 23,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 23,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 24,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": 41.7
+                    }
+                  }
+                ]
+              },
+              "2022-02-01T16:25:42.000Z": {
+                "id": "61f95f0b0a74ab4a5ae90ba7",
+                "syncTimestamp": "2022-02-01T16:25:42.000Z",
+                "displayableTimestamp": "2022-02-01T16:25:42.000Z",
+                "settingsTimestamp": null,
+                "settingsTimestampUtc": null,
+                "generalSettings": {
+                  "activeInsulinTime": 3.5,
+                  "bgMeterUnits": "mmoll",
+                  "bgGoalHigh": 10,
+                  "bgGoalLow": 3.9,
+                  "lowReservoirLevel": 12,
+                  "podExpiration": 1
+                },
+                "cgmSettings": {},
+                "hybridClosedLoopSettings": {},
+                "basalSettings": {
+                  "maxBasalRate": 6,
+                  "tempBasalMethod": "unit_per_hour",
+                  "tempBasalEnabled": true,
+                  "activeBasalProgram": "Basal 1"
+                },
+                "bolusSettings": {
+                  "bolusCalculatorMinBg": 3.6,
+                  "bolusCalculatorEnabled": true,
+                  "bolusExtendedEnabled": true,
+                  "bolusReverseCorrectionEnabled": true,
+                  "maxBolus": 20
+                },
+                "deviceGuid": "8c5e647a-94ae-4457-9a26-e71c184c0a83",
+                "profilesBolus": [
+                  {
+                    "isfSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 2
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "targetBgSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 6,
+                          "valueLow": 0,
+                          "valueHigh": 0
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 6
+                        },
+                        {
+                          "x": 24,
+                          "y": 6
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {
+                        "targetBgLow": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ],
+                        "targetBgHigh": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ]
+                      },
+                      "dailyTotal": null
+                    },
+                    "insulinToCarbRatioSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 5.5
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 5.5
+                        },
+                        {
+                          "x": 24,
+                          "y": 5.5
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "bgCorrectionThresholdSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 7
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    }
+                  }
+                ],
+                "pumpProfilesBasal": [
+                  {
+                    "segments": {
+                      "profileName": "Basal 1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 6,
+                          "value": 0.9
+                        },
+                        {
+                          "segmentStart": 6,
+                          "duration": 10,
+                          "value": 2
+                        },
+                        {
+                          "segmentStart": 16,
+                          "duration": 7,
+                          "value": 2.2
+                        },
+                        {
+                          "segmentStart": 23,
+                          "duration": 1,
+                          "value": 0.9
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 6.000277777777778,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 6.000277777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 6,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 6,
+                          "y": 2
+                        },
+                        {
+                          "x": 16.00027777777778,
+                          "y": 2
+                        },
+                        {
+                          "x": 16.00027777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 16,
+                          "y": 2
+                        },
+                        {
+                          "x": 16,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 23.00027777777778,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 23.00027777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 23,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 23,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 24,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": 41.7
+                    }
+                  }
+                ]
+              },
+              "2022-03-01T09:49:17.000Z": {
+                "id": "621dec239fb060d8b7d9cd3c",
+                "syncTimestamp": "2022-03-01T09:49:17.000Z",
+                "displayableTimestamp": "2022-03-01T09:49:17.000Z",
+                "settingsTimestamp": null,
+                "settingsTimestampUtc": null,
+                "generalSettings": {
+                  "activeInsulinTime": 3.5,
+                  "bgMeterUnits": "mmoll",
+                  "bgGoalHigh": 10,
+                  "bgGoalLow": 3.9,
+                  "lowReservoirLevel": 12,
+                  "podExpiration": 1
+                },
+                "cgmSettings": {},
+                "hybridClosedLoopSettings": {},
+                "basalSettings": {
+                  "maxBasalRate": 6,
+                  "tempBasalMethod": "unit_per_hour",
+                  "tempBasalEnabled": true,
+                  "activeBasalProgram": "Basal 1"
+                },
+                "bolusSettings": {
+                  "bolusCalculatorMinBg": 3.6,
+                  "bolusCalculatorEnabled": true,
+                  "bolusExtendedEnabled": true,
+                  "bolusReverseCorrectionEnabled": true,
+                  "maxBolus": 20
+                },
+                "deviceGuid": "8c5e647a-94ae-4457-9a26-e71c184c0a83",
+                "profilesBolus": [
+                  {
+                    "isfSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 2
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "targetBgSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 6,
+                          "valueLow": 0,
+                          "valueHigh": 0
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 6
+                        },
+                        {
+                          "x": 24,
+                          "y": 6
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {
+                        "targetBgLow": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ],
+                        "targetBgHigh": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ]
+                      },
+                      "dailyTotal": null
+                    },
+                    "insulinToCarbRatioSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 5.5
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 5.5
+                        },
+                        {
+                          "x": 24,
+                          "y": 5.5
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "bgCorrectionThresholdSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 7
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    }
+                  }
+                ],
+                "pumpProfilesBasal": [
+                  {
+                    "segments": {
+                      "profileName": "Basal 1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 6,
+                          "value": 0.9
+                        },
+                        {
+                          "segmentStart": 6,
+                          "duration": 10,
+                          "value": 2
+                        },
+                        {
+                          "segmentStart": 16,
+                          "duration": 7,
+                          "value": 2.2
+                        },
+                        {
+                          "segmentStart": 23,
+                          "duration": 1,
+                          "value": 0.9
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 6.000277777777778,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 6.000277777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 6,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 6,
+                          "y": 2
+                        },
+                        {
+                          "x": 16.00027777777778,
+                          "y": 2
+                        },
+                        {
+                          "x": 16.00027777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 16,
+                          "y": 2
+                        },
+                        {
+                          "x": 16,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 23.00027777777778,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 23.00027777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 23,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 23,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 24,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": 41.7
+                    }
+                  }
+                ]
+              },
+              "2022-03-10T08:52:47.000Z": {
+                "id": "6229bc68c6091cb725b8fbdc",
+                "syncTimestamp": "2022-03-10T08:52:47.000Z",
+                "displayableTimestamp": "2022-03-10T08:52:47.000Z",
+                "settingsTimestamp": null,
+                "settingsTimestampUtc": null,
+                "generalSettings": {
+                  "activeInsulinTime": 3.5,
+                  "bgMeterUnits": "mmoll",
+                  "bgGoalHigh": 10,
+                  "bgGoalLow": 3.9,
+                  "lowReservoirLevel": 12,
+                  "podExpiration": 1
+                },
+                "cgmSettings": {},
+                "hybridClosedLoopSettings": {},
+                "basalSettings": {
+                  "maxBasalRate": 6,
+                  "tempBasalMethod": "unit_per_hour",
+                  "tempBasalEnabled": true,
+                  "activeBasalProgram": "Basal 1"
+                },
+                "bolusSettings": {
+                  "bolusCalculatorMinBg": 3.6,
+                  "bolusCalculatorEnabled": true,
+                  "bolusExtendedEnabled": true,
+                  "bolusReverseCorrectionEnabled": true,
+                  "maxBolus": 20
+                },
+                "deviceGuid": "8c5e647a-94ae-4457-9a26-e71c184c0a83",
+                "profilesBolus": [
+                  {
+                    "isfSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 2
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "targetBgSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 6,
+                          "valueLow": 0,
+                          "valueHigh": 0
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 6
+                        },
+                        {
+                          "x": 24,
+                          "y": 6
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {
+                        "targetBgLow": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ],
+                        "targetBgHigh": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ]
+                      },
+                      "dailyTotal": null
+                    },
+                    "insulinToCarbRatioSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 5.5
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 5.5
+                        },
+                        {
+                          "x": 24,
+                          "y": 5.5
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "bgCorrectionThresholdSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 7
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    }
+                  }
+                ],
+                "pumpProfilesBasal": [
+                  {
+                    "segments": {
+                      "profileName": "Basal 1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 6,
+                          "value": 0.9
+                        },
+                        {
+                          "segmentStart": 6,
+                          "duration": 10,
+                          "value": 2
+                        },
+                        {
+                          "segmentStart": 16,
+                          "duration": 7,
+                          "value": 2.2
+                        },
+                        {
+                          "segmentStart": 23,
+                          "duration": 1,
+                          "value": 0.9
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 6.000277777777778,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 6.000277777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 6,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 6,
+                          "y": 2
+                        },
+                        {
+                          "x": 16.00027777777778,
+                          "y": 2
+                        },
+                        {
+                          "x": 16.00027777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 16,
+                          "y": 2
+                        },
+                        {
+                          "x": 16,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 23.00027777777778,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 23.00027777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 23,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 23,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 24,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": 41.7
+                    }
+                  }
+                ]
+              },
+              "2022-04-11T07:45:09.000Z": {
+                "id": "6253ce80844bc009ad4325c6",
+                "syncTimestamp": "2022-04-11T07:45:09.000Z",
+                "displayableTimestamp": "2022-04-11T07:45:09.000Z",
+                "settingsTimestamp": null,
+                "settingsTimestampUtc": null,
+                "generalSettings": {
+                  "activeInsulinTime": 5,
+                  "bgMeterUnits": "mmoll",
+                  "bgGoalHigh": 10,
+                  "bgGoalLow": 3.9,
+                  "lowReservoirLevel": 12,
+                  "podExpiration": 1
+                },
+                "cgmSettings": {},
+                "hybridClosedLoopSettings": {},
+                "basalSettings": {
+                  "maxBasalRate": 6,
+                  "tempBasalMethod": "unit_per_hour",
+                  "tempBasalEnabled": true,
+                  "activeBasalProgram": "Basal 1"
+                },
+                "bolusSettings": {
+                  "bolusCalculatorMinBg": 3.6,
+                  "bolusCalculatorEnabled": true,
+                  "bolusExtendedEnabled": true,
+                  "bolusReverseCorrectionEnabled": true,
+                  "maxBolus": 20
+                },
+                "deviceGuid": "8c5e647a-94ae-4457-9a26-e71c184c0a83",
+                "profilesBolus": [
+                  {
+                    "isfSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 2.5
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 2.5
+                        },
+                        {
+                          "x": 24,
+                          "y": 2.5
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "targetBgSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 6,
+                          "valueLow": 0,
+                          "valueHigh": 0
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 6
+                        },
+                        {
+                          "x": 24,
+                          "y": 6
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {
+                        "targetBgLow": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ],
+                        "targetBgHigh": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ]
+                      },
+                      "dailyTotal": null
+                    },
+                    "insulinToCarbRatioSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 5.1
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 5.1
+                        },
+                        {
+                          "x": 24,
+                          "y": 5.1
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "bgCorrectionThresholdSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 7
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    }
+                  }
+                ],
+                "pumpProfilesBasal": [
+                  {
+                    "segments": {
+                      "profileName": "Basal 1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 6,
+                          "value": 1.25
+                        },
+                        {
+                          "segmentStart": 6,
+                          "duration": 10,
+                          "value": 2.2
+                        },
+                        {
+                          "segmentStart": 16,
+                          "duration": 7,
+                          "value": 2.5
+                        },
+                        {
+                          "segmentStart": 23,
+                          "duration": 1,
+                          "value": 1.25
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 1.25
+                        },
+                        {
+                          "x": 6.000277777777778,
+                          "y": 1.25
+                        },
+                        {
+                          "x": 6.000277777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 6,
+                          "y": 1.25
+                        },
+                        {
+                          "x": 6,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 16.00027777777778,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 16.00027777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 16,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 16,
+                          "y": 2.5
+                        },
+                        {
+                          "x": 23.00027777777778,
+                          "y": 2.5
+                        },
+                        {
+                          "x": 23.00027777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 23,
+                          "y": 2.5
+                        },
+                        {
+                          "x": 23,
+                          "y": 1.25
+                        },
+                        {
+                          "x": 24,
+                          "y": 1.25
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": 48.25
+                    }
+                  }
+                ]
+              }
+            },
+            "e8662d63-c2dc-4ddf-8b21-99727cfae656": {
+              "2022-04-23T09:28:15.000Z": {
+                "id": "6263b89fc6091c9639ba86b0",
+                "syncTimestamp": "2022-04-23T09:28:15.000Z",
+                "displayableTimestamp": "2022-04-23T09:28:15.000Z",
+                "settingsTimestamp": null,
+                "settingsTimestampUtc": null,
+                "generalSettings": {
+                  "activeInsulinTime": 3.5,
+                  "bgMeterUnits": "mmoll",
+                  "bgGoalHigh": 7,
+                  "bgGoalLow": 6,
+                  "lowReservoirLevel": 10,
+                  "podExpiration": 4
+                },
+                "cgmSettings": {},
+                "hybridClosedLoopSettings": {},
+                "basalSettings": {
+                  "maxBasalRate": 10,
+                  "tempBasalMethod": "unit_per_hour",
+                  "tempBasalEnabled": true,
+                  "activeBasalProgram": "Basal 1"
+                },
+                "bolusSettings": {
+                  "bolusCalculatorMinBg": 3.6,
+                  "bolusCalculatorEnabled": true,
+                  "bolusExtendedEnabled": true,
+                  "bolusReverseCorrectionEnabled": true,
+                  "maxBolus": 25
+                },
+                "deviceGuid": "e8662d63-c2dc-4ddf-8b21-99727cfae656",
+                "profilesBolus": [
+                  {
+                    "isfSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 2
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "targetBgSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 7,
+                          "valueLow": 0,
+                          "valueHigh": 0
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {
+                        "targetBgLow": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ],
+                        "targetBgHigh": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ]
+                      },
+                      "dailyTotal": null
+                    },
+                    "insulinToCarbRatioSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 5.4
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 5.4
+                        },
+                        {
+                          "x": 24,
+                          "y": 5.4
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "bgCorrectionThresholdSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 7
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    }
+                  }
+                ],
+                "pumpProfilesBasal": [
+                  {
+                    "segments": {
+                      "profileName": "Basal 1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 6,
+                          "value": 1.25
+                        },
+                        {
+                          "segmentStart": 6,
+                          "duration": 10,
+                          "value": 2.2
+                        },
+                        {
+                          "segmentStart": 16,
+                          "duration": 7,
+                          "value": 2.5
+                        },
+                        {
+                          "segmentStart": 23,
+                          "duration": 1,
+                          "value": 0.9
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 1.25
+                        },
+                        {
+                          "x": 6.000277777777778,
+                          "y": 1.25
+                        },
+                        {
+                          "x": 6.000277777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 6,
+                          "y": 1.25
+                        },
+                        {
+                          "x": 6,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 16.00027777777778,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 16.00027777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 16,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 16,
+                          "y": 2.5
+                        },
+                        {
+                          "x": 23.00027777777778,
+                          "y": 2.5
+                        },
+                        {
+                          "x": 23.00027777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 23,
+                          "y": 2.5
+                        },
+                        {
+                          "x": 23,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 24,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": 47.9
+                    }
+                  }
+                ]
+              },
+              "2022-05-25T19:10:16.000Z": {
+                "id": "628e710b1e30711b4a8fb024",
+                "syncTimestamp": "2022-05-25T19:10:16.000Z",
+                "displayableTimestamp": "2022-05-25T19:10:16.000Z",
+                "settingsTimestamp": null,
+                "settingsTimestampUtc": null,
+                "generalSettings": {
+                  "activeInsulinTime": 3.5,
+                  "bgMeterUnits": "mmoll",
+                  "bgGoalHigh": 7,
+                  "bgGoalLow": 6,
+                  "lowReservoirLevel": 12,
+                  "podExpiration": 1,
+                  "glucoseReminderEnabled": false,
+                  "alarmAutoOffEnabled": false,
+                  "reminderAlertsEnabled": true,
+                  "confidenceAlertsEnabled": true,
+                  "soundEnabled": true,
+                  "bolusIncrement": 0.05,
+                  "language": "English"
+                },
+                "cgmSettings": {},
+                "hybridClosedLoopSettings": {},
+                "basalSettings": {
+                  "maxBasalRate": 10,
+                  "tempBasalMethod": "unit_per_hour",
+                  "tempBasalEnabled": true,
+                  "activeBasalProgram": "Basal 1"
+                },
+                "bolusSettings": {
+                  "bolusCalculatorMinBg": 3.6,
+                  "bolusCalculatorEnabled": true,
+                  "bolusExtendedEnabled": true,
+                  "bolusReverseCorrectionEnabled": true,
+                  "maxBolus": 25,
+                  "bolusReminderOptionsEnabled": false
+                },
+                "deviceGuid": "e8662d63-c2dc-4ddf-8b21-99727cfae656",
+                "profilesBolus": [
+                  {
+                    "isfSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 2
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "targetBgSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 7,
+                          "valueLow": 0,
+                          "valueHigh": 0
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {
+                        "targetBgLow": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ],
+                        "targetBgHigh": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ]
+                      },
+                      "dailyTotal": null
+                    },
+                    "insulinToCarbRatioSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 5.4
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 5.4
+                        },
+                        {
+                          "x": 24,
+                          "y": 5.4
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "bgCorrectionThresholdSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 7
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    }
+                  }
+                ],
+                "pumpProfilesBasal": [
+                  {
+                    "segments": {
+                      "profileName": "Basal 1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 6,
+                          "value": 1.25
+                        },
+                        {
+                          "segmentStart": 6,
+                          "duration": 10,
+                          "value": 2.2
+                        },
+                        {
+                          "segmentStart": 16,
+                          "duration": 7,
+                          "value": 2.5
+                        },
+                        {
+                          "segmentStart": 23,
+                          "duration": 1,
+                          "value": 0.9
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 1.25
+                        },
+                        {
+                          "x": 6.000277777777778,
+                          "y": 1.25
+                        },
+                        {
+                          "x": 6.000277777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 6,
+                          "y": 1.25
+                        },
+                        {
+                          "x": 6,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 16.00027777777778,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 16.00027777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 16,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 16,
+                          "y": 2.5
+                        },
+                        {
+                          "x": 23.00027777777778,
+                          "y": 2.5
+                        },
+                        {
+                          "x": 23.00027777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 23,
+                          "y": 2.5
+                        },
+                        {
+                          "x": 23,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 24,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": 47.9
+                    }
+                  }
+                ]
+              },
+              "2022-07-24T11:43:31.000Z": {
+                "id": "62dd225b292fcb287d58f8b8",
+                "syncTimestamp": "2022-07-24T11:43:31.000Z",
+                "displayableTimestamp": "2022-07-24T11:43:31.000Z",
+                "settingsTimestamp": null,
+                "settingsTimestampUtc": null,
+                "generalSettings": {
+                  "activeInsulinTime": 3.5,
+                  "bgMeterUnits": "mmoll",
+                  "bgGoalHigh": 7,
+                  "bgGoalLow": 6,
+                  "lowReservoirLevel": 12,
+                  "podExpiration": 1,
+                  "glucoseReminderEnabled": false,
+                  "alarmAutoOffEnabled": false,
+                  "reminderAlertsEnabled": true,
+                  "confidenceAlertsEnabled": true,
+                  "soundEnabled": true,
+                  "bolusIncrement": 0.05,
+                  "language": "English"
+                },
+                "cgmSettings": {},
+                "hybridClosedLoopSettings": {},
+                "basalSettings": {
+                  "maxBasalRate": 10,
+                  "tempBasalMethod": "unit_per_hour",
+                  "tempBasalEnabled": true,
+                  "activeBasalProgram": "Basal 1"
+                },
+                "bolusSettings": {
+                  "bolusCalculatorMinBg": 3.6,
+                  "bolusCalculatorEnabled": true,
+                  "bolusExtendedEnabled": true,
+                  "bolusReverseCorrectionEnabled": true,
+                  "maxBolus": 25,
+                  "bolusReminderOptionsEnabled": false
+                },
+                "deviceGuid": "e8662d63-c2dc-4ddf-8b21-99727cfae656",
+                "profilesBolus": [
+                  {
+                    "isfSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 2
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "targetBgSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 7,
+                          "valueLow": 0,
+                          "valueHigh": 0
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {
+                        "targetBgLow": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ],
+                        "targetBgHigh": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ]
+                      },
+                      "dailyTotal": null
+                    },
+                    "insulinToCarbRatioSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 5.4
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 5.4
+                        },
+                        {
+                          "x": 24,
+                          "y": 5.4
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "bgCorrectionThresholdSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 7
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    }
+                  }
+                ],
+                "pumpProfilesBasal": [
+                  {
+                    "segments": {
+                      "profileName": "Basal 1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 6,
+                          "value": 1.25
+                        },
+                        {
+                          "segmentStart": 6,
+                          "duration": 10,
+                          "value": 2.2
+                        },
+                        {
+                          "segmentStart": 16,
+                          "duration": 7,
+                          "value": 2.5
+                        },
+                        {
+                          "segmentStart": 23,
+                          "duration": 1,
+                          "value": 0.9
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 1.25
+                        },
+                        {
+                          "x": 6.000277777777778,
+                          "y": 1.25
+                        },
+                        {
+                          "x": 6.000277777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 6,
+                          "y": 1.25
+                        },
+                        {
+                          "x": 6,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 16.00027777777778,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 16.00027777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 16,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 16,
+                          "y": 2.5
+                        },
+                        {
+                          "x": 23.00027777777778,
+                          "y": 2.5
+                        },
+                        {
+                          "x": 23.00027777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 23,
+                          "y": 2.5
+                        },
+                        {
+                          "x": 23,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 24,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": 47.9
+                    }
+                  }
+                ]
+              }
+            },
+            "bf488665-5de0-42da-910f-63535cd3ced5": {
+              "2022-04-23T09:25:55.000Z": {
+                "id": "6263b81cc6091c96c9ca0df7",
+                "syncTimestamp": "2022-04-23T09:25:55.000Z",
+                "displayableTimestamp": "2022-04-23T09:25:55.000Z",
+                "settingsTimestamp": null,
+                "settingsTimestampUtc": null,
+                "generalSettings": {
+                  "activeInsulinTime": 3.5,
+                  "bgMeterUnits": "mmoll",
+                  "bgGoalHigh": 7,
+                  "bgGoalLow": 6,
+                  "lowReservoirLevel": 10,
+                  "podExpiration": 1
+                },
+                "cgmSettings": {},
+                "hybridClosedLoopSettings": {},
+                "basalSettings": {
+                  "maxBasalRate": 6,
+                  "tempBasalMethod": "unit_per_hour",
+                  "tempBasalEnabled": true,
+                  "activeBasalProgram": "Basal 1"
+                },
+                "bolusSettings": {
+                  "bolusCalculatorMinBg": 3.4,
+                  "bolusCalculatorEnabled": true,
+                  "bolusExtendedEnabled": true,
+                  "bolusReverseCorrectionEnabled": true,
+                  "maxBolus": 20
+                },
+                "deviceGuid": "bf488665-5de0-42da-910f-63535cd3ced5",
+                "profilesBolus": [
+                  {
+                    "isfSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 2
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "targetBgSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 6,
+                          "valueLow": 0,
+                          "valueHigh": 0
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 6
+                        },
+                        {
+                          "x": 24,
+                          "y": 6
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {
+                        "targetBgLow": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ],
+                        "targetBgHigh": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ]
+                      },
+                      "dailyTotal": null
+                    },
+                    "insulinToCarbRatioSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 5.4
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 5.4
+                        },
+                        {
+                          "x": 24,
+                          "y": 5.4
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "bgCorrectionThresholdSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 7
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    }
+                  }
+                ],
+                "pumpProfilesBasal": [
+                  {
+                    "segments": {
+                      "profileName": "Basal 1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 6,
+                          "value": 1.25
+                        },
+                        {
+                          "segmentStart": 6,
+                          "duration": 10,
+                          "value": 2.2
+                        },
+                        {
+                          "segmentStart": 16,
+                          "duration": 7,
+                          "value": 2.5
+                        },
+                        {
+                          "segmentStart": 23,
+                          "duration": 1,
+                          "value": 0.9
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 1.25
+                        },
+                        {
+                          "x": 6.000277777777778,
+                          "y": 1.25
+                        },
+                        {
+                          "x": 6.000277777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 6,
+                          "y": 1.25
+                        },
+                        {
+                          "x": 6,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 16.00027777777778,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 16.00027777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 16,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 16,
+                          "y": 2.5
+                        },
+                        {
+                          "x": 23.00027777777778,
+                          "y": 2.5
+                        },
+                        {
+                          "x": 23.00027777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 23,
+                          "y": 2.5
+                        },
+                        {
+                          "x": 23,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 24,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": 47.9
+                    }
+                  }
+                ]
+              },
+              "2022-09-02T17:23:51.000Z": {
+                "id": "63122e1fc6091c72472bccf4",
+                "syncTimestamp": "2022-09-02T17:23:51.000Z",
+                "displayableTimestamp": "2022-09-02T17:23:51.000Z",
+                "settingsTimestamp": null,
+                "settingsTimestampUtc": null,
+                "generalSettings": {
+                  "activeInsulinTime": 4,
+                  "bgMeterUnits": "mmoll",
+                  "bgGoalHigh": 7,
+                  "bgGoalLow": 6,
+                  "lowReservoirLevel": 20,
+                  "podExpiration": 1,
+                  "glucoseReminderEnabled": false,
+                  "alarmAutoOffEnabled": false,
+                  "reminderAlertsEnabled": true,
+                  "confidenceAlertsEnabled": true,
+                  "soundEnabled": true,
+                  "bolusIncrement": 0.05,
+                  "language": "English"
+                },
+                "cgmSettings": {},
+                "hybridClosedLoopSettings": {},
+                "basalSettings": {
+                  "maxBasalRate": 6,
+                  "tempBasalMethod": "unit_per_hour",
+                  "tempBasalEnabled": true,
+                  "activeBasalProgram": "Basal 1"
+                },
+                "bolusSettings": {
+                  "bolusCalculatorMinBg": 3.4,
+                  "bolusCalculatorEnabled": true,
+                  "bolusExtendedEnabled": true,
+                  "bolusReverseCorrectionEnabled": true,
+                  "maxBolus": 25,
+                  "bolusReminderOptionsEnabled": false
+                },
+                "deviceGuid": "bf488665-5de0-42da-910f-63535cd3ced5",
+                "profilesBolus": [
+                  {
+                    "isfSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 2.5
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 2.5
+                        },
+                        {
+                          "x": 24,
+                          "y": 2.5
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "targetBgSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 6,
+                          "valueLow": 0,
+                          "valueHigh": 0
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 6
+                        },
+                        {
+                          "x": 24,
+                          "y": 6
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {
+                        "targetBgLow": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ],
+                        "targetBgHigh": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ]
+                      },
+                      "dailyTotal": null
+                    },
+                    "insulinToCarbRatioSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 5.2
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 5.2
+                        },
+                        {
+                          "x": 24,
+                          "y": 5.2
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "bgCorrectionThresholdSegments": {
+                      "profileName": "1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 7
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": 7
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    }
+                  }
+                ],
+                "pumpProfilesBasal": [
+                  {
+                    "segments": {
+                      "profileName": "Basal 1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 6,
+                          "value": 0.9
+                        },
+                        {
+                          "segmentStart": 6,
+                          "duration": 10,
+                          "value": 2.2
+                        },
+                        {
+                          "segmentStart": 16,
+                          "duration": 7,
+                          "value": 2.3
+                        },
+                        {
+                          "segmentStart": 23,
+                          "duration": 1,
+                          "value": 0.9
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 6.000277777777778,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 6.000277777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 6,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 6,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 16.00027777777778,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 16.00027777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 16,
+                          "y": 2.2
+                        },
+                        {
+                          "x": 16,
+                          "y": 2.3
+                        },
+                        {
+                          "x": 23.00027777777778,
+                          "y": 2.3
+                        },
+                        {
+                          "x": 23.00027777777778,
+                          "y": null
+                        },
+                        {
+                          "x": 23,
+                          "y": 2.3
+                        },
+                        {
+                          "x": 23,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 24,
+                          "y": 0.9
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": 44.4
+                    }
+                  }
+                ]
+              }
+            },
+            "b1ef3455-e966-4292-a2a6-f2c512fe09d0": {
+              "2025-12-25T14:23:51.016Z": {
+                "id": "694d48f72567a5002dae3360",
+                "syncTimestamp": "2025-12-25T14:23:51.016Z",
+                "displayableTimestamp": "2025-12-25T14:23:51.016Z",
+                "settingsTimestamp": null,
+                "settingsTimestampUtc": null,
+                "generalSettings": {
+                  "activeInsulinTime": 6
+                },
+                "cgmSettings": {},
+                "hybridClosedLoopSettings": {},
+                "basalSettings": {
+                  "maxBasalRate": 8,
+                  "tempBasalEnabled": true
+                },
+                "bolusSettings": {
+                  "bolusCalculatorMinBg": 3.9,
+                  "bolusExtendedEnabled": true,
+                  "bolusReverseCorrectionEnabled": true,
+                  "maxBolus": 25
+                },
+                "deviceGuid": "b1ef3455-e966-4292-a2a6-f2c512fe09d0",
+                "profilesBolus": [
+                  {
+                    "isfSegments": {
+                      "profileName": "Profile",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 2
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "targetBgSegments": {
+                      "profileName": "Profile",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 6.1,
+                          "valueLow": 0,
+                          "valueHigh": 0
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 6.1
+                        },
+                        {
+                          "x": 24,
+                          "y": 6.1
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {
+                        "targetBgLow": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ],
+                        "targetBgHigh": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ]
+                      },
+                      "dailyTotal": null
+                    },
+                    "insulinToCarbRatioSegments": {
+                      "profileName": "Profile",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 8
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 8
+                        },
+                        {
+                          "x": 24,
+                          "y": 8
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "bgCorrectionThresholdSegments": {
+                      "profileName": "Profile",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 11.1
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 11.1
+                        },
+                        {
+                          "x": 24,
+                          "y": 11.1
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    }
+                  }
+                ],
+                "pumpProfilesBasal": []
+              },
+              "2026-01-12T14:48:18.375Z": {
+                "id": "696509b32567a514f78eb969",
+                "syncTimestamp": "2026-01-12T14:48:18.375Z",
+                "displayableTimestamp": "2026-01-12T14:48:18.375Z",
+                "settingsTimestamp": null,
+                "settingsTimestampUtc": null,
+                "generalSettings": {
+                  "activeInsulinTime": 3,
+                  "activeCgm": "DEXCOM_G7"
+                },
+                "cgmSettings": {},
+                "hybridClosedLoopSettings": {},
+                "basalSettings": {
+                  "maxBasalRate": 8,
+                  "tempBasalEnabled": true,
+                  "activeBasalProgram": "Basal 1"
+                },
+                "bolusSettings": {
+                  "bolusCalculatorMinBg": 3.9,
+                  "bolusExtendedEnabled": false,
+                  "bolusReverseCorrectionEnabled": true,
+                  "maxBolus": 25
+                },
+                "deviceGuid": "b1ef3455-e966-4292-a2a6-f2c512fe09d0",
+                "profilesBolus": [
+                  {
+                    "isfSegments": {
+                      "profileName": "Profile",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 2
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "targetBgSegments": {
+                      "profileName": "Profile",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 6.1,
+                          "valueLow": 0,
+                          "valueHigh": 0
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 6.1
+                        },
+                        {
+                          "x": 24,
+                          "y": 6.1
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {
+                        "targetBgLow": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ],
+                        "targetBgHigh": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ]
+                      },
+                      "dailyTotal": null
+                    },
+                    "insulinToCarbRatioSegments": {
+                      "profileName": "Profile",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 8
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 8
+                        },
+                        {
+                          "x": 24,
+                          "y": 8
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "bgCorrectionThresholdSegments": {
+                      "profileName": "Profile",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 6.1
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 6.1
+                        },
+                        {
+                          "x": 24,
+                          "y": 6.1
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    }
+                  }
+                ],
+                "pumpProfilesBasal": [
+                  {
+                    "segments": {
+                      "profileName": "Basal 1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 2
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": 48
+                    }
+                  }
+                ]
+              },
+              "2026-01-15T21:32:27.289Z": {
+                "id": "69695cef2567a51097a99440",
+                "syncTimestamp": "2026-01-15T21:32:27.289Z",
+                "displayableTimestamp": "2026-01-15T21:32:27.289Z",
+                "settingsTimestamp": null,
+                "settingsTimestampUtc": null,
+                "generalSettings": {
+                  "activeInsulinTime": 3,
+                  "activeCgm": "DEXCOM_G7"
+                },
+                "cgmSettings": {},
+                "hybridClosedLoopSettings": {},
+                "basalSettings": {
+                  "maxBasalRate": 5,
+                  "tempBasalEnabled": true,
+                  "activeBasalProgram": "Basal 1"
+                },
+                "bolusSettings": {
+                  "bolusCalculatorMinBg": 3.9,
+                  "bolusExtendedEnabled": false,
+                  "bolusReverseCorrectionEnabled": true,
+                  "maxBolus": 25
+                },
+                "deviceGuid": "b1ef3455-e966-4292-a2a6-f2c512fe09d0",
+                "profilesBolus": [
+                  {
+                    "isfSegments": {
+                      "profileName": "Profile",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 2
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "targetBgSegments": {
+                      "profileName": "Profile",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 6.1,
+                          "valueLow": 0,
+                          "valueHigh": 0
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 6.1
+                        },
+                        {
+                          "x": 24,
+                          "y": 6.1
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {
+                        "targetBgLow": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ],
+                        "targetBgHigh": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ]
+                      },
+                      "dailyTotal": null
+                    },
+                    "insulinToCarbRatioSegments": {
+                      "profileName": "Profile",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 6
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 6
+                        },
+                        {
+                          "x": 24,
+                          "y": 6
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "bgCorrectionThresholdSegments": {
+                      "profileName": "Profile",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 6.1
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 6.1
+                        },
+                        {
+                          "x": 24,
+                          "y": 6.1
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    }
+                  }
+                ],
+                "pumpProfilesBasal": [
+                  {
+                    "segments": {
+                      "profileName": "Basal 1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 2
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": 48
+                    }
+                  }
+                ]
+              },
+              "2026-02-05T01:04:40.189Z": {
+                "id": "6983ecaa2567a50ac72da3cb",
+                "syncTimestamp": "2026-02-05T01:04:40.189Z",
+                "displayableTimestamp": "2026-02-05T01:04:40.189Z",
+                "settingsTimestamp": null,
+                "settingsTimestampUtc": null,
+                "generalSettings": {
+                  "activeInsulinTime": 2,
+                  "activeCgm": "DEXCOM_G7"
+                },
+                "cgmSettings": {},
+                "hybridClosedLoopSettings": {},
+                "basalSettings": {
+                  "maxBasalRate": 5,
+                  "tempBasalEnabled": true,
+                  "activeBasalProgram": "Basal 1"
+                },
+                "bolusSettings": {
+                  "bolusCalculatorMinBg": 3.9,
+                  "bolusExtendedEnabled": false,
+                  "bolusReverseCorrectionEnabled": true,
+                  "maxBolus": 25
+                },
+                "deviceGuid": "b1ef3455-e966-4292-a2a6-f2c512fe09d0",
+                "profilesBolus": [
+                  {
+                    "isfSegments": {
+                      "profileName": "Profile",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 2
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "targetBgSegments": {
+                      "profileName": "Profile",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 6.1,
+                          "valueLow": 0,
+                          "valueHigh": 0
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 6.1
+                        },
+                        {
+                          "x": 24,
+                          "y": 6.1
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {
+                        "targetBgLow": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ],
+                        "targetBgHigh": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ]
+                      },
+                      "dailyTotal": null
+                    },
+                    "insulinToCarbRatioSegments": {
+                      "profileName": "Profile",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 6
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 6
+                        },
+                        {
+                          "x": 24,
+                          "y": 6
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "bgCorrectionThresholdSegments": {
+                      "profileName": "Profile",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 6.1
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 6.1
+                        },
+                        {
+                          "x": 24,
+                          "y": 6.1
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    }
+                  }
+                ],
+                "pumpProfilesBasal": [
+                  {
+                    "segments": {
+                      "profileName": "Basal 1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 2
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": 48
+                    }
+                  }
+                ]
+              },
+              "2026-02-07T22:20:58.393Z": {
+                "id": "6987bacc2567a525e6de51cc",
+                "syncTimestamp": "2026-02-07T22:20:58.393Z",
+                "displayableTimestamp": "2026-02-07T22:20:58.393Z",
+                "settingsTimestamp": null,
+                "settingsTimestampUtc": null,
+                "generalSettings": {
+                  "activeInsulinTime": 2,
+                  "activeCgm": "DEXCOM_G7"
+                },
+                "cgmSettings": {},
+                "hybridClosedLoopSettings": {},
+                "basalSettings": {
+                  "maxBasalRate": 5,
+                  "tempBasalEnabled": true,
+                  "activeBasalProgram": "Basal 1"
+                },
+                "bolusSettings": {
+                  "bolusCalculatorMinBg": 3.9,
+                  "bolusExtendedEnabled": false,
+                  "bolusReverseCorrectionEnabled": true,
+                  "maxBolus": 25
+                },
+                "deviceGuid": "b1ef3455-e966-4292-a2a6-f2c512fe09d0",
+                "profilesBolus": [
+                  {
+                    "isfSegments": {
+                      "profileName": "Profile",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 2
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "targetBgSegments": {
+                      "profileName": "Profile",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 6.1,
+                          "valueLow": 0,
+                          "valueHigh": 0
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 6.1
+                        },
+                        {
+                          "x": 24,
+                          "y": 6.1
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {
+                        "targetBgLow": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ],
+                        "targetBgHigh": [
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 0,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          },
+                          {
+                            "x": 24,
+                            "y": null
+                          }
+                        ]
+                      },
+                      "dailyTotal": null
+                    },
+                    "insulinToCarbRatioSegments": {
+                      "profileName": "Profile",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 5.5
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 5.5
+                        },
+                        {
+                          "x": 24,
+                          "y": 5.5
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    },
+                    "bgCorrectionThresholdSegments": {
+                      "profileName": "Profile",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 6.1
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 6.1
+                        },
+                        {
+                          "x": 24,
+                          "y": 6.1
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": null
+                    }
+                  }
+                ],
+                "pumpProfilesBasal": [
+                  {
+                    "segments": {
+                      "profileName": "Basal 1",
+                      "current": true,
+                      "data": [
+                        {
+                          "segmentStart": 0,
+                          "duration": 24,
+                          "value": 2
+                        }
+                      ],
+                      "graphData": [
+                        {
+                          "x": 0,
+                          "y": null
+                        },
+                        {
+                          "x": 0,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": 2
+                        },
+                        {
+                          "x": 24,
+                          "y": null
+                        }
+                      ],
+                      "additionalGraphData": {},
+                      "dailyTotal": 48
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "meters": {}
+        },
+        "activePumpGuid": "b1ef3455-e966-4292-a2a6-f2c512fe09d0"
+      }
     }
+  },
+  "summary": {
+    "authenticationSuccess": true,
+    "patientIdExtracted": true,
+    "successfulEndpoints": 9,
+    "totalEndpoints": 9,
+    "processedReadings": 0,
+    "processedTreatments": 0
   }
 }
