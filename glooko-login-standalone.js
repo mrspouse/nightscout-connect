@@ -4,37 +4,18 @@
 * 
 * https://github.com/nightscout/nightscout-connect/issues/14#issuecomment-3239520325
 * Lorenzo Sandini
-* Puppeteer browser authentication - standalone version
+* Uses Puppeteer browser authentication to trigger Omnipod 5 sync
 * 
 */
 
 const puppeteer = require('puppeteer');
 const axios = require('axios');
+
+// Test config - remove for production
 const fs = require('fs');
-
-console.log('🎯 COMPLETE GLOOKO INTEGRATION');
-console.log('==============================');
-console.log('This script demonstrates:');
-console.log('1. ✅ Login to Glooko using Puppeteer');
-console.log('2. ✅ Automatic patient ID extraction from DOM');
-console.log('3. ✅ API authentication with extracted cookies');
-console.log('4. ✅ Data retrieval using the patient ID');
-console.log('');
-
-// configuration
-const { loadGlookoConfig } = require('./lib/sources/glooko/loadConfig.js');
+const { loadGlookoConfig } = require('./loadConfig.js');
 const { spec, opts } = loadGlookoConfig();
-
-// Then call validate:
-// const glookoSource = require('./index');
-// const result = glookoSource.validate(opts);
-
-// if (result.ok) {
-//   console.log('Glooko config valid:', result.config);
-//   // Use result.config for driver generation
-// } else {
-//   console.error('Validation errors:', result.errors);
-// }
+//
 
 const config = {
   email: opts.glookoEmail,
@@ -45,7 +26,7 @@ const config = {
   timezoneOffset: opts.glookoTimezoneOffset
 };
 
-console.log('📋 Configuration:');
+console.log('Configuration:');
 console.log(`   Email: ${config.email}`);
 console.log(`   Environment: ${config.env}`);
 console.log(`   Web URL: ${config.webUrl}`);
@@ -54,7 +35,7 @@ console.log('');
 
 function constructApiUrl(endpoint, patientId, series) {
   const now = new Date();
-  const days = 8;
+  const days = 4;
   const daysAgo = new Date(now.getTime() - (days * 24 * 60 * 60 * 1000));
   
   // V2 endpoints need lastUpdatedAt, lastGuid, and limit
@@ -77,8 +58,9 @@ function constructApiUrl(endpoint, patientId, series) {
 
 async function glookoConnect() {
   let browser;
+  
   try {
-    console.log('🚀 Launching Puppeteer browser...');
+    console.log('Launching Puppeteer browser');
     browser = await puppeteer.launch({
       headless: true,
       args: [
@@ -94,14 +76,14 @@ async function glookoConnect() {
 
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
-
-    console.log('📋 Navigating to login page...');
+    
+    console.log('Navigating to login page');
     await page.goto(config.webUrl + '/users/sign_in', {
       waitUntil: 'networkidle0',
       timeout: 30000
     });
     
-    console.log('📋 Submitting login...');
+    console.log('Submitting login');
     await page.type('input[name="user[email]"]', config.email);
     await page.type('input[name="user[password]"]', config.password);
     
@@ -118,7 +100,6 @@ async function glookoConnect() {
     console.log(`\n✅ Extracted ${cookies.length} session cookies`);
 
     // Get Patient ID and sync timestamps from session API
-    console.log('📋 Getting Patient ID...');
     await new Promise(resolve => setTimeout(resolve, 3000));
 
     const userHttp = axios.create({ 
@@ -135,10 +116,8 @@ async function glookoConnect() {
       }
     });
 
-    console.log('userHttp', userHttp);
     const response = await userHttp.get('https://eu.my.glooko.com/api/v3/session/users');
     const { currentUser } = response.data;
-    console.log('response', response.data);
     const { glookoCode, lastSyncTimestamps } = currentUser;
     const patientId = glookoCode;
     // get pump timestamp from overall timestamps object
@@ -171,26 +150,23 @@ async function glookoConnect() {
         'Sec-Fetch-Site': 'same-site'
       }
     });
- 
     
     // Keep original endpoints and add reservoir change and insulin per day from V3 API
     const endpoints = [
       { name: 'Foods', url: '/api/v2/foods', requiresPatient: false },
       { name: 'Insulins', url: '/api/v2/insulins', requiresPatient: false },
-      { name: 'Pump Settings', url: '/api/v2/pumps/settings', requiresPatient: false },
       { name: 'Pump Bolus', url: '/api/v2/pumps/normal_boluses', requiresPatient: false },
       { name: 'Pump Basal', url: '/api/v2/pumps/scheduled_basals', requiresPatient: false },
       { name: 'CGM Readings', url: '/api/v2/cgm/readings', requiresPatient: false },
       { name: 'Reservoir Change', url: '/api/v3/graph/data', requiresPatient: true, series: 'reservoirChange' },
       { name: 'Insulin Per Day', url: '/api/v3/graph/data', requiresPatient: true, series: 'totalInsulinPerDay' },
-      { name: 'Last Sync', url: '/api/v3/devices_and_settings', requiresPatient: true, series: false }
     ];
     
     const results = {};
     
     for (const endpoint of endpoints) {
       try {
-        console.log(`📋 Testing ${endpoint.name}...`);
+        console.log(`📋 Fetching ${endpoint.name}...`);
         
         const url = endpoint.requiresPatient 
           ? constructApiUrl(endpoint.url, patientId, endpoint.series)
@@ -207,10 +183,10 @@ async function glookoConnect() {
           const dataSize = Array.isArray(response.data) ? response.data.length : 
                           typeof response.data === 'object' ? Object.keys(response.data).length : 1;
           
-          console.log(`   📊 Data type: ${dataType}, size: ${dataSize} items`);
+          // console.log(`   📊 Data type: ${dataType}, size: ${dataSize} items`);
           
           if (Array.isArray(response.data) && response.data.length > 0) {
-            console.log(`   📊 Sample keys: ${Object.keys(response.data[0] || {}).slice(0, 5).join(', ')}`);
+            // console.log(`   📊 Sample keys: ${Object.keys(response.data[0] || {}).slice(0, 5).join(', ')}`);
           }
           
           results[endpoint.name] = {
@@ -243,97 +219,18 @@ async function glookoConnect() {
       }
     }
     
-    console.log('\n🔄 STEP 5: DATA PROCESSING DEMO');
-    console.log('===============================');
-    
-    let processedReadings = 0;
-    let processedTreatments = 0;
-    
-    // Simulate Nightscout data processing
-    for (const [endpointName, result] of Object.entries(results)) {
-      if (result.success && Array.isArray(result.data)) {
-        if (endpointName === 'CGM Readings') {
-          console.log(`📋 Processing ${result.dataSize} CGM readings...`);
-          
-          const mockEntries = result.data.slice(0, 3).map((reading, index) => ({
-            date: new Date().getTime() - (index * 5 * 60 * 1000),
-            dateString: new Date(Date.now() - (index * 5 * 60 * 1000)).toISOString(),
-            sgv: reading.value || 120 + (Math.random() - 0.5) * 40,
-            type: 'sgv',
-            direction: 'Flat',
-            device: 'glooko-cgm'
-          }));
-          
-          processedReadings = mockEntries.length;
-          console.log(`✅ Converted to ${processedReadings} Nightscout entries`);
-          
-        } else if (endpointName.includes('Pump')) {
-          console.log(`📋 Processing ${result.dataSize} pump records...`);
-          processedTreatments += result.dataSize;
-          console.log(`✅ Converted to ${result.dataSize} treatments`);
-        }
-      }
-    }
-    
-    console.log('\n📊 INTEGRATION SUMMARY');
-    console.log('======================');
-    
-    const successfulEndpoints = Object.values(results).filter(r => r.success).length;
-    const totalEndpoints = Object.keys(results).length;
-    
-    console.log(`🔐 Authentication: ✅ SUCCESS`);
-    console.log(`👤 Patient ID: ✅ ${patientId} (auto-extracted)`);
-    console.log(`🌐 API Endpoints: ${successfulEndpoints}/${totalEndpoints} successful`);
-    console.log(`📈 Glucose Readings: ${processedReadings} processed`);
-    console.log(`💉 Treatments: ${processedTreatments} processed`);
-    
-    console.log('\n🎯 FINAL STATUS');
-    console.log('===============');
-    
-    if (successfulEndpoints >= 2) {
-      console.log('🎉 SUCCESS: Complete Glooko integration working!');
-      console.log('   ✅ Automatic login with Puppeteer');
-      console.log('   ✅ Patient ID extraction from DOM');
-      console.log('   ✅ Session cookie transfer to API calls');
-      console.log('   ✅ Data retrieval and processing');
-      console.log('');
-      console.log('🚀 Ready for Nightscout Connect integration!');
-    } else {
-      console.log('❌ PARTIAL: Some endpoints failed');
-      console.log('   Authentication and patient ID extraction work,');
-      console.log('   but data endpoints need further investigation.');
-    }
-    
-    // Save summary
-    const summary = {
+    // collate batch output for processing
+    const batch = {
+      patientId,
       timestamp: new Date().toISOString(),
-      patientId,
-      results,
-      summary: {
-        authenticationSuccess: true,
-        patientIdExtracted: true,
-        successfulEndpoints,
-        totalEndpoints,
-        processedReadings,
-        processedTreatments
-      }
+      lastPumpSyncTimestamp,
+      results
     };
-    
-    fs.writeFileSync('glooko-integration-summary.json', JSON.stringify(summary, null, 2));
-    console.log('\n📄 Detailed summary saved to glooko-integration-summary.json');
-    
-    return {
-      success: true,
-      patientId,
-      authenticationWorking: true,
-      patientIdWorking: true,
-      apiWorking: successfulEndpoints >= 2,
-      readyForNightscout: successfulEndpoints >= 2
-    };
+    return batch;
     
   } catch (error) {
-    console.error('\n❌ INTEGRATION FAILED');
-    console.error('====================');
+    console.error('\n❌ API FAILED');
+    console.error('=============');
     console.error('Error:', error.message);
     
     return {
@@ -347,19 +244,15 @@ async function glookoConnect() {
   }
 }
 
-// Run the complete integration
+module.exports = { glookoConnect };
+
+// Test integration - remove for production
 glookoConnect().then(result => {
   console.log('\n🏁 SCRIPT COMPLETE');
-  console.log('==================');
   
-  if (result.success && result.readyForNightscout) {
-    console.log('🎉 SUCCESS: Full integration verified!');
-    console.log('   Patient ID:', result.patientId);
-    process.exit(0);
-  } else {
-    console.log('❌ FAILED: Integration incomplete');
-    process.exit(1);
-  }
+  fs.writeFileSync('glooko-integration-summary.json', JSON.stringify(result, null, 2));
+  console.log('\n📄 Detailed summary saved to glooko-integration-summary.json');
+    
 }).catch(error => {
   console.error('❌ SCRIPT ERROR:', error.message);
   process.exit(1);

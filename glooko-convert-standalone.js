@@ -53,6 +53,8 @@ function objects_from_daily_totals(results, endpointName) {
   var endpoint = results[endpointName] || {};
   var data = endpoint.data || {};
   var dayTotals = data.series?.dailyInsulinTotals;
+    console.log(dayTotals);
+
 
   if (!dayTotals || typeof dayTotals !== 'object' || Array.isArray(dayTotals)) {
     return undefined;
@@ -62,7 +64,6 @@ function objects_from_daily_totals(results, endpointName) {
     .sort()
     .map(function (mills) {
       return Object.assign({
-        mills: Number(mills),
         timestamp: new Date(Number(mills) * 1000).toISOString(),
       }, dayTotals[mills]);
     });
@@ -102,40 +103,6 @@ function generate_nightscout_treatments(batch, timestampDelta) {
   // console.log("DAY TOTALS  ", totalInsulinPerDay );
   // console.log("LAST SYNC  ", lastSync );
 
-  // devicestatus entry from last sync and total insulin
-  var devicestatus = [];
-  
-  if (totalInsulinPerDay && lastSync) {
-    var lastSyncMoment = moment(lastSync);
-
-    if (lastSyncMoment.isValid()) {
-      var lastSyncDate = lastSyncMoment.format('YYYY/MM/DD');
-      var lastSyncMills = Math.floor(lastSyncMoment.valueOf() / 1000);
-
-      InsulinPerDay = totalInsulinPerDay.map(function (entry) {
-        var entryMoment = moment(
-          entry.timestamp ||
-          (Number.isFinite(entry.mills)
-            ? new Date(entry.mills * 1000).toISOString()
-            : undefined)
-        );
-
-        if (!entryMoment.isValid()) {
-          return entry;
-        }
-
-        if (entryMoment.format('YYYY/MM/DD') === lastSyncDate) {
-          return Object.assign({}, entry, {
-            mills: lastSyncMills,
-            timestamp: lastSync,
-          });
-        }
-
-        return entry;
-      });
-    }
-  }
-
   var treatments = []
   
   if (foods) {
@@ -167,8 +134,6 @@ function generate_nightscout_treatments(batch, timestampDelta) {
         treatment.eventType = 'Meal Bolus';
         // 4 hours * 60 minutes per hour * 60 seconds per minute * 1000 millseconds
         treatment.eventTime = new Date(i_date ).toISOString( );
-        //treatment.eventTime = new Date(i_date).toISOString( );
-        //treatment.eventTime = i_date.toISOString( );
         treatment.insulin = insulin.value;
         
         treatment.preBolus = moment.duration(moment(f_date).diff(moment(i_date))).asMinutes();
@@ -176,8 +141,6 @@ function generate_nightscout_treatments(batch, timestampDelta) {
         var f_date = moment(element.timestamp);
         treatment.eventType = 'Carb Correction';
         treatment.eventTime = new Date(f_date ).toISOString( );
-        //treatment.eventTime = new Date(f_date).toISOString( );
-        //treatment.eventTime = f_date.toISOString( );
       }
 
       treatment.carbs = element.carbs;
@@ -198,8 +161,6 @@ function generate_nightscout_treatments(batch, timestampDelta) {
 
       var now = moment(f_date); //todays date
       var end = moment(f_s_date); // another date
-      var duration = moment.duration(now.diff(end));
-      var minutes = duration.asMinutes();
 
       var i_date = new Date();
       var result = foods.filter(function(el) {
@@ -215,7 +176,6 @@ function generate_nightscout_treatments(batch, timestampDelta) {
         treatment.eventType = 'Correction Bolus';
         treatment.eventTime = new Date(f_date).toISOString( );
         treatment.insulin = element.value;
-        //treatment.eventTime = f_date.toISOString( );
         treatments.push(treatment);
       }
     });    
@@ -250,7 +210,6 @@ function generate_nightscout_treatments(batch, timestampDelta) {
       treatment.absolute = element.rate;
       treatment.duration = element.duration / 60;
       treatment.notes = JSON.stringify(element);
-      //treatment.eventTime = f_date.toISOString( );
       treatments.push(treatment);
     })
   }
@@ -272,31 +231,43 @@ function generate_nightscout_treatments(batch, timestampDelta) {
       var siteChangeTreatment = {};
       siteChangeTreatment.eventType = 'Pump Site Change';
       siteChangeTreatment.created_at = new Date(f_date + timestampDelta).toISOString();
+      siteChangeTreatment.eventTime = f_date.toISOString( );
       siteChangeTreatment.notes = JSON.stringify(element);
 
       treatments.push(siteChangeTreatment);
     });
   }
 
-  if (InsulinPerDay || lastSync) {
+  // devicestatus entry from last sync and total insulin
+  var devicestatus = [];
+  
+  if (totalInsulinPerDay && lastSync) {
     var deviceStatus = {
       created_at: lastSync || new Date().toISOString(),
-      device: 'Omnipod 5',
-      connect: {}
+      device: 'Insulet Omnipod® 5 System'
     };
     if (lastSync) {
-      deviceStatus.connect.lastSync = lastSync;
+      deviceStatus.lastSync = lastSync;
     }
-    if (InsulinPerDay) {
-      deviceStatus.connect.totalInsulinPerDay = totalInsulinPerDay;
+    if (totalInsulinPerDay) {
+      InsulinPerDay = totalInsulinPerDay.map(function (entry) {
+
+      if (moment(entry.timestamp).format('YYYY-MM-DD') === moment(lastSync).format('YYYY-MM-DD')) {
+        entry.timestamp = lastSync;
+      }
+      return entry;
+      });
+    
+      deviceStatus.InsulinPerDay = InsulinPerDay;
     }
+      console.log('deviceStatus', deviceStatus);
 
     devicestatus.push(deviceStatus);
   }
 
   console.log('GLOOKO processing complete, returning', treatments.length, 'treatments', 'and', devicestatus.length, 'devicestatus records');
-  console.log(treatments);
-  console.log(devicestatus);
+  // console.log(treatments);
+  // console.log(devicestatus);
   return { treatments, devicestatus };
 }
 
