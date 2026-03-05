@@ -251,11 +251,13 @@ function generate_nightscout_treatments(batch, timestampDelta) {
     }
     if (totalInsulinPerDay) {
       InsulinPerDay = totalInsulinPerDay.map(function (entry) {
-
-      if (moment(entry.timestamp).format('YYYY-MM-DD') === moment(lastSync).format('YYYY-MM-DD')) {
-        entry.timestamp = lastSync;
-      }
-      return entry;
+        var entryDay = moment(entry.timestamp).format('YYYY-MM-DD');
+        var lastSyncDay = moment(lastSync).format('YYYY-MM-DD');
+        var updated = Object.assign({}, entry);
+        if (entryDay === lastSyncDay) {
+          updated.timestamp = lastSync;
+        }
+        return updated;
       });
     
       deviceStatus.InsulinPerDay = InsulinPerDay;
