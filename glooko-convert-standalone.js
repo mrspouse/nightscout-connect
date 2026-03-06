@@ -214,6 +214,8 @@ function generate_nightscout_treatments(batch, timestampDelta) {
     })
   }
 
+ var latestSiteChangeTreatment = null;
+
  if (reservoirChange) {
     reservoirChange.forEach(function(element) {
       var baseTimestamp =
@@ -230,9 +232,13 @@ function generate_nightscout_treatments(batch, timestampDelta) {
 
       var siteChangeTreatment = {};
       siteChangeTreatment.eventType = 'Pump Site Change';
-      siteChangeTreatment.created_at = new Date(f_date + timestampDelta).toISOString();
-      siteChangeTreatment.eventTime = f_date.toISOString( );
+      var createdAt = new Date(f_date + timestampDelta).toISOString();
+      siteChangeTreatment.created_at = createdAt;
       siteChangeTreatment.notes = JSON.stringify(element);
+
+      if (!latestSiteChangeTreatment || createdAt > latestSiteChangeTreatment) {
+        latestSiteChangeTreatment = createdAt;
+      }
 
       treatments.push(siteChangeTreatment);
     });
@@ -250,15 +256,18 @@ function generate_nightscout_treatments(batch, timestampDelta) {
       deviceStatus.lastSync = lastSync;
     }
     if (totalInsulinPerDay) {
-      InsulinPerDay = totalInsulinPerDay.map(function (entry) {
-        var entryDay = moment(entry.timestamp).format('YYYY-MM-DD');
-        var lastSyncDay = moment(lastSync).format('YYYY-MM-DD');
-        var updated = Object.assign({}, entry);
-        if (entryDay === lastSyncDay) {
-          updated.timestamp = lastSync;
-        }
-        return updated;
-      });
+      InsulinPerDay = totalInsulinPerDay
+        .filter(function (entry) {
+          return !moment(entry.timestamp).isBefore(moment(latestSiteChangeTreatment),'day');
+        })
+        .map(function (entry) {       // returns one entry per day, timed at 12:00:00
+          // ignore entries prior to latest site change
+          var updated = Object.assign({}, entry);
+          if (moment(entry.timestamp).isSame(moment(lastSync),'day')) {
+            updated.timestamp = lastSync;
+          }
+          return updated;
+        });
     
       deviceStatus.InsulinPerDay = InsulinPerDay;
     }
