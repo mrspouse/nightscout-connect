@@ -8,7 +8,7 @@
 * 
 */
 
-const puppeteer = require('puppeteer');
+const { chromium } = require('playwright');
 const axios = require('axios');
 
 // Test config - remove for production
@@ -60,65 +60,68 @@ async function glookoConnect() {
   let browser;
   
   try {
-    console.log('Launching Puppeteer browser');
-    browser = await puppeteer.launch({
-      headless: true,
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage',
-        '--disable-accelerated-2d-canvas',
-        '--no-first-run',
-        '--no-zygote',
-        '--disable-gpu'
-      ]
+    console.log('Launching Playwright browser');
+    browser = await chromium.launch({ headless: true });
+    const context = await browser.newContext({
+      userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
     });
-
-    const page = await browser.newPage();
-    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+    const page = await context.newPage();
     
     console.log('Navigating to login page');
-    await page.goto(config.webUrl + '/users/sign_in', {
-      waitUntil: 'networkidle0',
-      timeout: 30000
-    });
+    await page.goto(config.webUrl + '/users/sign_in?locale=en-GB&redirect_to=/api/v3/session/users', { waitUntil: 'networkidle' });
     
-    console.log('Submitting login');
-    await page.type('input[name="user[email]"]', config.email);
-    await page.type('input[name="user[password]"]', config.password);
+    console.log('Logging in...');
+    await page.fill('input[type="email"], input[name="email"], #email, input[name="user[email]"]', config.email);
     
-    await Promise.all([
-      page.waitForNavigation({ waitUntil: 'networkidle0', timeout: 30000 }),
-      page.click('input[type="submit"]')
-    ]);
+    try {
+      await page.waitForSelector('input[type="password"], input[name="password"], #password, input[name="user[password]"]', { state: 'visible', timeout: 5000 });
+      await page.fill('input[type="password"], input[name="password"], #password, input[name="user[password]"]', config.password);
+    } catch(e) {
+      console.log('Password field not immediately visible. May require "Next" click.');
+      const nextBtn = await page.$('button[type="submit"], button:has-text("Next"), button:has-text("Continue"), input[type="submit"]');
+      if (nextBtn) await nextBtn.click();
+      
+      await page.waitForSelector('input[type="password"], input[name="password"], #password, input[name="user[password]"]', { state: 'visible' });
+      await page.fill('input[type="password"], input[name="password"], #password, input[name="user[password]"]', config.password);
+    }
+    
+    const submitBtn = await page.$('button[type="submit"], button:has-text("Log in"), button:has-text("Sign in"), input[type="submit"]');
+    if (submitBtn) await submitBtn.click();
+    else await page.keyboard.press('Enter');
+    
+    console.log('Waiting for authentication...');
+    await page.waitForTimeout(5000); // Wait a bit for navigation
     
     console.log('✅ Login successful!');
     
-    const cookies = await page.cookies();
+    const cookies = await context.cookies();
     const cookieHeader = cookies.map(cookie => `${cookie.name}=${cookie.value}`).join('; ');
 
     console.log(`\n✅ Extracted ${cookies.length} session cookies`);
 
-    // Get Patient ID and sync timestamps from session API
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    // Check if we reached the API response page
+    const currentUrl = page.url();
+    if (!currentUrl.includes('/api/v3/session/users')) {
+      throw new Error(`Did not redirect to expected URL. Current URL: ${currentUrl}`);
+    }
 
-    const userHttp = axios.create({ 
-      // baseURL: 'https://eu.my.glooko.com/api/v3/session/users', 
-      timeout: 30000,
-      headers: {
-        'Accept': 'application/json',
-        'Cookie': cookieHeader,
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15',
-        'Referer': config.webUrl,
-        'Sec-Fetch-Dest': 'empty',
-        'Sec-Fetch-Mode': 'cors',
-        'Sec-Fetch-Site': 'same-site'
+    const pageText = await page.evaluate(() => document.body.innerText);
+    let glookoCode = null;
+    let lastSyncTimestamps = null;
+
+    try {
+      const body = JSON.parse(pageText);
+      const user = body.currentUser || body.currentPatient || body;
+      
+      if (user && user.glookoCode) {
+        glookoCode = user.glookoCode;
+        lastSyncTimestamps = user.lastSyncTimestamps || {};
+      } else {
+        throw new Error('glookoCode not found in JSON response');
       }
-    });
-
-    const response = await userHttp.get('https://eu.my.glooko.com/api/v3/session/users');
-    const { currentUser } = response.data;
-    const { glookoCode, lastSyncTimestamps } = currentUser;
+    } catch(e) {
+      throw new Error('Failed to parse JSON from redirected page: ' + e.message);
+    }
     const patientId = glookoCode;
     // get pump timestamp from overall timestamps object
     const { pump } = lastSyncTimestamps;
