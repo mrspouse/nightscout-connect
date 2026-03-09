@@ -42,3 +42,5 @@ out*.json
 cursor*
 *.jsonl
 glooko-integration-summary.json
+venv/*
+.python-version
