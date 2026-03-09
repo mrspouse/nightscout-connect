@@ -1,15 +1,15 @@
-#!/usr/bin/env node
-
 /*
 * 
 * https://github.com/nightscout/nightscout-connect/issues/14#issuecomment-3239520325
 * Lorenzo Sandini
-* Uses Puppeteer browser authentication to trigger Omnipod 5 sync
+* Uses Playwright browser authentication to trigger Omnipod 5 sync
 * 
 */
 
-const puppeteer = require('puppeteer');
+const { chromium } = require('playwright');
 const axios = require('axios');
+const { execSync } = require('child_process');
+const days = 28;  // number of days to fetch data for
 
 // Test config - remove for production
 const fs = require('fs');
@@ -17,25 +17,35 @@ const { loadGlookoConfig } = require('./loadConfig.js');
 const { spec, opts } = loadGlookoConfig();
 //
 
-const config = {
-  email: opts.glookoEmail,
-  password: opts.glookoPassword,
-  env: opts.glookoEnv,
-  webUrl: 'https://eu.my.glooko.com',
-  apiUrl: 'https://eu.api.glooko.com',
-  timezoneOffset: opts.glookoTimezoneOffset
-};
-
-console.log('Configuration:');
-console.log(`   Email: ${config.email}`);
-console.log(`   Environment: ${config.env}`);
-console.log(`   Web URL: ${config.webUrl}`);
-console.log(`   API URL: ${config.apiUrl}`);
-console.log('');
+function checkEnvironmentDependencies() {
+  console.log('--- Environment Dependency Check ---');
+  const libs = [
+    'libnspr4.so', 'libnss3.so', 'libatk-1.0.so.0', 'libatk-bridge-2.0.so.0',
+    'libcups.so.2', 'libdrm.so.2', 'libxkbcommon.so.0', 'libXcomposite.so.1',
+    'libXdamage.so.1', 'libXrandr.so.2', 'libgbm.so.1', 'libasound.so.2'
+  ];
+  
+  let missing = [];
+  for (const lib of libs) {
+    try {
+      execSync(`ldconfig -p | grep ${lib}`, { stdio: 'ignore' });
+    } catch (e) {
+      missing.push(lib);
+    }
+  }
+  
+  if (missing.length > 0) {
+    console.log('⚠️  Potential missing system libraries:');
+    missing.forEach(lib => console.log(`   - ${lib}`));
+    console.log('   Run "sudo npx playwright install-deps" to fix.');
+  } else {
+    console.log('✅ All common system libraries are present.');
+  }
+  console.log('-----------------------------------');
+}
 
 function constructApiUrl(endpoint, patientId, series) {
   const now = new Date();
-  const days = 4;
   const daysAgo = new Date(now.getTime() - (days * 24 * 60 * 60 * 1000));
   
   // V2 endpoints need lastUpdatedAt, lastGuid, and limit
@@ -56,69 +66,110 @@ function constructApiUrl(endpoint, patientId, series) {
     apiSeries;
 }
 
-async function glookoConnect() {
+async function glookoConnect(opts) {
   let browser;
   
   try {
-    console.log('Launching Puppeteer browser');
-    browser = await puppeteer.launch({
-      headless: true,
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage',
-        '--disable-accelerated-2d-canvas',
-        '--no-first-run',
-        '--no-zygote',
-        '--disable-gpu'
-      ]
-    });
+    const config = {
+      email: opts.glookoEmail,
+      password: opts.glookoPassword,
+      env: opts.glookoEnv,
+      webUrl: 'https://eu.my.glooko.com',
+      apiUrl: 'https://eu.api.glooko.com',
+      timezoneOffset: opts.glookoTimezoneOffset
+    };
 
-    const page = await browser.newPage();
-    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+    console.log('Configuration:');
+    console.log(`   Email: ${config.email}`);
+    console.log(`   Environment: ${config.env}`);
+    console.log(`   Web URL: ${config.webUrl}`);
+    console.log(`   API URL: ${config.apiUrl}`);
+    console.log('');
+
+    checkEnvironmentDependencies();
+    
+    console.log('Launching Playwright browser');
+    const headless = process.env.CONNECT_GLOOKO_HEADLESS !== 'false';
+    const slowMo = parseInt(process.env.CONNECT_GLOOKO_SLOW_MO || '0', 10);
+    
+    console.log(`   Headless mode: ${headless}`);
+    
+    try {
+      browser = await chromium.launch({ 
+        headless,
+        slowMo,
+        args: ['--no-sandbox', '--disable-setuid-sandbox'] // Add sandbox flags for better compatibility
+      });
+    } catch (launchError) {
+      console.error('\n❌ CRITICAL: Failed to launch Playwright browser!');
+      console.error('Error Message:', launchError.message);
+      if (launchError.message.includes('executable doesn\'t exist')) {
+        console.error('👉 Tip: Try running "npx playwright install chromium"');
+      }
+      throw launchError;
+    }
+
+    const context = await browser.newContext({
+      userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+    });
+    const page = await context.newPage();
     
     console.log('Navigating to login page');
-    await page.goto(config.webUrl + '/users/sign_in', {
-      waitUntil: 'networkidle0',
-      timeout: 30000
-    });
+    await page.goto(config.webUrl + '/users/sign_in?locale=en-GB&redirect_to=/api/v3/session/users', { waitUntil: 'networkidle' });
     
-    console.log('Submitting login');
-    await page.type('input[name="user[email]"]', config.email);
-    await page.type('input[name="user[password]"]', config.password);
+    console.log('Logging in...');
+    await page.fill('input[type="email"], input[name="email"], #email, input[name="user[email]"]', config.email);
     
-    await Promise.all([
-      page.waitForNavigation({ waitUntil: 'networkidle0', timeout: 30000 }),
-      page.click('input[type="submit"]')
-    ]);
+    try {
+      await page.waitForSelector('input[type="password"], input[name="password"], #password, input[name="user[password]"]', { state: 'visible', timeout: 5000 });
+      await page.fill('input[type="password"], input[name="password"], #password, input[name="user[password]"]', config.password);
+    } catch(e) {
+      console.log('Password field not immediately visible. May require "Next" click.');
+      const nextBtn = await page.$('button[type="submit"], button:has-text("Next"), button:has-text("Continue"), input[type="submit"]');
+      if (nextBtn) await nextBtn.click();
+      
+      await page.waitForSelector('input[type="password"], input[name="password"], #password, input[name="user[password]"]', { state: 'visible' });
+      await page.fill('input[type="password"], input[name="password"], #password, input[name="user[password]"]', config.password);
+    }
+    
+    const submitBtn = await page.$('button[type="submit"], button:has-text("Log in"), button:has-text("Sign in"), input[type="submit"]');
+    if (submitBtn) await submitBtn.click();
+    else await page.keyboard.press('Enter');
+    
+    console.log('Waiting for authentication...');
+    await page.waitForTimeout(5000); // Wait a bit for navigation
     
     console.log('✅ Login successful!');
     
-    const cookies = await page.cookies();
+    console.log('Extracting session cookies...');
+    const cookies = await context.cookies();
     const cookieHeader = cookies.map(cookie => `${cookie.name}=${cookie.value}`).join('; ');
 
     console.log(`\n✅ Extracted ${cookies.length} session cookies`);
 
-    // Get Patient ID and sync timestamps from session API
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    // Check if we reached the API response page
+    const currentUrl = page.url();
+    if (!currentUrl.includes('/api/v3/session/users')) {
+      throw new Error(`Did not redirect to expected URL. Current URL: ${currentUrl}`);
+    }
 
-    const userHttp = axios.create({ 
-      // baseURL: 'https://eu.my.glooko.com/api/v3/session/users', 
-      timeout: 30000,
-      headers: {
-        'Accept': 'application/json',
-        'Cookie': cookieHeader,
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15',
-        'Referer': config.webUrl,
-        'Sec-Fetch-Dest': 'empty',
-        'Sec-Fetch-Mode': 'cors',
-        'Sec-Fetch-Site': 'same-site'
+    const pageText = await page.evaluate(() => document.body.innerText);
+    let glookoCode = null;
+    let lastSyncTimestamps = null;
+
+    try {
+      const body = JSON.parse(pageText);
+      const user = body.currentUser || body.currentPatient || body;
+      
+      if (user && user.glookoCode) {
+        glookoCode = user.glookoCode;
+        lastSyncTimestamps = user.lastSyncTimestamps || {};
+      } else {
+        throw new Error('glookoCode not found in JSON response');
       }
-    });
-
-    const response = await userHttp.get('https://eu.my.glooko.com/api/v3/session/users');
-    const { currentUser } = response.data;
-    const { glookoCode, lastSyncTimestamps } = currentUser;
+    } catch(e) {
+      throw new Error('Failed to parse JSON from redirected page: ' + e.message);
+    }
     const patientId = glookoCode;
     // get pump timestamp from overall timestamps object
     const { pump } = lastSyncTimestamps;
@@ -132,8 +183,10 @@ async function glookoConnect() {
       throw new Error('Could not extract patient ID');
     }
 
-    await browser.close();
-    browser = null;
+    //  console.log('\nClosing browser after successful cookie extraction...');
+    // await browser.close();
+    // browser = null;
+    // console.log('Browser closed.');
     
     console.log('\nAPI DATA');
 
@@ -239,7 +292,9 @@ async function glookoConnect() {
     };
   } finally {
     if (browser) {
+      console.log('Cleaning up: closing browser in finally block...');
       await browser.close();
+      console.log('Cleanup: browser closed.');
     }
   }
 }
@@ -247,7 +302,7 @@ async function glookoConnect() {
 module.exports = { glookoConnect };
 
 // Test integration - remove for production
-glookoConnect().then(result => {
+glookoConnect(opts).then(result => {
   console.log('\n🏁 SCRIPT COMPLETE');
   
   fs.writeFileSync('glooko-integration-summary.json', JSON.stringify(result, null, 2));

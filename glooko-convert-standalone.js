@@ -52,9 +52,8 @@ function objects_from_reservoir_change(results, endpointName) {
 function objects_from_daily_totals(results, endpointName) {
   var endpoint = results[endpointName] || {};
   var data = endpoint.data || {};
-  var dayTotals = data.series?.dailyInsulinTotals;
-    console.log(dayTotals);
-
+  var dayTotals = data.series?.totalInsulinPerDay || data.series?.dailyInsulinTotals;
+  console.log('GLOOKO daily totals found:', !!dayTotals, 'keys:', dayTotals ? Object.keys(dayTotals).length : 0);
 
   if (!dayTotals || typeof dayTotals !== 'object' || Array.isArray(dayTotals)) {
     return undefined;
@@ -197,6 +196,7 @@ function generate_nightscout_treatments(batch, timestampDelta) {
       treatment.notes = JSON.stringify(element);
       treatments.push(treatment);
       });
+    console.log('pumpBolus elements processed:', pumpBoluses.length);
     }
 
   if (scheduledBasals) {
@@ -214,7 +214,7 @@ function generate_nightscout_treatments(batch, timestampDelta) {
     })
   }
 
- var latestSiteChangeTreatment = null;
+ var lastSiteChangeTreatment = null;
 
  if (reservoirChange) {
     reservoirChange.forEach(function(element) {
@@ -223,6 +223,8 @@ function generate_nightscout_treatments(batch, timestampDelta) {
         (Number.isFinite(element.mills)
           ? new Date(element.mills * 1000).toISOString()
           : undefined);
+      element.deviceName = 'Omnipod 5';
+      element.device = 'Insulet Omnipod® 5 System';
 
       if (!baseTimestamp) {
         return;
@@ -236,12 +238,13 @@ function generate_nightscout_treatments(batch, timestampDelta) {
       siteChangeTreatment.created_at = createdAt;
       siteChangeTreatment.notes = JSON.stringify(element);
 
-      if (!latestSiteChangeTreatment || createdAt > latestSiteChangeTreatment) {
-        latestSiteChangeTreatment = createdAt;
+      if (!lastSiteChangeTreatment || createdAt > lastSiteChangeTreatment) {
+        lastSiteChangeTreatment = createdAt;
       }
 
       treatments.push(siteChangeTreatment);
     });
+    console.log('reservoirChange elements processed:', reservoirChange.length);
   }
 
   // devicestatus entry from last sync and total insulin
@@ -255,10 +258,13 @@ function generate_nightscout_treatments(batch, timestampDelta) {
     if (lastSync) {
       deviceStatus.lastSync = lastSync;
     }
+    if (lastSiteChangeTreatment) {
+      deviceStatus.lastSiteChange = lastSiteChangeTreatment;
+    }
     if (totalInsulinPerDay) {
       InsulinPerDay = totalInsulinPerDay
         .filter(function (entry) {
-          return !moment(entry.timestamp).isBefore(moment(latestSiteChangeTreatment),'day');
+          return !moment(entry.timestamp).isBefore(moment(lastSiteChangeTreatment),'day');
         })
         .map(function (entry) {       // returns one entry per day, timed at 12:00:00
           // ignore entries prior to latest site change
@@ -267,24 +273,27 @@ function generate_nightscout_treatments(batch, timestampDelta) {
             updated.timestamp = lastSync;
           }
           return updated;
-        });
-    
+        });    
       deviceStatus.InsulinPerDay = InsulinPerDay;
     }
-      console.log('deviceStatus', deviceStatus);
-
+    
     devicestatus.push(deviceStatus);
   }
 
   console.log('GLOOKO processing complete, returning', treatments.length, 'treatments', 'and', devicestatus.length, 'devicestatus records');
   // console.log(treatments);
-  // console.log(devicestatus);
+  console.log(JSON.stringify(devicestatus, null, 2));
   return { treatments, devicestatus };
 }
 
 module.exports.generate_nightscout_treatments = generate_nightscout_treatments;
 
-// Standalone run args
+/*
+*****************************************************************
+* Standalone run args
+*****************************************************************
+*/ 
+
 var fs = require('fs');
 var path = require('path');
 
