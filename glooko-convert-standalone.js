@@ -68,16 +68,50 @@ function objects_from_daily_totals(results, endpointName) {
     });
 }
 
+function boluses_from_histories(results) {
+  var histories = results?.Histories?.data?.histories;
+  if (!Array.isArray(histories)) {
+    return undefined;
+  }
+
+  return histories
+    .filter(function (entry) {
+      return entry.type === 'pumps_normal_boluses';
+    })
+    .map(function (entry) {
+      return entry.item;
+    });
+}
+
+function low_insulin_alarms(results) {
+  var histories = results?.Histories?.data?.histories;
+  if (!Array.isArray(histories)) {
+    return undefined;
+  }
+
+  return histories
+    .filter(function (entry) {
+      return (
+        entry.type === 'pumps_alarms' &&
+        entry.item?.value === 'Insulin levels remaining in Pod are low. Change Pod soon.'
+      );
+    })
+    .map(function (entry) {
+      return entry.item;
+    });
+}
+
 function assign_objects(batch) {
   var lastPumpSyncTimestamp = batch.lastPumpSyncTimestamp;
   var data = batch.results;
   return {
     foods: array_from_endpoint(data, 'Foods', 'foods'),
     insulins: array_from_endpoint(data, 'Insulins', 'insulins'),
-    normalBoluses: array_from_endpoint(data, 'Pump Bolus', 'normalBoluses'),
+    normalBoluses: boluses_from_histories(data),
     scheduledBasals: array_from_endpoint(data,'Pump Basal', 'scheduledBasals'),
     reservoirChange: objects_from_reservoir_change(data, 'Reservoir Change'),
     dailyInsulinTotals: objects_from_daily_totals(data, 'Insulin Per Day'),
+    lowInsulinAlarms: low_insulin_alarms(data),
     lastSync: lastPumpSyncTimestamp
   }  
 }
@@ -92,6 +126,7 @@ function generate_nightscout_treatments(batch, timestampDelta) {
   const scheduledBasals = inputBatch.scheduledBasals;
   const reservoirChange = inputBatch.reservoirChange;
   const totalInsulinPerDay = inputBatch.dailyInsulinTotals;
+  const lowInsulinAlarms = inputBatch.lowInsulinAlarms;
   const lastSync = inputBatch.lastSync;
   
   // console.log("FOODS  ", foods);
@@ -278,6 +313,20 @@ function generate_nightscout_treatments(batch, timestampDelta) {
     }
     
     devicestatus.push(deviceStatus);
+  }
+
+  if (lowInsulinAlarms) {
+    lowInsulinAlarms.forEach(function (alarm) {
+      var f_date = moment(alarm.pumpTimestamp);
+      var alarmStatus = {
+        created_at: new Date(f_date + timestampDelta).toISOString(),
+        device: alarm.pumpName || 'Insulet Omnipod® 5 System',
+        alarm: alarm.value,
+        notes: JSON.stringify(alarm)
+      };
+      devicestatus.push(alarmStatus);
+    });
+    console.log('lowInsulinAlarms processed:', lowInsulinAlarms.length);
   }
 
   console.log('GLOOKO processing complete, returning', treatments.length, 'treatments', 'and', devicestatus.length, 'devicestatus records');
