@@ -182,11 +182,6 @@ async function glookoConnect(opts) {
     if (!patientId) {
       throw new Error('Could not extract patient ID');
     }
-
-    //  console.log('\nClosing browser after successful cookie extraction...');
-    // await browser.close();
-    // browser = null;
-    // console.log('Browser closed.');
     
     console.log('\nAPI DATA');
 
@@ -204,14 +199,13 @@ async function glookoConnect(opts) {
       }
     });
     
-    // Keep original endpoints and add reservoir change and insulin per day from V3 API
+    // Extract normal boluses from histories reservoir change and insulin per day from V3 API
     const endpoints = [
       { name: 'Foods', url: '/api/v2/foods', requiresPatient: false },
       { name: 'Insulins', url: '/api/v2/insulins', requiresPatient: false },
-      { name: 'Pump Bolus', url: '/api/v2/pumps/normal_boluses', requiresPatient: false },
       { name: 'Pump Basal', url: '/api/v2/pumps/scheduled_basals', requiresPatient: false },
       { name: 'CGM Readings', url: '/api/v2/cgm/readings', requiresPatient: false },
-      { name: 'Histories', url: '/api/v3/users/summary/histories', requiresPatient: true },  // no series
+      { name: 'Histories', url: '/api/v3/users/summary/histories', requiresPatient: true },  // no series: normal boluses and alarms
       { name: 'Reservoir Change', url: '/api/v3/graph/data', requiresPatient: true, series: 'reservoirChange' },
       { name: 'Insulin Per Day', url: '/api/v3/graph/data', requiresPatient: true, series: 'totalInsulinPerDay' },
     ];
