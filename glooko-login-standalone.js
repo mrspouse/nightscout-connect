@@ -211,6 +211,7 @@ async function glookoConnect(opts) {
       { name: 'Pump Bolus', url: '/api/v2/pumps/normal_boluses', requiresPatient: false },
       { name: 'Pump Basal', url: '/api/v2/pumps/scheduled_basals', requiresPatient: false },
       { name: 'CGM Readings', url: '/api/v2/cgm/readings', requiresPatient: false },
+      { name: 'Histories', url: '/api/v3/users/summary/histories', requiresPatient: true },  // no series
       { name: 'Reservoir Change', url: '/api/v3/graph/data', requiresPatient: true, series: 'reservoirChange' },
       { name: 'Insulin Per Day', url: '/api/v3/graph/data', requiresPatient: true, series: 'totalInsulinPerDay' },
     ];
