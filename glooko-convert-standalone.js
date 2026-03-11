@@ -376,13 +376,13 @@ function generate_nightscout_treatments(batch, timestampDelta) {
         });    
       deviceStatus.InsulinPerDay = InsulinPerDay;
 
-      var netPumpInsulinSinceSiteChange = calculate_net_pump_insulin_since_site_change(
+      var netPumpInsulin = calculate_net_pump_insulin_since_site_change(
         totalInsulinPerDay,
         lastSiteChangeTreatment,
         lastSync
       );
-      if (netPumpInsulinSinceSiteChange) {
-        deviceStatus.netPumpInsulinSinceSiteChange = netPumpInsulinSinceSiteChange;
+      if (netPumpInsulin) {
+        deviceStatus.reservoir = netPumpInsulin;
       }
     }
     
