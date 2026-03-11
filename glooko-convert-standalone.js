@@ -105,7 +105,7 @@ function insulin_total_value(entry) {
   return undefined;
 }
 
-function calculate_net_pump_insulin_since_site_change(totalInsulinPerDay, lastSiteChangeTreatment, lastSync) {
+function calculate_net_pump_insulin(totalInsulinPerDay, lastSiteChangeTreatment, lastSync) {
   if (!Array.isArray(totalInsulinPerDay) || !lastSiteChangeTreatment) {
     return undefined;
   }
@@ -145,8 +145,8 @@ function calculate_net_pump_insulin_since_site_change(totalInsulinPerDay, lastSi
 
   return {
     timestamp: lastSync || new Date().toISOString(),
-    total: Number((grossTotal - baselineTotal).toFixed(2)),
-    grossTotal: Number(grossTotal.toFixed(2)),
+    insulinDelivered: Number((grossTotal - baselineTotal).toFixed(2)),
+    insulinRemaining: '50+', 
     baselineTotal: Number(baselineTotal.toFixed(2)),
   };
 }
@@ -376,7 +376,7 @@ function generate_nightscout_treatments(batch, timestampDelta) {
         });    
       deviceStatus.InsulinPerDay = InsulinPerDay;
 
-      var netPumpInsulin = calculate_net_pump_insulin_since_site_change(
+      var netPumpInsulin = calculate_net_pump_insulin(
         totalInsulinPerDay,
         lastSiteChangeTreatment,
         lastSync
