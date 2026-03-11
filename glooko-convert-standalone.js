@@ -83,6 +83,74 @@ function boluses_from_histories(results) {
     });
 }
 
+function insulin_total_value(entry) {
+  if (!entry || typeof entry !== 'object') {
+    return undefined;
+  }
+
+  var candidates = [
+    entry.totalPumpInsulinPerDay,
+    entry.totalInsulinPerDay,
+    entry.total,
+    entry.value,
+  ];
+
+  for (var i = 0; i < candidates.length; i++) {
+    var num = Number(candidates[i]);
+    if (Number.isFinite(num)) {
+      return num;
+    }
+  }
+
+  return undefined;
+}
+
+function calculate_net_pump_insulin_since_site_change(totalInsulinPerDay, lastSiteChangeTreatment, lastSync) {
+  if (!Array.isArray(totalInsulinPerDay) || !lastSiteChangeTreatment) {
+    return undefined;
+  }
+
+  var siteChangeMoment = moment(lastSiteChangeTreatment);
+  if (!siteChangeMoment.isValid()) {
+    return undefined;
+  }
+
+  var baselineTotal;
+  var baselineTime;
+  var grossTotal = 0;
+
+  totalInsulinPerDay.forEach(function (entry) {
+    var ts = moment(entry.timestamp);
+    var total = insulin_total_value(entry);
+
+    if (!ts.isValid() || !Number.isFinite(total)) {
+      return;
+    }
+
+    if (!ts.isAfter(siteChangeMoment)) {
+      if (!baselineTime || ts.isAfter(baselineTime)) {
+        baselineTime = ts;
+        baselineTotal = total;
+      }
+    }
+
+    if (ts.isSameOrAfter(siteChangeMoment, 'day')) {
+      grossTotal += total;
+    }
+  });
+
+  if (!Number.isFinite(baselineTotal)) {
+    baselineTotal = 0;
+  }
+
+  return {
+    timestamp: lastSync || new Date().toISOString(),
+    total: Number((grossTotal - baselineTotal).toFixed(2)),
+    grossTotal: Number(grossTotal.toFixed(2)),
+    baselineTotal: Number(baselineTotal.toFixed(2)),
+  };
+}
+
 function pump_alarms(results) {
   var histories = results?.Histories?.data?.histories;
   if (!Array.isArray(histories)) {
@@ -307,6 +375,15 @@ function generate_nightscout_treatments(batch, timestampDelta) {
           return updated;
         });    
       deviceStatus.InsulinPerDay = InsulinPerDay;
+
+      var netPumpInsulinSinceSiteChange = calculate_net_pump_insulin_since_site_change(
+        totalInsulinPerDay,
+        lastSiteChangeTreatment,
+        lastSync
+      );
+      if (netPumpInsulinSinceSiteChange) {
+        deviceStatus.netPumpInsulinSinceSiteChange = netPumpInsulinSinceSiteChange;
+      }
     }
     
     devicestatus.push(deviceStatus);
