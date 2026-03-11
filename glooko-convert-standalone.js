@@ -105,7 +105,7 @@ function insulin_total_value(entry) {
   return undefined;
 }
 
-function calculate_net_pump_insulin(totalInsulinPerDay, lastSiteChangeTreatment, lastSync) {
+function calculate_net_pump_insulin(totalInsulinPerDay, lastSiteChangeTreatment, lastSync, pumpAlarms) {
   if (!Array.isArray(totalInsulinPerDay) || !lastSiteChangeTreatment) {
     return undefined;
   }
@@ -118,6 +118,27 @@ function calculate_net_pump_insulin(totalInsulinPerDay, lastSiteChangeTreatment,
   var baselineTotal;
   var baselineTime;
   var grossTotal = 0;
+  var lowInsulinAlarmMessage = 'Insulin levels remaining in Pod are low. Change Pod soon.';
+  var lowInsulinAlarmMoment;
+
+  if (Array.isArray(pumpAlarms)) {
+    pumpAlarms.forEach(function (alarm) {
+      if (!alarm || alarm.value !== lowInsulinAlarmMessage) {
+        return;
+      }
+
+      var alarmMoment = moment(alarm.pumpTimestamp || alarm.timestamp);
+      if (!alarmMoment.isValid() || alarmMoment.isBefore(siteChangeMoment)) {
+        return;
+      }
+
+      if (!lowInsulinAlarmMoment || alarmMoment.isAfter(lowInsulinAlarmMoment)) {
+        lowInsulinAlarmMoment = alarmMoment;
+      }
+    });
+  }
+
+  var dailyTotals = [];
 
   totalInsulinPerDay.forEach(function (entry) {
     var ts = moment(entry.timestamp);
@@ -137,16 +158,58 @@ function calculate_net_pump_insulin(totalInsulinPerDay, lastSiteChangeTreatment,
     if (ts.isSameOrAfter(siteChangeMoment, 'day')) {
       grossTotal += total;
     }
+
+    dailyTotals.push({
+      timestamp: ts,
+      total: total,
+    });
   });
 
   if (!Number.isFinite(baselineTotal)) {
     baselineTotal = 0;
   }
 
+  var insulinRemaining = '50+';
+  var lastSyncMoment = moment(lastSync);
+
+  if (lowInsulinAlarmMoment && lastSyncMoment.isValid() && !lastSyncMoment.isBefore(lowInsulinAlarmMoment)) {
+    var startingIndex = -1;
+    dailyTotals.sort(function (a, b) {
+      return a.timestamp.valueOf() - b.timestamp.valueOf();
+    });
+
+    for (var i = 0; i < dailyTotals.length; i++) {
+      if (dailyTotals[i].timestamp.isSameOrAfter(lowInsulinAlarmMoment)) {
+        startingIndex = i;
+        break;
+      }
+    }
+
+    var remainingUnits = 50;
+
+    if (startingIndex > -1) {
+      var previousTotal = dailyTotals[startingIndex].total;
+      for (var j = startingIndex + 1; j < dailyTotals.length; j++) {
+        var currentTotal = dailyTotals[j].total;
+        if (currentTotal === previousTotal) {
+          continue;
+        }
+
+        var delta = currentTotal - previousTotal;
+        if (delta > 0) {
+          remainingUnits -= delta;
+        }
+        previousTotal = currentTotal;
+      }
+    }
+
+    insulinRemaining = Number(Math.max(remainingUnits, 0).toFixed(2));
+  }
+
   return {
     timestamp: lastSync || new Date().toISOString(),
     insulinDelivered: Number((grossTotal - baselineTotal).toFixed(2)),
-    insulinRemaining: '50+', 
+    insulinRemaining: insulinRemaining,
     baselineTotal: Number(baselineTotal.toFixed(2)),
   };
 }
@@ -379,7 +442,8 @@ function generate_nightscout_treatments(batch, timestampDelta) {
       var netPumpInsulin = calculate_net_pump_insulin(
         totalInsulinPerDay,
         lastSiteChangeTreatment,
-        lastSync
+        lastSync,
+        pumpAlarms
       );
       if (netPumpInsulin) {
         deviceStatus.reservoir = netPumpInsulin;
