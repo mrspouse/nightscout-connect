@@ -203,7 +203,7 @@ function calculate_net_pump_insulin(totalInsulinPerDay, lastSiteChangeTreatment,
       }
     }
 
-    insulinRemaining = Number(Math.max(remainingUnits, 0).toFixed(2));
+    insulinRemaining = '< ' + Number(Math.max(remainingUnits, 0).toFixed(2));
   }
 
   return {
