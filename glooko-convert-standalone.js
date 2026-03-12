@@ -106,16 +106,16 @@ function insulin_total_value(entry) {
   return undefined;
 }
 
-function loadDevicestatusData(lastSync) {
+function loadDevicestatusData(lastSiteChangeTreatment) {
   return new Promise(function (resolve) {
-    if (!lastSync) {
+    if (!lastSiteChangeTreatment) {
       resolve(undefined);
       return;
     }
 
     var url =
-      'https://ns-drop-gd.fly.dev/api/v1/devicestatus.json?find[device]=Insulet+Omnipod%C2%AE+5+System&[lastSiteChange]=' +
-      encodeURIComponent(lastSync) +
+      'https://ns-drop-gd.fly.dev/api/v1/devicestatus.json?find[device]=Insulet+Omnipod%C2%AE+5+System&find[lastSiteChange]=' +
+      encodeURIComponent(lastSiteChangeTreatment) +
       '&count=2';
 
     https
@@ -230,7 +230,7 @@ async function calculate_net_pump_insulin(totalInsulinPerDay, lastSiteChangeTrea
     });
   });
 
-  var loadedBaseline = await loadDevicestatusData(lastSync);
+  var loadedBaseline = await loadDevicestatusData(lastSiteChangeTreatment);
   if (Number.isFinite(loadedBaseline)) {
     baselineTotal = loadedBaseline;
   }
