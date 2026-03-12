@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var moment = require('moment');
+var https = require('https');
 
 function array_from_endpoint(results, endpointName, nestedKey) {
   var endpoint = results[endpointName] || {};
@@ -105,7 +106,96 @@ function insulin_total_value(entry) {
   return undefined;
 }
 
-function calculate_net_pump_insulin(totalInsulinPerDay, lastSiteChangeTreatment, lastSync, pumpAlarms) {
+function loadDevicestatusData(lastSiteChangeTreatment) {
+  return new Promise(function (resolve) {
+    if (!lastSiteChangeTreatment) {
+      resolve(undefined);
+      return;
+    }
+
+    var url =
+      'https://ns-drop-gd.fly.dev/api/v1/devicestatus.json?find[device]=Insulet+Omnipod%C2%AE+5+System&find[lastSiteChange]=' +
+      encodeURIComponent(lastSiteChangeTreatment) +
+      '&count=2';
+
+    var settled = false;
+    var timeoutMs = 10000;
+    var timeoutId;
+
+    function finish(value) {
+      if (settled) {
+        return;
+      }
+      settled = true;
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      resolve(value);
+    }
+
+    var request = https.get(url, function (response) {
+      var body = '';
+
+      response.on('data', function (chunk) {
+        body += chunk;
+      });
+
+      response.on('error', function () {
+        finish(undefined);
+      });
+
+      response.on('end', function () {
+        if (response.statusCode !== 200) {
+          finish(undefined);
+          return;
+        }
+
+        try {
+          var data = JSON.parse(body);
+          if (!Array.isArray(data) || data.length < 2) {
+            finish(undefined);
+            return;
+          }
+
+          var secondRecord = data[1] || {};
+
+          if (Number.isFinite(Number(secondRecord.totalPumpInsulinPerDay))) {
+            finish(Number(secondRecord.totalPumpInsulinPerDay));
+            return;
+          }
+
+          if (secondRecord.reservoir && Number.isFinite(Number(secondRecord.reservoir.baselineTotal))) {
+            finish(Number(secondRecord.reservoir.baselineTotal));
+            return;
+          }
+
+          var insulinPerDay = Array.isArray(secondRecord.InsulinPerDay) ? secondRecord.InsulinPerDay : [];
+          if (insulinPerDay.length > 0) {
+            var insulinTotal = insulin_total_value(insulinPerDay[insulinPerDay.length - 1]);
+            finish(Number.isFinite(insulinTotal) ? insulinTotal : undefined);
+            return;
+          }
+
+          finish(undefined);
+        } catch (error) {
+          finish(undefined);
+        }
+      });
+    });
+
+    request.on('error', function () {
+      finish(undefined);
+    });
+
+    timeoutId = setTimeout(function () {
+      request.destroy(new Error('devicestatus request timed out'));
+      finish(undefined);
+    }, timeoutMs);
+  });
+}
+
+
+async function calculate_net_pump_insulin(totalInsulinPerDay, lastSiteChangeTreatment, lastSync, pumpAlarms) {
   if (!Array.isArray(totalInsulinPerDay) || !lastSiteChangeTreatment) {
     return undefined;
   }
@@ -164,6 +254,11 @@ function calculate_net_pump_insulin(totalInsulinPerDay, lastSiteChangeTreatment,
       total: total,
     });
   });
+
+  var loadedBaseline = await loadDevicestatusData(lastSiteChangeTreatment);
+  if (Number.isFinite(loadedBaseline)) {
+    baselineTotal = loadedBaseline;
+  }
 
   if (!Number.isFinite(baselineTotal)) {
     baselineTotal = 0;
@@ -244,7 +339,7 @@ function assign_objects(batch) {
   }  
 }
 
-function generate_nightscout_treatments(batch, timestampDelta) {
+async function generate_nightscout_treatments(batch, timestampDelta) {
   var InsulinPerDay;
   inputBatch = assign_objects(batch);
   
@@ -439,7 +534,7 @@ function generate_nightscout_treatments(batch, timestampDelta) {
         });    
       deviceStatus.InsulinPerDay = InsulinPerDay;
 
-      var netPumpInsulin = calculate_net_pump_insulin(
+      var netPumpInsulin = await calculate_net_pump_insulin(
         totalInsulinPerDay,
         lastSiteChangeTreatment,
         lastSync,
@@ -523,7 +618,7 @@ function read_json_file(filePath) {
   return JSON.parse(fs.readFileSync(path.resolve(process.cwd(), filePath), 'utf8'));
 }
 
-function run_cli(argv) {
+async function run_cli(argv) {
   var args = parse_args(argv);
 
   if (args.help) {
@@ -537,7 +632,7 @@ function run_cli(argv) {
   }
 
   var batch = read_json_file(args.input);
-  var treatments = generate_nightscout_treatments(batch, args.offset);
+  var treatments = await generate_nightscout_treatments(batch, args.offset);
   var output = JSON.stringify(treatments, null, 2);
 
   if (args.output) {
@@ -552,5 +647,12 @@ function run_cli(argv) {
 }
 
 if (require.main === module) {
-  process.exitCode = run_cli(process.argv.slice(2));
+  run_cli(process.argv.slice(2))
+    .then(function (code) {
+      process.exitCode = code;
+    })
+    .catch(function (error) {
+      console.error(error);
+      process.exitCode = 1;
+    });
 }
