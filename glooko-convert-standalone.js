@@ -118,57 +118,82 @@ function loadDevicestatusData(lastSiteChangeTreatment) {
       encodeURIComponent(lastSiteChangeTreatment) +
       '&count=2';
 
-    https
-      .get(url, function (response) {
-        var body = '';
+    var settled = false;
+    var timeoutMs = 10000;
+    var timeoutId;
 
-        response.on('data', function (chunk) {
-          body += chunk;
-        });
+    function finish(value) {
+      if (settled) {
+        return;
+      }
+      settled = true;
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      resolve(value);
+    }
 
-        response.on('end', function () {
-          if (response.statusCode !== 200) {
-            resolve(undefined);
+    var request = https.get(url, function (response) {
+      var body = '';
+
+      response.on('data', function (chunk) {
+        body += chunk;
+      });
+
+      response.on('error', function () {
+        finish(undefined);
+      });
+
+      response.on('end', function () {
+        if (response.statusCode !== 200) {
+          finish(undefined);
+          return;
+        }
+
+        try {
+          var data = JSON.parse(body);
+          if (!Array.isArray(data) || data.length < 2) {
+            finish(undefined);
             return;
           }
 
-          try {
-            var data = JSON.parse(body);
-            if (!Array.isArray(data) || data.length < 2) {
-              resolve(undefined);
-              return;
-            }
+          var secondRecord = data[1] || {};
 
-            var secondRecord = data[1] || {};
-
-            if (Number.isFinite(Number(secondRecord.totalPumpInsulinPerDay))) {
-              resolve(Number(secondRecord.totalPumpInsulinPerDay));
-              return;
-            }
-
-            if (secondRecord.reservoir && Number.isFinite(Number(secondRecord.reservoir.baselineTotal))) {
-              resolve(Number(secondRecord.reservoir.baselineTotal));
-              return;
-            }
-
-            var insulinPerDay = Array.isArray(secondRecord.InsulinPerDay) ? secondRecord.InsulinPerDay : [];
-            if (insulinPerDay.length > 0) {
-              var insulinTotal = insulin_total_value(insulinPerDay[insulinPerDay.length - 1]);
-              resolve(Number.isFinite(insulinTotal) ? insulinTotal : undefined);
-              return;
-            }
-
-            resolve(undefined);
-          } catch (error) {
-            resolve(undefined);
+          if (Number.isFinite(Number(secondRecord.totalPumpInsulinPerDay))) {
+            finish(Number(secondRecord.totalPumpInsulinPerDay));
+            return;
           }
-        });
-      })
-      .on('error', function () {
-        resolve(undefined);
+
+          if (secondRecord.reservoir && Number.isFinite(Number(secondRecord.reservoir.baselineTotal))) {
+            finish(Number(secondRecord.reservoir.baselineTotal));
+            return;
+          }
+
+          var insulinPerDay = Array.isArray(secondRecord.InsulinPerDay) ? secondRecord.InsulinPerDay : [];
+          if (insulinPerDay.length > 0) {
+            var insulinTotal = insulin_total_value(insulinPerDay[insulinPerDay.length - 1]);
+            finish(Number.isFinite(insulinTotal) ? insulinTotal : undefined);
+            return;
+          }
+
+          finish(undefined);
+        } catch (error) {
+          finish(undefined);
+        }
       });
+    });
+
+    request.on('error', function () {
+      finish(undefined);
+    });
+
+    timeoutId = setTimeout(function () {
+      request.destroy(new Error('devicestatus request timed out'));
+      finish(undefined);
+    }, timeoutMs);
   });
 }
+
 
 async function calculate_net_pump_insulin(totalInsulinPerDay, lastSiteChangeTreatment, lastSync, pumpAlarms) {
   if (!Array.isArray(totalInsulinPerDay) || !lastSiteChangeTreatment) {
