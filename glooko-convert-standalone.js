@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-var moment = require('moment');
-var https = require('https');
+const moment = require('moment');
+const axios = require('axios');
 
 function array_from_endpoint(results, endpointName, nestedKey) {
   var endpoint = results[endpointName] || {};
@@ -106,92 +106,69 @@ function insulin_total_value(entry) {
   return undefined;
 }
 
-function loadDevicestatusData(lastSiteChangeTreatment) {
-  return new Promise(function (resolve) {
-    if (!lastSiteChangeTreatment) {
-      resolve(undefined);
-      return;
+async function loadDevicestatusData(lastSiteChangeTreatment) {
+  if (!lastSiteChangeTreatment) {
+    return undefined;
+  }
+
+  const accessToken = 'aaps-f286719b8dcde96f';
+
+  try {
+    const tokenRes = await axios.get(`https://ns-drop-gd.fly.dev/api/v2/authorization/request/${accessToken}`);
+    const jwt = tokenRes.data.token;
+    console.log('Using JWT token to retrieve devicestatus history')
+    // const res = await axios(`https://ns-drop-gd.fly.dev/api/v3/devicestatus?lastSiteChange=${lastSiteChangeTreatment}&sort=created_at,asc&limit=2`,
+    //   {
+    //     headers: {
+    //       'Authorization': `Bearer ${jwt}`
+    //     }
+    //   });
+
+    const deviceStatusBaseline = await axios(`https://ns-drop-gd.fly.dev/api/v3/devicestatus?lastSiteChange=${lastSiteChangeTreatment}&sort$desc=created_at&limit=1`,
+        {
+          headers: {
+            'Authorization': `Bearer ${jwt}`
+          }
+        });
+    
+    const data = deviceStatusBaseline.data;
+
+    const previousDeviceStatus = await axios(`https://ns-drop-gd.fly.dev/api/v3/devicestatus?lastSiteChange=${lastSiteChangeTreatment}&sort=created_at&limit=1`,
+        {
+          headers: {
+            'Authorization': `Bearer ${jwt}`
+          }
+        });
+
+    const secondRecord = previousDeviceStatus.data || {};
+
+
+    // if (!Array.isArray(data) || data.length < 2) {
+    //   return undefined;
+    // }
+
+    console.log('API:  ', data, secondRecord);
+
+    if (Number.isFinite(Number(secondRecord.totalPumpInsulinPerDay))) {
+      return Number(secondRecord.totalPumpInsulinPerDay);
     }
 
-    var url =
-      'https://ns-drop-gd.fly.dev/api/v1/devicestatus.json?find[device]=Insulet+Omnipod%C2%AE+5+System&find[lastSiteChange]=' +
-      encodeURIComponent(lastSiteChangeTreatment) +
-      '&count=2';
-
-    var settled = false;
-    var timeoutMs = 10000;
-    var timeoutId;
-
-    function finish(value) {
-      if (settled) {
-        return;
-      }
-      settled = true;
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-      resolve(value);
+    if (secondRecord.reservoir && Number.isFinite(Number(secondRecord.reservoir.baselineTotal))) {
+      return Number(secondRecord.reservoir.baselineTotal);
     }
 
-    var request = https.get(url, function (response) {
-      var body = '';
+    const insulinPerDay = Array.isArray(secondRecord.InsulinPerDay) ? secondRecord.InsulinPerDay : [];
+    if (insulinPerDay.length > 0) {
+      const insulinTotal = insulin_total_value(insulinPerDay[insulinPerDay.length - 1]);
+      return Number.isFinite(insulinTotal) ? insulinTotal : undefined;
+    }
 
-      response.on('data', function (chunk) {
-        body += chunk;
-      });
+    return undefined;
 
-      response.on('error', function () {
-        finish(undefined);
-      });
-
-      response.on('end', function () {
-        if (response.statusCode !== 200) {
-          finish(undefined);
-          return;
-        }
-
-        try {
-          var data = JSON.parse(body);
-          if (!Array.isArray(data) || data.length < 2) {
-            finish(undefined);
-            return;
-          }
-
-          var secondRecord = data[1] || {};
-
-          if (Number.isFinite(Number(secondRecord.totalPumpInsulinPerDay))) {
-            finish(Number(secondRecord.totalPumpInsulinPerDay));
-            return;
-          }
-
-          if (secondRecord.reservoir && Number.isFinite(Number(secondRecord.reservoir.baselineTotal))) {
-            finish(Number(secondRecord.reservoir.baselineTotal));
-            return;
-          }
-
-          var insulinPerDay = Array.isArray(secondRecord.InsulinPerDay) ? secondRecord.InsulinPerDay : [];
-          if (insulinPerDay.length > 0) {
-            var insulinTotal = insulin_total_value(insulinPerDay[insulinPerDay.length - 1]);
-            finish(Number.isFinite(insulinTotal) ? insulinTotal : undefined);
-            return;
-          }
-
-          finish(undefined);
-        } catch (error) {
-          finish(undefined);
-        }
-      });
-    });
-
-    request.on('error', function () {
-      finish(undefined);
-    });
-
-    timeoutId = setTimeout(function () {
-      request.destroy(new Error('devicestatus request timed out'));
-      finish(undefined);
-    }, timeoutMs);
-  });
+  } catch (error) {
+    console.error('Error in loadDevicestatusData:', error);
+    return undefined;
+  }
 }
 
 
@@ -575,8 +552,8 @@ module.exports.generate_nightscout_treatments = generate_nightscout_treatments;
 *****************************************************************
 */ 
 
-var fs = require('fs');
-var path = require('path');
+const fs = require('fs');
+const path = require('path');
 
 function parse_args(argv) {
   var args = {
