@@ -1,10 +1,10 @@
 const axios = require('axios');
 
 const accessToken = 'aaps-f286719b8dcde96f';
-const lastSiteChangeTreatment = '2026-03-12T08:46:57.000Z';
+const lastSiteChangeTreatment = '2026-03-14T04:17:11.000Z';
 
 function getDeviceStatusBaseline(jwt) {
-  return axios(`https://ns-drop-gd.fly.dev/api/v3/devicestatus?lastSiteChange=${lastSiteChangeTreatment}&sort$desc=created_at&limit=1`,
+  return axios(`https://ns-drop-gd.fly.dev/api/v3/devicestatus?lastSync$lte=${lastSiteChangeTreatment}&sort$desc=created_at&limit=1`,
     {
       headers: {
         'Authorization': `Bearer ${jwt}`
@@ -13,7 +13,7 @@ function getDeviceStatusBaseline(jwt) {
 }
 
 function getPreviousDeviceStatus(jwt) {
-  return axios(`https://ns-drop-gd.fly.dev/api/v3/devicestatus?lastSiteChange=${lastSiteChangeTreatment}&sort=created_at&limit=1`,
+  return axios(`https://ns-drop-gd.fly.dev/api/v3/devicestatus?lastSync$lte=${lastSiteChangeTreatment}&sort=created_at&limit=1`,
     {
       headers: {
         'Authorization': `Bearer ${jwt}`

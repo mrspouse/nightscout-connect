@@ -3,6 +3,24 @@
 const moment = require('moment');
 const axios = require('axios');
 
+function normalizeTime(item, rawTime) {
+  var val = Number(rawTime);
+  var isValid = Number.isFinite(val);
+
+  // Glooko API typically returns Unix timestamps in seconds.
+  // JavaScript Date and Nightscout 'mills' fields require milliseconds.
+  if (isValid && val < 4000000000) {
+    val = val * 1000;
+  }
+
+  return Object.assign({
+    mills: isValid ? val : undefined,
+    timestamp:
+      item.timestamp ||
+      (isValid ? new Date(val).toISOString() : undefined),
+  }, item);
+}
+
 function array_from_endpoint(results, endpointName, nestedKey) {
   var endpoint = results[endpointName] || {};
   var data = endpoint.data;
@@ -24,15 +42,7 @@ function objects_from_reservoir_change(results, endpointName) {
 
   if (Array.isArray(siteChange)) {
     return siteChange.map(function (item) {
-      var mills = Number(item.x);
-      return Object.assign({
-        mills: Number.isFinite(mills) ? mills : undefined,
-        timestamp:
-          item.timestamp ||
-          (Number.isFinite(mills)
-            ? new Date(mills * 1000).toISOString()
-            : undefined),
-      }, item);
+      return normalizeTime(item, item.x);
     });
   }
 
@@ -43,10 +53,7 @@ function objects_from_reservoir_change(results, endpointName) {
   return Object.keys(siteChange)
     .sort()
     .map(function (mills) {
-      return Object.assign({
-        mills: Number(mills),
-        timestamp: new Date(Number(mills) * 1000).toISOString(),
-      }, siteChange[mills]);
+      return normalizeTime(siteChange[mills], mills);
     });
 }
 
@@ -63,9 +70,7 @@ function objects_from_daily_totals(results, endpointName) {
   return Object.keys(dayTotals)
     .sort()
     .map(function (mills) {
-      return Object.assign({
-        timestamp: new Date(Number(mills) * 1000).toISOString(),
-      }, dayTotals[mills]);
+      return normalizeTime(dayTotals[mills], mills);
     });
 }
 
@@ -117,13 +122,8 @@ async function loadDevicestatusData(lastSiteChangeTreatment) {
     const tokenRes = await axios.get(`https://ns-drop-gd.fly.dev/api/v2/authorization/request/${accessToken}`);
     const jwt = tokenRes.data.token;
     console.log('Using JWT token to retrieve devicestatus history')
-    // const res = await axios(`https://ns-drop-gd.fly.dev/api/v3/devicestatus?lastSiteChange=${lastSiteChangeTreatment}&sort=created_at,asc&limit=2`,
-    //   {
-    //     headers: {
-    //       'Authorization': `Bearer ${jwt}`
-    //     }
-    //   });
 
+    // Baseline is the first entry after a site change
     const deviceStatusBaseline = await axios(`https://ns-drop-gd.fly.dev/api/v3/devicestatus?lastSiteChange=${lastSiteChangeTreatment}&sort$desc=created_at&limit=1`,
         {
           headers: {
@@ -133,6 +133,7 @@ async function loadDevicestatusData(lastSiteChangeTreatment) {
     
     const data = deviceStatusBaseline.data;
 
+    // Extract the last saved entry
     const previousDeviceStatus = await axios(`https://ns-drop-gd.fly.dev/api/v3/devicestatus?lastSiteChange=${lastSiteChangeTreatment}&sort=created_at&limit=1`,
         {
           headers: {
@@ -141,11 +142,6 @@ async function loadDevicestatusData(lastSiteChangeTreatment) {
         });
 
     const secondRecord = previousDeviceStatus.data || {};
-
-
-    // if (!Array.isArray(data) || data.length < 2) {
-    //   return undefined;
-    // }
 
     console.log('API:  ', data, secondRecord);
 
@@ -279,7 +275,8 @@ async function calculate_net_pump_insulin(totalInsulinPerDay, lastSiteChangeTrea
   }
 
   return {
-    timestamp: lastSync || new Date().toISOString(),
+    mills: lastSyncMoment.valueOf(),
+    timestamp: lastSyncMoment.toISOString(),
     insulinDelivered: Number((grossTotal - baselineTotal).toFixed(2)),
     insulinRemaining: insulinRemaining,
     baselineTotal: Number(baselineTotal.toFixed(2)),
@@ -303,6 +300,7 @@ function pump_alarms(results) {
 
 function assign_objects(batch) {
   var lastPumpSyncTimestamp = batch.lastPumpSyncTimestamp;
+  var lastPumpSyncMills = new Date(lastPumpSyncTimestamp).getTime()
   var data = batch.results;
   return {
     foods: array_from_endpoint(data, 'Foods', 'foods'),
@@ -456,7 +454,7 @@ async function generate_nightscout_treatments(batch, timestampDelta) {
       var baseTimestamp =
         element.timestamp ||
         (Number.isFinite(element.mills)
-          ? new Date(element.mills * 1000).toISOString()
+          ? new Date(element.mills).toISOString()
           : undefined);
       element.deviceName = 'Omnipod 5';
       element.device = 'Insulet Omnipod® 5 System';
@@ -486,13 +484,13 @@ async function generate_nightscout_treatments(batch, timestampDelta) {
   var devicestatus = [];
   
   if (totalInsulinPerDay && lastSync) {
+    var lastSyncMoment = moment(lastSync);
     var deviceStatus = {
-      created_at: lastSync || new Date().toISOString(),
-      device: 'Insulet Omnipod® 5 System'
+      created_at: lastSyncMoment.toISOString(),
+      mills: lastSyncMoment.valueOf(),
+      device: 'Insulet Omnipod® 5 System',
+      lastSync: lastSyncMoment.toISOString()
     };
-    if (lastSync) {
-      deviceStatus.lastSync = lastSync;
-    }
     if (lastSiteChangeTreatment) {
       deviceStatus.lastSiteChange = lastSiteChangeTreatment;
     }
@@ -515,6 +513,7 @@ async function generate_nightscout_treatments(batch, timestampDelta) {
         totalInsulinPerDay,
         lastSiteChangeTreatment,
         lastSync,
+
         pumpAlarms
       );
       if (netPumpInsulin) {
@@ -531,7 +530,8 @@ async function generate_nightscout_treatments(batch, timestampDelta) {
       var alarmStatus = {
         created_at: new Date(f_date + timestampDelta).toISOString(),
         device: alarm.pumpName || 'Insulet Omnipod® 5 System',
-        alarm: alarm.value
+        alarm: alarm.value,
+        mills: new Date(f_date + timestampDelta).getTime()
       };
       devicestatus.push(alarmStatus);
     });
