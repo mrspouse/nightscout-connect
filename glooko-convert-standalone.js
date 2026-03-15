@@ -3,13 +3,12 @@
 const moment = require('moment');
 const axios = require('axios');
 
+  // Glooko API typically returns Unix timestamps in seconds.
+  // JavaScript Date and Nightscout 'mills' fields require milliseconds.
 function normalizeTime(item, rawTime) {
   var val = Number(rawTime);
   var isValid = Number.isFinite(val);
-
-  // Glooko API typically returns Unix timestamps in seconds.
-  // JavaScript Date and Nightscout 'mills' fields require milliseconds.
-  if (isValid && val < 4000000000) {
+  if (isValid && val < 4000000000) {    // check if seconds only
     val = val * 1000;
   }
 
@@ -112,9 +111,11 @@ function insulin_total_value(entry) {
 }
 
 async function loadDevicestatusData(lastSiteChangeTreatment) {
-  if (!lastSiteChangeTreatment) {
-    return undefined;
-  }
+  var siteChange = moment(lastSiteChangeTreatment).valueOf;
+  // if (!siteChange.isValid()) {
+  //   return undefined;
+  // }
+  console.log(siteChange);
 
   const accessToken = 'aaps-f286719b8dcde96f';
 
@@ -124,7 +125,7 @@ async function loadDevicestatusData(lastSiteChangeTreatment) {
     console.log('Using JWT token to retrieve devicestatus history')
 
     // Baseline is the first entry after a site change
-    const deviceStatusBaseline = await axios(`https://ns-drop-gd.fly.dev/api/v3/devicestatus?lastSiteChange=${lastSiteChangeTreatment}&sort$desc=created_at&limit=1`,
+    const deviceStatusBaseline = await axios(`https://ns-drop-gd.fly.dev/api/v3/devicestatus?lastSiteChange$gte=${siteChange}&sort$desc=created_at&limit=1`,
         {
           headers: {
             'Authorization': `Bearer ${jwt}`
@@ -134,7 +135,7 @@ async function loadDevicestatusData(lastSiteChangeTreatment) {
     const data = deviceStatusBaseline.data;
 
     // Extract the last saved entry
-    const previousDeviceStatus = await axios(`https://ns-drop-gd.fly.dev/api/v3/devicestatus?lastSiteChange=${lastSiteChangeTreatment}&sort=created_at&limit=1`,
+    const previousDeviceStatus = await axios(`https://ns-drop-gd.fly.dev/api/v3/devicestatus?lastSiteChange=${siteChange}&sort=created_at&limit=1`,
         {
           headers: {
             'Authorization': `Bearer ${jwt}`
@@ -496,14 +497,15 @@ async function generate_nightscout_treatments(batch, timestampDelta) {
     }
     if (totalInsulinPerDay) {
       InsulinPerDay = totalInsulinPerDay
+        // ignore entries prior to latest site change
         .filter(function (entry) {
           return !moment(entry.timestamp).isBefore(moment(lastSiteChangeTreatment),'day');
         })
         .map(function (entry) {       // returns one entry per day, timed at 12:00:00
-          // ignore entries prior to latest site change
           var updated = Object.assign({}, entry);
           if (moment(entry.timestamp).isSame(moment(lastSync),'day')) {
             updated.timestamp = lastSync;
+            updated.mills = moment(lastSync).valueOf();
           }
           return updated;
         });    
