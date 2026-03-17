@@ -111,50 +111,52 @@ function insulin_total_value(entry) {
 }
 
 async function loadDevicestatusData(lastSiteChangeTreatment) {
-  var siteChange = moment(lastSiteChangeTreatment).valueOf;
+  var siteChange = moment(lastSiteChangeTreatment).toISOString();
   // if (!siteChange.isValid()) {
   //   return undefined;
   // }
-  console.log(siteChange);
+  console.log('Last site change: ', siteChange);
 
   const accessToken = 'aaps-f286719b8dcde96f';
 
   try {
-    const tokenRes = await axios.get(`https://ns-drop-gd.fly.dev/api/v2/authorization/request/${accessToken}`);
-    const jwt = tokenRes.data.token;
-    console.log('Using JWT token to retrieve devicestatus history')
+    function getNewToken() {
+      return axios.get(`https://ns-drop-gd.fly.dev/api/v2/authorization/request/${accessToken}`)
+        .then(res => {
+          const jwt = res.data.token;
+          return jwt;
+        });
+    }
 
     // Baseline is the first entry after a site change
-    const deviceStatusBaseline = await axios(`https://ns-drop-gd.fly.dev/api/v3/devicestatus?lastSiteChange$gte=${siteChange}&sort$desc=created_at&limit=1`,
+    function getDeviceStatusBaseline(jwt) {
+      return axios(`https://ns-drop-gd.fly.dev/api/v3/devicestatus?lastSiteChange=${lastSiteChangeTreatment}&sort$desc=created_at&limit=1`,
         {
           headers: {
             'Authorization': `Bearer ${jwt}`
           }
         });
+    }
+
+    getNewToken()
+      .then(getDeviceStatusBaseline)
+      .then(res => {
+        console.log('Baseline data: ', res.data);
+      })
     
-    const data = deviceStatusBaseline.data;
+    const baseline = res.data || {};
 
-    // Extract the last saved entry
-    const previousDeviceStatus = await axios(`https://ns-drop-gd.fly.dev/api/v3/devicestatus?lastSiteChange=${siteChange}&sort=created_at&limit=1`,
-        {
-          headers: {
-            'Authorization': `Bearer ${jwt}`
-          }
-        });
+    console.log('API:  ', data, baseline);
 
-    const secondRecord = previousDeviceStatus.data || {};
-
-    console.log('API:  ', data, secondRecord);
-
-    if (Number.isFinite(Number(secondRecord.totalPumpInsulinPerDay))) {
-      return Number(secondRecord.totalPumpInsulinPerDay);
+    if (Number.isFinite(Number(baseline.totalPumpInsulinPerDay))) {
+      return Number(baseline.totalPumpInsulinPerDay);
     }
 
-    if (secondRecord.reservoir && Number.isFinite(Number(secondRecord.reservoir.baselineTotal))) {
-      return Number(secondRecord.reservoir.baselineTotal);
+    if (baseline.reservoir && Number.isFinite(Number(baseline.reservoir.baselineTotal))) {
+      return Number(baseline.reservoir.baselineTotal);
     }
 
-    const insulinPerDay = Array.isArray(secondRecord.InsulinPerDay) ? secondRecord.InsulinPerDay : [];
+    const insulinPerDay = Array.isArray(baseline.InsulinPerDay) ? baseline.InsulinPerDay : [];
     if (insulinPerDay.length > 0) {
       const insulinTotal = insulin_total_value(insulinPerDay[insulinPerDay.length - 1]);
       return Number.isFinite(insulinTotal) ? insulinTotal : undefined;
@@ -470,6 +472,7 @@ async function generate_nightscout_treatments(batch, timestampDelta) {
       siteChangeTreatment.eventType = 'Pump Site Change';
       var createdAt = new Date(f_date + timestampDelta).toISOString();
       siteChangeTreatment.created_at = createdAt;
+      siteChangeTreatment.last_sync = lastSync;
       siteChangeTreatment.notes = JSON.stringify(element);
 
       if (!lastSiteChangeTreatment || createdAt > lastSiteChangeTreatment) {
