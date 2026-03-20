@@ -315,7 +315,7 @@ function assign_objects(batch) {
 
 async function generate_nightscout_treatments(batch, timestampDelta) {
   var InsulinPerDay;
-  inputBatch = assign_objects(batch);
+  var inputBatch = assign_objects(batch);
   
   const foods = inputBatch.foods;
   const insulins = inputBatch.insulins;
@@ -342,37 +342,24 @@ async function generate_nightscout_treatments(batch, timestampDelta) {
       var treatment = {};
 
       var f_date = new Date(element.timestamp);
-      var f_s_date = new Date(f_date.getTime()  + timestampDelta - 45*60000);
-      var f_e_date = new Date(f_date.getTime()  + timestampDelta + 45*60000);
+      var f_time = f_date.getTime();
 
-      var now = moment(f_date); //todays date
-      var end = moment(f_s_date); // another date
-      var duration = moment.duration(now.diff(end));
-      var minutes = duration.asMinutes();
-
-      var i_date = new Date();
       var result = insulins.filter(function(el) {
-          i_date = new Date(el.timestamp);
-          var i_moment = moment(i_date);
-          var duration = moment.duration(now.diff(i_moment));
-          var minutes = duration.asMinutes();
-          return Math.abs(minutes) < 46;
-
-      })
+          var i_time = new Date(el.timestamp).getTime();
+          return Math.abs(f_time - i_time) < 46 * 60000;
+      });
       
-      insulin = result[0];
+      var insulin = result[0];
       if (insulin != undefined) {
-        var i_date = moment(insulin.timestamp);
+        var i_time = new Date(insulin.timestamp).getTime();
         treatment.eventType = 'Meal Bolus';
-        // 4 hours * 60 minutes per hour * 60 seconds per minute * 1000 millseconds
-        treatment.eventTime = new Date(i_date ).toISOString( );
+        treatment.eventTime = new Date(i_time).toISOString();
         treatment.insulin = insulin.value;
         
-        treatment.preBolus = moment.duration(moment(f_date).diff(moment(i_date))).asMinutes();
+        treatment.preBolus = (f_time - i_time) / 60000;
       } else {
-        var f_date = moment(element.timestamp);
         treatment.eventType = 'Carb Correction';
-        treatment.eventTime = new Date(f_date ).toISOString( );
+        treatment.eventTime = f_date.toISOString();
       }
 
       treatment.carbs = element.carbs;
@@ -388,25 +375,16 @@ async function generate_nightscout_treatments(batch, timestampDelta) {
       var treatment = {};
 
       var f_date = new Date(element.timestamp);
-      var f_s_date = new Date(f_date.getTime() + timestampDelta - 45*60000);
-      var f_e_date = new Date(f_date.getTime() + timestampDelta + 45*60000);
+      var f_time = f_date.getTime();
 
-      var now = moment(f_date); //todays date
-      var end = moment(f_s_date); // another date
-
-      var i_date = new Date();
       var result = foods.filter(function(el) {
-          i_date = new Date(el.timestamp);
-          var i_moment = moment(i_date);
-          var duration = moment.duration(now.diff(i_moment));
-          var minutes = duration.asMinutes();
-          return Math.abs(minutes) < 46;
+          var i_time = new Date(el.timestamp).getTime();
+          return Math.abs(f_time - i_time) < 46 * 60000;
+      });
 
-      })
       if (result[0] == undefined) {
-        var f_date = moment(element.timestamp);
         treatment.eventType = 'Correction Bolus';
-        treatment.eventTime = new Date(f_date).toISOString( );
+        treatment.eventTime = f_date.toISOString();
         treatment.insulin = element.value;
         treatments.push(treatment);
       }
@@ -417,13 +395,13 @@ async function generate_nightscout_treatments(batch, timestampDelta) {
     pumpBoluses.forEach(function(element) {
       var treatment = {};
 
-      var f_date = moment(element.pumpTimestamp);
+      var f_time = new Date(element.pumpTimestamp).getTime();
       if (element.carbsInput == 0) {
         treatment.eventType = 'Correction Bolus';
       } else {
         treatment.eventType = 'Meal Bolus';
       }
-      treatment.eventTime = new Date(f_date + timestampDelta).toISOString();
+      treatment.eventTime = new Date(f_time + timestampDelta).toISOString();
       treatment.insulin = element.insulinDelivered;
       treatment.carbs = element.carbsInput;
       treatment.notes = JSON.stringify(element);
@@ -436,9 +414,9 @@ async function generate_nightscout_treatments(batch, timestampDelta) {
     scheduledBasals.forEach(function(element) {
       var treatment = {};
       
-      var f_date = moment(element.pumpTimestamp);
+      var f_time = new Date(element.pumpTimestamp).getTime();
       treatment.eventType = 'Temp Basal';
-      treatment.created_at = new Date(f_date + timestampDelta).toISOString( );
+      treatment.created_at = new Date(f_time + timestampDelta).toISOString();
       treatment.rate = element.rate;
       treatment.absolute = element.rate;
       treatment.duration = element.duration / 60;
@@ -463,14 +441,14 @@ async function generate_nightscout_treatments(batch, timestampDelta) {
         return;
       }
 
-      var f_date = moment(baseTimestamp);
+      var f_time = new Date(baseTimestamp).getTime();
 
       var siteChangeTreatment = {};
       siteChangeTreatment.eventType = 'Pump Site Change';
-      var createdAt = new Date(f_date + timestampDelta).toISOString();
+      var createdAt = new Date(f_time + timestampDelta).toISOString();
       siteChangeTreatment.created_at = createdAt;
       if (lastSyncISO) {
-        siteChangeTreatment.lastSync = lastSyncISO;
+        element.lastSync = lastSyncISO;
       }
       siteChangeTreatment.notes = JSON.stringify(element);
 
@@ -498,16 +476,19 @@ async function generate_nightscout_treatments(batch, timestampDelta) {
       deviceStatus.lastSiteChange = lastSiteChangeTreatment;
     }
     if (totalInsulinPerDay) {
+      var siteChangeMom = moment(lastSiteChangeTreatment);
+      var syncMom = moment(lastSync);
+
       InsulinPerDay = totalInsulinPerDay
         // ignore entries prior to latest site change
         .filter(function (entry) {
-          return !moment(entry.timestamp).isBefore(moment(lastSiteChangeTreatment),'day');
+          return !moment(entry.timestamp).isBefore(siteChangeMom, 'day');
         })
         .map(function (entry) {       // returns one entry per day, timed at 12:00:00
           var updated = Object.assign({}, entry);
-          if (moment(entry.timestamp).isSame(moment(lastSync),'day')) {
+          if (moment(entry.timestamp).isSame(syncMom, 'day')) {
             updated.timestamp = lastSync;
-            updated.mills = moment(lastSync).valueOf();
+            updated.mills = syncMom.valueOf();
           }
           return updated;
         });    
@@ -530,13 +511,13 @@ async function generate_nightscout_treatments(batch, timestampDelta) {
 
   if (pumpAlarms) {
     pumpAlarms.forEach(function (alarm) {
-      var f_date = moment(alarm.pumpTimestamp);
+      var f_time = new Date(alarm.pumpTimestamp).getTime();
       var alarmStatus = {
-        created_at: new Date(f_date + timestampDelta).toISOString(),
+        created_at: new Date(f_time + timestampDelta).toISOString(),
         device: alarm.pumpName || 'Insulet Omnipod® 5 System',
         alarm: alarm.value,
         lastSync: lastSyncISO,
-        mills: new Date(f_date + timestampDelta).getTime()
+        mills: new Date(f_time + timestampDelta).getTime()
       };
       devicestatus.push(alarmStatus);
     });
