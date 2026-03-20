@@ -112,41 +112,37 @@ function insulin_total_value(entry) {
 
 async function loadDevicestatusData(lastSiteChangeTreatment) {
   var siteChange = moment(lastSiteChangeTreatment).toISOString();
-  // if (!siteChange.isValid()) {
-  //   return undefined;
-  // }
   console.log('Last site change: ', siteChange);
 
   const accessToken = 'aaps-f286719b8dcde96f';
 
   try {
-    function getNewToken() {
-      return axios.get(`https://ns-drop-gd.fly.dev/api/v2/authorization/request/${accessToken}`)
-        .then(res => {
-          const jwt = res.data.token;
-          return jwt;
-        });
+    // Get authorization token
+    const tokenRes = await axios.get(`https://ns-drop-gd.fly.dev/api/v2/authorization/request/${accessToken}`);
+    const jwt = tokenRes.data.token;
+
+    if (!jwt) {
+      console.error('Failed to obtain JWT token');
+      return undefined;
     }
 
-    // Baseline is the first entry after a site change
-    function getDeviceStatusBaseline(jwt) {
-      return axios(`https://ns-drop-gd.fly.dev/api/v3/devicestatus?lastSiteChange=${lastSiteChangeTreatment}&sort$desc=created_at&limit=1`,
-        {
-          headers: {
-            'Authorization': `Bearer ${jwt}`
-          }
-        });
-    }
+    // Baseline (Oldest first entry after site change)
+    const baselineRes = await axios(
+      `https://ns-drop-gd.fly.dev/api/v3/devicestatus?lastSiteChange=${siteChange}&sort=created_at&limit=1`,
+      { headers: { 'Authorization': `Bearer ${jwt}` } }
+    );
 
-    getNewToken()
-      .then(getDeviceStatusBaseline)
-      .then(res => {
-        console.log('Baseline data: ', res.data);
-      })
-    
-    const baseline = res.data || {};
+    // Latest (Newest entry for this site change) - optional/informational
+    // This second call isn't currently used but was present in the previous version's logic flow
+    await axios(
+      `https://ns-drop-gd.fly.dev/api/v3/devicestatus?lastSiteChange=${siteChange}&sort$desc=created_at&limit=1`,
+      { headers: { 'Authorization': `Bearer ${jwt}` } }
+    );
 
-    console.log('API:  ', data, baseline);
+    const baselineData = baselineRes.data;
+    const baseline = (Array.isArray(baselineData) ? baselineData[0] : baselineData) || {};
+
+    console.log('API Baseline: ', baseline);
 
     if (Number.isFinite(Number(baseline.totalPumpInsulinPerDay))) {
       return Number(baseline.totalPumpInsulinPerDay);
@@ -165,7 +161,7 @@ async function loadDevicestatusData(lastSiteChangeTreatment) {
     return undefined;
 
   } catch (error) {
-    console.error('Error in loadDevicestatusData:', error);
+    console.error('Error in loadDevicestatusData:', error.message);
     return undefined;
   }
 }
@@ -329,6 +325,7 @@ async function generate_nightscout_treatments(batch, timestampDelta) {
   const totalInsulinPerDay = inputBatch.dailyInsulinTotals;
   const pumpAlarms = inputBatch.pumpAlarms;
   const lastSync = inputBatch.lastSync;
+  const lastSyncISO = lastSync ? moment(lastSync).toISOString() : undefined;
   
   // console.log("FOODS  ", foods);
   // console.log("INSULINS  ", insulins );
@@ -472,7 +469,9 @@ async function generate_nightscout_treatments(batch, timestampDelta) {
       siteChangeTreatment.eventType = 'Pump Site Change';
       var createdAt = new Date(f_date + timestampDelta).toISOString();
       siteChangeTreatment.created_at = createdAt;
-      siteChangeTreatment.last_sync = lastSync;
+      if (lastSyncISO) {
+        siteChangeTreatment.lastSync = lastSyncISO;
+      }
       siteChangeTreatment.notes = JSON.stringify(element);
 
       if (!lastSiteChangeTreatment || createdAt > lastSiteChangeTreatment) {
@@ -536,6 +535,7 @@ async function generate_nightscout_treatments(batch, timestampDelta) {
         created_at: new Date(f_date + timestampDelta).toISOString(),
         device: alarm.pumpName || 'Insulet Omnipod® 5 System',
         alarm: alarm.value,
+        lastSync: lastSyncISO,
         mills: new Date(f_date + timestampDelta).getTime()
       };
       devicestatus.push(alarmStatus);
