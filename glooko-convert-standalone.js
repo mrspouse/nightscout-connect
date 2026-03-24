@@ -340,9 +340,10 @@ async function generate_nightscout_treatments(batch, timestampDelta) {
       if (jwt) {
         if (reservoirChange && reservoirChange.length > 0) {
           const res = await axios(
-            `https://ns-drop-gd.fly.dev/api/v3/treatments?find[eventType]=Pump%20Site%20Change&sort$desc=created_at&limit=20`,
+            `https://ns-drop-gd.fly.dev/api/v3/treatments?eventType=Pump%20Site%20Change&sort$desc=created_at&limit=20`,
             { headers: { 'Authorization': `Bearer ${jwt}` } }
           );
+          console.log('API treatments response data:', res.data);
           existingSiteChanges = (Array.isArray(res.data) ? res.data : [res.data]).filter(Boolean);
         }
         if (pumpAlarms && pumpAlarms.length > 0) {
