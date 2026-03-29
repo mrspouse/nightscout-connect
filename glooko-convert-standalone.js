@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 const moment = require('moment');
-const axios = require('axios');
 
   // Glooko API typically returns Unix timestamps in seconds.
   // JavaScript Date and Nightscout 'mills' fields require milliseconds.
@@ -110,64 +109,9 @@ function insulin_total_value(entry) {
   return undefined;
 }
 
-async function loadDevicestatusData(lastSiteChangeTreatment) {
-  var siteChange = moment(lastSiteChangeTreatment).toISOString();
-  console.log('Last site change: ', siteChange);
-
-  const accessToken = 'aaps-f286719b8dcde96f';
-
-  try {
-    // Get authorization token
-    const tokenRes = await axios.get(`https://ns-drop-gd.fly.dev/api/v2/authorization/request/${accessToken}`);
-    const jwt = tokenRes.data.token;
-
-    if (!jwt) {
-      console.error('Failed to obtain JWT token');
-      return undefined;
-    }
-
-    // Baseline (Oldest first entry after site change)
-    const baselineRes = await axios(
-      `https://ns-drop-gd.fly.dev/api/v3/devicestatus?lastSiteChange=${siteChange}&sort=created_at&limit=1`,
-      { headers: { 'Authorization': `Bearer ${jwt}` } }
-    );
-
-    // Latest (Newest entry for this site change) - optional/informational
-    // This second call isn't currently used but was present in the previous version's logic flow
-    await axios(
-      `https://ns-drop-gd.fly.dev/api/v3/devicestatus?lastSiteChange=${siteChange}&sort$desc=created_at&limit=1`,
-      { headers: { 'Authorization': `Bearer ${jwt}` } }
-    );
-
-    const data = baselineRes.data;
-    const baseline = (Array.isArray(data) ? data[0] : (data?.result ? data.result[0] : data)) || {};
-
-    console.log('API Baseline: ', baseline);
-
-    if (Number.isFinite(Number(baseline.totalPumpInsulinPerDay))) {
-      return Number(baseline.totalPumpInsulinPerDay);
-    }
-
-    if (baseline.reservoir && Number.isFinite(Number(baseline.reservoir.baselineTotal))) {
-      return Number(baseline.reservoir.baselineTotal);
-    }
-
-    const insulinPerDay = Array.isArray(baseline.InsulinPerDay) ? baseline.InsulinPerDay : [];
-    if (insulinPerDay.length > 0) {
-      const insulinTotal = insulin_total_value(insulinPerDay[insulinPerDay.length - 1]);
-      return Number.isFinite(insulinTotal) ? insulinTotal : undefined;
-    }
-
-    return undefined;
-
-  } catch (error) {
-    console.error('Error in loadDevicestatusData:', error.message);
-    return undefined;
-  }
-}
 
 
-async function calculate_net_pump_insulin(totalInsulinPerDay, lastSiteChangeTreatment, lastSync, pumpAlarms) {
+async function calculate_net_pump_insulin(totalInsulinPerDay, lastSiteChangeTreatment, lastSync, pumpAlarms, fetchBaselineTotal) {
   if (!Array.isArray(totalInsulinPerDay) || !lastSiteChangeTreatment) {
     return undefined;
   }
@@ -222,12 +166,12 @@ async function calculate_net_pump_insulin(totalInsulinPerDay, lastSiteChangeTrea
     }
 
     dailyTotals.push({
-      timestamp: ts,
+      timestamp: ts, 
       total: total,
     });
   });
 
-  var loadedBaseline = await loadDevicestatusData(lastSiteChangeTreatment);
+  var loadedBaseline = fetchBaselineTotal ? await fetchBaselineTotal(lastSiteChangeTreatment) : undefined;
   if (Number.isFinite(loadedBaseline)) {
     baselineTotal = loadedBaseline;
   }
@@ -299,7 +243,6 @@ function pump_alarms(results) {
 
 function assign_objects(batch) {
   var lastPumpSyncTimestamp = batch.lastPumpSyncTimestamp;
-  var lastPumpSyncMills = new Date(lastPumpSyncTimestamp).getTime()
   var data = batch.results;
   return {
     foods: array_from_endpoint(data, 'Foods', 'foods'),
@@ -313,7 +256,13 @@ function assign_objects(batch) {
   }  
 }
 
-async function generate_nightscout_treatments(batch, timestampDelta) {
+async function generate_nightscout_treatments(batch, timestampDelta, nsContext) {
+  // nsContext is provided by the caller and contains:
+  //   existingSiteChanges: Array — pre-fetched Pump Site Change treatments
+  //   existingAlarms: Array — pre-fetched devicestatus alarm records
+  //   fetchBaselineTotal: async Function — fetches insulin baseline (called mid-transform)
+  nsContext = nsContext || { existingSiteChanges: [], existingAlarms: [] };
+
   var InsulinPerDay;
   var inputBatch = assign_objects(batch);
   
@@ -325,49 +274,9 @@ async function generate_nightscout_treatments(batch, timestampDelta) {
   const totalInsulinPerDay = inputBatch.dailyInsulinTotals;
   const pumpAlarms = inputBatch.pumpAlarms;
   const lastSync = inputBatch.lastSync;
-  const lastSyncISO = lastSync ? moment(lastSync).toISOString() : undefined;
 
-  // Fetch existing site changes and alarms to preserve the original lastSync
-  const accessToken = 'aaps-f286719b8dcde96f';
-  let jwt;
-  let existingSiteChanges = [];
-  let existingAlarms = [];
-  
-  if ((reservoirChange && reservoirChange.length > 0) || (pumpAlarms && pumpAlarms.length > 0)) {
-    try {
-      const tokenRes = await axios.get(`https://ns-drop-gd.fly.dev/api/v2/authorization/request/${accessToken}`);
-      jwt = tokenRes.data.token;
-      if (jwt) {
-        if (reservoirChange && reservoirChange.length > 0) {
-          const res = await axios(
-            `https://ns-drop-gd.fly.dev/api/v3/treatments?eventType=Pump%20Site%20Change&sort$desc=created_at&limit=200`,
-            { headers: { 'Authorization': `Bearer ${jwt}` } }
-          );
-          const data = res.data;
-          existingSiteChanges = (Array.isArray(data) ? data : (data?.result || [data])).filter(Boolean);
-          console.log("EXISTING SITE CHANGES  ", existingSiteChanges);
-        }
-        if (pumpAlarms && pumpAlarms.length > 0) {
-          const res = await axios(
-            `https://ns-drop-gd.fly.dev/api/v3/devicestatus?sort$desc=created_at&limit=1000`,
-            { headers: { 'Authorization': `Bearer ${jwt}` } }
-          );
-          const data = res.data;
-          existingAlarms = (Array.isArray(data) ? data : (data?.result || [data])).filter(function(t) { return t && t.alarm; });
-        }
-      }
-    } catch (e) {
-      console.error('Failed to fetch existing records for sync preservation:', e.message);
-    }
-  }
-  
-  // console.log("FOODS  ", foods);
-  // console.log("INSULINS  ", insulins );
-  // console.log("BOLUS  ", pumpBoluses );
-  // console.log("BASAL  ", scheduledBasals);
-  // console.log("RESERVOIR CHANGE  ", reservoirChange );
-  // console.log("DAY TOTALS  ", totalInsulinPerDay );
-  // console.log("LAST SYNC  ", lastSync );
+  var existingSiteChanges = nsContext.existingSiteChanges || [];
+  var existingAlarms = nsContext.existingAlarms || [];
 
   var treatments = []
   
@@ -411,7 +320,7 @@ async function generate_nightscout_treatments(batch, timestampDelta) {
       var f_date = new Date(element.timestamp);
       var f_time = f_date.getTime();
 
-      var result = foods.filter(function(el) {
+      var result = (foods || []).filter(function(el) {
           var i_time = new Date(el.timestamp).getTime();
           return Math.abs(f_time - i_time) < 46 * 60000;
       });
@@ -463,7 +372,7 @@ async function generate_nightscout_treatments(batch, timestampDelta) {
 
  if (reservoirChange) {
     reservoirChange.forEach(function(element) {
-      var baseTimestamp =
+      var pumpTimestamp =
         element.timestamp ||
         (Number.isFinite(element.mills)
           ? new Date(element.mills).toISOString()
@@ -471,17 +380,16 @@ async function generate_nightscout_treatments(batch, timestampDelta) {
       element.deviceName = 'Omnipod 5';
       element.device = 'Insulet Omnipod® 5 System';
 
-      if (!baseTimestamp) {
+      if (!pumpTimestamp) {
         return;
       }
 
-      var f_time = new Date(baseTimestamp).getTime();
+      var f_time = new Date(pumpTimestamp).getTime();
 
       var siteChangeTreatment = {};
       siteChangeTreatment.eventType = 'Pump Site Change';
-      var createdAt = new Date(f_time + timestampDelta).toISOString();
-      siteChangeTreatment.created_at = createdAt;
-
+      siteChangeTreatment.created_at = new Date(f_time + timestampDelta).toISOString();
+      
       // Identify the invariant glooko mills for this element (stable across refreshes).
       var elementMills = Number.isFinite(element.mills)
         ? element.mills
@@ -489,7 +397,7 @@ async function generate_nightscout_treatments(batch, timestampDelta) {
 
       var existing = existingSiteChanges.find(function(t) {
         // Primary: exact created_at match (works when timestampDelta is stable).
-        if (moment(t.created_at).valueOf() === moment(createdAt).valueOf()) {
+        if (moment(t.pumpTimestamp).valueOf() === moment(pumpTimestamp).valueOf()) {
           return true;
         }
         // Fallback: match on the raw glooko mills value stored in notes.
@@ -508,28 +416,19 @@ async function generate_nightscout_treatments(batch, timestampDelta) {
         }
         return false;
       });
-      console.log("EXISTING  ", existing);
       var existingSync = null;
-      if (existing && existing.notes) {
-        try {
-          var notes = JSON.parse(existing.notes);
-          existingSync = notes.firstSync || notes.lastSyncISO;
-        } catch (e) { }
+      if (existing) {
+          existingSync = existing.pumpSyncTimestamp;
       }
 
       if (existingSync) {
-        element.firstSync = existingSync;
-      } else if (lastSyncISO) {
-        element.firstSync = lastSyncISO;
+        siteChangeTreatment.pumpSyncTimestamp = existingSync;
       }
 
-      if (lastSyncISO) {
-        element.currentSync = lastSyncISO;
-      }
       siteChangeTreatment.notes = JSON.stringify(element);
 
-      if (!lastSiteChangeTreatment || createdAt > lastSiteChangeTreatment) {
-        lastSiteChangeTreatment = createdAt;
+      if (!lastSiteChangeTreatment || siteChangeTreatment.pumpSyncTimestamp > lastSiteChangeTreatment) {
+        lastSiteChangeTreatment = siteChangeTreatment.pumpSyncTimestamp;
       }
 
       treatments.push(siteChangeTreatment);
@@ -574,8 +473,8 @@ async function generate_nightscout_treatments(batch, timestampDelta) {
         totalInsulinPerDay,
         lastSiteChangeTreatment,
         lastSync,
-
-        pumpAlarms
+        pumpAlarms,
+        nsContext.fetchBaselineTotal
       );
       if (netPumpInsulin) {
         deviceStatus.reservoir = netPumpInsulin;
@@ -594,18 +493,15 @@ async function generate_nightscout_treatments(batch, timestampDelta) {
       var existing = existingAlarms.find(function(t) { 
         return moment(t.created_at).valueOf() === moment(createdAt).valueOf() && t.device === device; 
       });
-      var existingSync = existing ? (existing.lastSync || existing.lastSyncISO) : null;
+      var existingSync = existing ? existing.lastSync : null;
 
       var alarmStatus = {
         created_at: createdAt,
         device: device,
         alarm: alarm.value,
-        lastSync: existingSync || lastSyncISO,
+        lastSync: existingSync,
         mills: new Date(f_time + timestampDelta).getTime()
       };
-      if (lastSyncISO) {
-        alarmStatus.currentSync = lastSyncISO;
-      }
       devicestatus.push(alarmStatus);
     });
     console.log('pumpAlarms processed:', pumpAlarms.length);
@@ -668,6 +564,8 @@ function read_json_file(filePath) {
   return JSON.parse(fs.readFileSync(path.resolve(process.cwd(), filePath), 'utf8'));
 }
 
+const { createNightscoutHelper } = require('./lib/sources/glooko/nightscout-context');
+
 async function run_cli(argv) {
   var args = parse_args(argv);
 
@@ -682,7 +580,18 @@ async function run_cli(argv) {
   }
 
   var batch = read_json_file(args.input);
-  var treatments = await generate_nightscout_treatments(batch, args.offset);
+
+  // Build Nightscout context for the transformer
+  var ns = createNightscoutHelper({
+    url: process.env.NIGHTSCOUT_URL || 'https://ns-drop-gd.fly.dev',
+    token: process.env.NIGHTSCOUT_TOKEN || 'aaps-f286719b8dcde96f',
+  });
+  var inputBatch = assign_objects(batch);
+  var hasReservoirChanges = inputBatch.reservoirChange && inputBatch.reservoirChange.length > 0;
+  var hasPumpAlarms = inputBatch.pumpAlarms && inputBatch.pumpAlarms.length > 0;
+  var nsContext = await ns.buildContext({ hasReservoirChanges, hasPumpAlarms });
+
+  var treatments = await generate_nightscout_treatments(batch, args.offset, nsContext);
   var output = JSON.stringify(treatments, null, 2);
 
   if (args.output) {

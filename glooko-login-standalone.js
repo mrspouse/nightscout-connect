@@ -9,7 +9,7 @@
 const { chromium } = require('playwright');
 const axios = require('axios');
 const { execSync } = require('child_process');
-const days = 28;  // number of days to fetch data for
+const days = 4;  // number of days to fetch data for
 
 // Test config - remove for production
 const fs = require('fs');
