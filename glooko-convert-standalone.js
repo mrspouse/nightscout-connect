@@ -564,7 +564,7 @@ function read_json_file(filePath) {
   return JSON.parse(fs.readFileSync(path.resolve(process.cwd(), filePath), 'utf8'));
 }
 
-const { createNightscoutHelper } = require('./lib/sources/glooko/nightscout-context');
+const { createNightscoutHelper } = require('./lib/sources/glooko/context');
 
 async function run_cli(argv) {
   var args = parse_args(argv);
