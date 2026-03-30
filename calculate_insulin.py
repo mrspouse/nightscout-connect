@@ -25,7 +25,7 @@ def calculate_insulin():
     latest_sync = None
     for record in data:
         site_change_str = record.get('lastSiteChange')
-        sync_str = record.get('lastSync')
+        sync_str = record.get('syncTimestamp') or record.get('lastSync')
         
         if site_change_str:
             dt = datetime.fromisoformat(site_change_str.replace('Z', '+00:00'))

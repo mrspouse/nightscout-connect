@@ -166,7 +166,7 @@ async function calculate_net_pump_insulin(totalInsulinPerDay, lastSiteChangeTrea
     }
 
     dailyTotals.push({
-      timestamp: ts, 
+      timestamp: ts,
       total: total,
     });
   });
@@ -243,6 +243,7 @@ function pump_alarms(results) {
 
 function assign_objects(batch) {
   var lastPumpSyncTimestamp = batch.lastPumpSyncTimestamp;
+  var lastPumpSyncMills = new Date(lastPumpSyncTimestamp).getTime()
   var data = batch.results;
   return {
     foods: array_from_endpoint(data, 'Foods', 'foods'),
@@ -257,7 +258,7 @@ function assign_objects(batch) {
 }
 
 async function generate_nightscout_treatments(batch, timestampDelta, nsContext) {
-  // nsContext is provided by the caller and contains:
+  // nsContext is provided by the caller (index.js or standalone CLI) and contains:
   //   existingSiteChanges: Array — pre-fetched Pump Site Change treatments
   //   existingAlarms: Array — pre-fetched devicestatus alarm records
   //   fetchBaselineTotal: async Function — fetches insulin baseline (called mid-transform)
@@ -274,12 +275,29 @@ async function generate_nightscout_treatments(batch, timestampDelta, nsContext) 
   const totalInsulinPerDay = inputBatch.dailyInsulinTotals;
   const pumpAlarms = inputBatch.pumpAlarms;
   const lastSync = inputBatch.lastSync;
+  const lastSyncISO = lastSync ? moment(lastSync).toISOString() : undefined;
 
   var existingSiteChanges = nsContext.existingSiteChanges || [];
   var existingAlarms = nsContext.existingAlarms || [];
+  
+  // Collect all known sync timestamps to find the "closest after" logic
+  var allKnownSyncs = [];
+  if (lastSyncISO) allKnownSyncs.push(lastSyncISO);
+  existingSiteChanges.forEach(function(t) {
+    if (t.syncTimestamp && allKnownSyncs.indexOf(t.syncTimestamp) === -1) {
+      allKnownSyncs.push(t.syncTimestamp);
+    }
+  });
+  existingAlarms.forEach(function(t) {
+    var s = t.syncTimestamp || t.lastSync || t.lastSyncISO;
+    if (s && allKnownSyncs.indexOf(s) === -1) {
+      allKnownSyncs.push(s);
+    }
+  });
+  allKnownSyncs.sort();
 
   var treatments = []
-  
+
   if (foods) {
     foods.forEach(function(element) {
       var treatment = {};
@@ -368,11 +386,11 @@ async function generate_nightscout_treatments(batch, timestampDelta, nsContext) 
     })
   }
 
- var lastSiteChangeTreatment = null;
+  var lastSiteChangeTreatment = null;
 
- if (reservoirChange) {
+  if (reservoirChange) {
     reservoirChange.forEach(function(element) {
-      var pumpTimestamp =
+      var baseTimestamp =
         element.timestamp ||
         (Number.isFinite(element.mills)
           ? new Date(element.mills).toISOString()
@@ -380,16 +398,17 @@ async function generate_nightscout_treatments(batch, timestampDelta, nsContext) 
       element.deviceName = 'Omnipod 5';
       element.device = 'Insulet Omnipod® 5 System';
 
-      if (!pumpTimestamp) {
+      if (!baseTimestamp) {
         return;
       }
 
-      var f_time = new Date(pumpTimestamp).getTime();
+      var f_time = new Date(baseTimestamp).getTime();
 
       var siteChangeTreatment = {};
       siteChangeTreatment.eventType = 'Pump Site Change';
-      siteChangeTreatment.created_at = new Date(f_time + timestampDelta).toISOString();
-      
+      var createdAt = new Date(f_time + timestampDelta).toISOString();
+      siteChangeTreatment.created_at = createdAt;
+
       // Identify the invariant glooko mills for this element (stable across refreshes).
       var elementMills = Number.isFinite(element.mills)
         ? element.mills
@@ -397,7 +416,7 @@ async function generate_nightscout_treatments(batch, timestampDelta, nsContext) 
 
       var existing = existingSiteChanges.find(function(t) {
         // Primary: exact created_at match (works when timestampDelta is stable).
-        if (moment(t.pumpTimestamp).valueOf() === moment(pumpTimestamp).valueOf()) {
+        if (moment(t.created_at).valueOf() === moment(createdAt).valueOf()) {
           return true;
         }
         // Fallback: match on the raw glooko mills value stored in notes.
@@ -416,19 +435,31 @@ async function generate_nightscout_treatments(batch, timestampDelta, nsContext) 
         }
         return false;
       });
+      console.log("EXISTING  ", existing);
       var existingSync = null;
       if (existing) {
-          existingSync = existing.pumpSyncTimestamp;
+        existingSync = existing.syncTimestamp;
+        if (!existingSync && existing.notes) {
+          try {
+            var notes = JSON.parse(existing.notes);
+            existingSync = notes.firstSync || notes.lastSyncISO;
+          } catch (e) { }
+        }
       }
 
       if (existingSync) {
-        siteChangeTreatment.pumpSyncTimestamp = existingSync;
+        siteChangeTreatment.syncTimestamp = existingSync;
+      } else if (lastSyncISO) {
+        siteChangeTreatment.syncTimestamp = lastSyncISO;
       }
 
+      if (lastSyncISO) {
+        element.currentSync = lastSyncISO;
+      }
       siteChangeTreatment.notes = JSON.stringify(element);
 
-      if (!lastSiteChangeTreatment || siteChangeTreatment.pumpSyncTimestamp > lastSiteChangeTreatment) {
-        lastSiteChangeTreatment = siteChangeTreatment.pumpSyncTimestamp;
+      if (!lastSiteChangeTreatment || createdAt > lastSiteChangeTreatment) {
+        lastSiteChangeTreatment = createdAt;
       }
 
       treatments.push(siteChangeTreatment);
@@ -445,7 +476,7 @@ async function generate_nightscout_treatments(batch, timestampDelta, nsContext) 
       created_at: lastSyncMoment.toISOString(),
       mills: lastSyncMoment.valueOf(),
       device: 'Insulet Omnipod® 5 System',
-      lastSync: lastSyncMoment.toISOString()
+      syncTimestamp: lastSyncMoment.toISOString()
     };
     if (lastSiteChangeTreatment) {
       deviceStatus.lastSiteChange = lastSiteChangeTreatment;
@@ -491,17 +522,29 @@ async function generate_nightscout_treatments(batch, timestampDelta, nsContext) 
       var device = alarm.pumpName || 'Insulet Omnipod® 5 System';
       
       var existing = existingAlarms.find(function(t) { 
-        return moment(t.created_at).valueOf() === moment(createdAt).valueOf() && t.device === device; 
+        if (moment(t.created_at).valueOf() === moment(createdAt).valueOf() && t.device === device) {
+          return true;
+        }
+        // Fallback: match on raw mills if stored in record
+        if (t.mills && moment(t.mills).valueOf() === moment(f_time + timestampDelta).valueOf() && t.device === device) {
+          return true;
+        }
+        return false;
       });
-      var existingSync = existing ? existing.lastSync : null;
+      
+      var existingSync = existing ? (existing.syncTimestamp || existing.lastSync || existing.lastSyncISO) : null;
+      var closestSync = allKnownSyncs.find(function(t) { return t >= createdAt; }) || lastSyncISO;
 
       var alarmStatus = {
         created_at: createdAt,
         device: device,
         alarm: alarm.value,
-        lastSync: existingSync,
+        syncTimestamp: existingSync || closestSync,
         mills: new Date(f_time + timestampDelta).getTime()
       };
+      if (lastSyncISO) {
+        alarmStatus.currentSync = lastSyncISO;
+      }
       devicestatus.push(alarmStatus);
     });
     console.log('pumpAlarms processed:', pumpAlarms.length);
@@ -514,6 +557,7 @@ async function generate_nightscout_treatments(batch, timestampDelta, nsContext) 
 }
 
 module.exports.generate_nightscout_treatments = generate_nightscout_treatments;
+module.exports.assign_objects = assign_objects;
 
 /*
 *****************************************************************
