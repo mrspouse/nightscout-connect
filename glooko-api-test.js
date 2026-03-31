@@ -1,10 +1,3 @@
-/*
-* 
-* https://github.com/nightscout/nightscout-connect/issues/14#issuecomment-3239520325
-* Lorenzo Sandini
-* Uses Playwright browser authentication to trigger Omnipod 5 sync
-* 
-*/
 
 const { chromium } = require('playwright');
 const axios = require('axios');
@@ -217,13 +210,13 @@ async function glookoConnect(opts) {
     // Extract normal boluses from histories, reservoir change and insulin per day from V3 API
     // No CGM entries as these are uploaded separately
     const endpoints = [
-      { name: 'Foods', url: '/api/v2/foods', requiresPatient: false },
-      { name: 'Insulins', url: '/api/v2/insulins', requiresPatient: false },
-      { name: 'Pump Basal', url: '/api/v2/pumps/scheduled_basals', requiresPatient: false },
-      { name: 'Histories', url: '/api/v3/users/summary/histories', requiresPatient: true },  // no series: normal boluses and alarms
-      { name: 'Reservoir Change', url: '/api/v3/graph/data', requiresPatient: true, series: 'reservoirChange' },
-      { name: 'cgmSensorChange', url: '/api/v3/graph/data', requiresPatient: true, series: 'cgmSensorChange' },
-      { name: 'Insulin Per Day', url: '/api/v3/graph/data', requiresPatient: true, series: 'totalInsulinPerDay' },
+    //   { name: 'Foods', url: '/api/v2/foods', requiresPatient: false },
+    //   { name: 'Insulins', url: '/api/v2/insulins', requiresPatient: false },
+    //   { name: 'Pump Basal', url: '/api/v2/pumps/scheduled_basals', requiresPatient: false },
+    //   { name: 'Histories', url: '/api/v3/users/summary/histories', requiresPatient: true },  // no series: normal boluses and alarms
+    //   { name: 'Reservoir Change', url: '/api/v3/graph/data', requiresPatient: true, series: 'reservoirChange' },
+    //   { name: 'Insulin Per Day', url: '/api/v3/graph/data', requiresPatient: true, series: 'totalInsulinPerDay' },
+    
     ];
     
     const results = {};
