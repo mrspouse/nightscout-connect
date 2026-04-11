@@ -8,8 +8,8 @@
 
 const { chromium } = require('playwright');
 const axios = require('axios');
-const { execSync } = require('child_process');
-const days = 4;  // number of days to fetch data for
+const moment = require('moment');
+const days = 5;  // number of days to fetch data for
 
 // Test config - remove for production
 const fs = require('fs');
@@ -49,11 +49,7 @@ function checkEnvironmentDependencies() {
 }
 
 function getApiParams(endpoint, patientId) {
-  const now = new Date();
-  const daysAgo = new Date(now.getTime() - (days * 24 * 60 * 60 * 1000));
-  
-  const startDate = new Date(daysAgo);
-  startDate.setHours(0, 0, 0, 0);
+  const startDate = moment.utc().subtract(days, 'days').startOf('day');
   
   // V2 endpoints need lastUpdatedAt, lastGuid, and limit
   if (endpoint.url.includes('/api/v2/')) {
@@ -64,8 +60,7 @@ function getApiParams(endpoint, patientId) {
     };
   }
   
-  const endDate = new Date(now);
-  endDate.setHours(23, 59, 59, 999);
+  const endDate = moment.utc().endOf('day');
   
   // V3 endpoints
   const params = {
@@ -280,6 +275,7 @@ async function glookoConnect(opts) {
       patientId,
       timestamp: new Date().toISOString(),
       lastPumpSyncTimestamp,
+      glookoTimezoneOffset: config.timezoneOffset,
       results
     };
     return batch;
