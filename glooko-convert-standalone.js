@@ -98,7 +98,8 @@ async function run_cli(argv) {
   var inputBatch = converter.assign_objects(batch);
   var hasReservoirChanges = inputBatch.reservoirChange && inputBatch.reservoirChange.length > 0;
   var hasPumpAlarms = inputBatch.pumpAlarms && inputBatch.pumpAlarms.length > 0;
-  var nsContext = await ns.buildContext({ hasReservoirChanges, hasPumpAlarms });
+  var hasDailyTotals = inputBatch.dailyInsulinTotals && inputBatch.dailyInsulinTotals.length > 0;
+  var nsContext = await ns.buildContext({ hasReservoirChanges, hasPumpAlarms, hasDailyTotals });
 
   var treatments = await converter.generate_nightscout_treatments(batch, args.offset, nsContext);
   var output = JSON.stringify(treatments, null, 2);
