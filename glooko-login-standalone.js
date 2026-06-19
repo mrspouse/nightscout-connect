@@ -9,7 +9,7 @@
 const { chromium } = require('playwright');
 const axios = require('axios');
 const moment = require('moment');
-const days = 78;  // number of days to fetch data for
+const days = 5;  // number of days data to fetch
 
 // Test config - remove for production
 const fs = require('fs');
