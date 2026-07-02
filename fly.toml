@@ -1,0 +1,23 @@
+# fly.toml app configuration file generated for ns-drop-gd on 2026-04-02T21:54:11Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'ns-drop-gd'
+primary_region = 'lhr'
+
+[build]
+
+[http_service]
+  internal_port = 1337
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+  memory = '256mb'
+  cpu_kind = 'shared'
+  cpus = 1
+  memory_mb = 256

@@ -1,5 +1,11 @@
 bower_components/
-node_modules/
+node_modules/*
+!node_modules/nightscout-connect/
+node_modules/nightscout-connect/*
+!node_modules/nightscout-connect/lib/
+node_modules/nightscout-connect/lib/*
+!node_modules/nightscout-connect/lib/sources/
+!node_modules/nightscout-connect/lib/sources/**
 
 
 bundle/bundle.out.js
