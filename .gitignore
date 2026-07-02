@@ -34,13 +34,6 @@ npm-debug.log
 mongo-data/
 letsencrypt/
 
-*.har
-*.log
-glooko*.json
-out*.json
-
-cursor*
-*.jsonl
-glooko-integration-summary.json
-venv/*
-.python-version
+backup/heroku_wj6ztt34/prelude.json
+backup/heroku_wj6ztt34/treatments.bson
+backup/heroku_wj6ztt34/treatments.metadata.json
